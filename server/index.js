@@ -1,4 +1,6 @@
-import express from 'express'
+
+import { Buffer } from 'buffer';
+global.Buffer = Buffer;import express from 'express'
 import mongoose from 'mongoose';
 import dotenv from 'dotenv'
 import userRoutes from './routes/userRoute.js'
@@ -20,7 +22,7 @@ app.listen(3000, ()=> {
 })
 
 app.use('/api/user', userRoutes)
-app.use('/api/route', authRoutes)
+app.use('/api/auth', authRoutes)
 
 
 app.use((err, req, res, next) => {

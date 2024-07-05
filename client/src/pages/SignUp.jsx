@@ -14,8 +14,6 @@ const SignUp = () => {
         ...formData, [e.target.id]: e.target.value
       })
     }
-    console.log(formData);
-
     let handleSubmit = async (e) => {
       e.preventDefault()
 
@@ -56,7 +54,7 @@ const SignUp = () => {
         </form>
         <div className="flex gap-2 mt-5 justify-center">
             <p>Have an account</p>
-            <Link to={'/signin'}>
+            <Link to={'/sign-in'}>
                 <span className="text-blue-700">Sign in</span> 
              </Link>
         </div>

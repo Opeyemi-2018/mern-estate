@@ -1,13 +1,16 @@
 
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import {useDispatch, useSelector} from 'react-redux'
+import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice"
+
 
 
 const Signin = () => {
-    let [loading, setLoading] = useState(false)
-    let [error, setError] = useState(null)
+    let {loading, error} = useSelector((state) => state.user)
     let [formData, setFormData] = useState({})
     let navigate = useNavigate()
+    let dispatch = useDispatch()
     let handleChange = (e) => {
       e.preventDefault()
       setFormData({
@@ -18,7 +21,7 @@ const Signin = () => {
       e.preventDefault()
 
       try {
-          setLoading(true)
+          dispatch(signInStart())
           let res = await fetch('/api/auth/signin', {
           method: 'POST',
           headers: {
@@ -27,17 +30,14 @@ const Signin = () => {
           body: JSON.stringify(formData)
         })
         let data = await res.json()
-        if(data.success === false){
-          setError(data.message)
-          setLoading(false)
-          return;
+        if (data.success === false) {
+         dispatch(signInFailure(data.message))
+         return;
         }
-        setLoading(false)
-        setError(null)
+       dispatch(signInSuccess(data))
         navigate('/')
       } catch (error) {
-        setLoading(false)
-        setError(error.message)
+        dispatch(signInFailure(error.message))
       }
       
     }
@@ -49,11 +49,11 @@ const Signin = () => {
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
             <input type="text" id='email' placeholder='email' className='border p-3 rounded-lg' onChange={handleChange}/>
             <input type="password" id='password' placeholder='password' className='border p-3 rounded-lg' onChange={handleChange}/>
-            <button disabled={loading} className='bg-slate-700 p-3 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{loading ? 'Loading' : 'Sign Up'}</button>
+            <button disabled={loading} className='bg-slate-700 p-3 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{loading ? 'Loading' : 'Sign in'}</button>
         </form>
         <div className="flex gap-2 mt-5 justify-center">
             <p>Dont Have an account</p>
-            <Link to={'/signup'}>
+            <Link to={'/sign-up'}>
                 <span className="text-blue-700">Sign Up</span> 
              </Link>
         </div>

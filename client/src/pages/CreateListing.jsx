@@ -23,10 +23,10 @@ const CreateListing = () => {
         parking: false,
         furnished: false,
     });
-    let [imageUploadError, setImageUploadError] = useState(false)
     let [uploading, setUploading] = useState(false)
     let [error, setError] = useState(false)
     let [loading, setLoading] = useState(false)
+    let [imageUploadError, setImageUploadError] = useState(false)
     console.log(formData);
     let handleImage = () => {
         if(files.length > 0 && files.length + formData.imageUrls.length < 7){

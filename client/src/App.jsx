@@ -21,6 +21,7 @@ const App = () => {
              <Route path='/create-listing' element={<CreateListing/>}/>
           </Route>
           <Route path='/about' element={<About/>}/>
+          {/* <Route path='/listing/:listingId' element={<Listing />} /> */}
         </Routes>
     </BrowserRouter>
   )

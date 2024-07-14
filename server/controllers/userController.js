@@ -55,3 +55,4 @@ export let getUserListings = async (req, res, next) => {
         return next(errorHandler(401, 'you can only view your own listing'))
     }
 }
+

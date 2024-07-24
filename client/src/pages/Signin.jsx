@@ -1,11 +1,8 @@
-
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import {useDispatch, useSelector} from 'react-redux'
 import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice"
 import OAuth from "../component/OAuth"
-
-
 
 const Signin = () => {
     let {loading, error} = useSelector((state) => state.user)
@@ -39,8 +36,7 @@ const Signin = () => {
         navigate('/')
       } catch (error) {
         dispatch(signInFailure(error.message))
-      }
-      
+      } 
     }
 
 

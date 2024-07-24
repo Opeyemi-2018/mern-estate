@@ -7,8 +7,8 @@ import OAuth from "../component/OAuth"
 const SignUp = () => {
     let [loading, setLoading] = useState(false)
     let [error, setError] = useState(null)
-    let [formData, setFormData] = useState({})
-    let navigate = useNavigate()
+    let [formData, setFormData] = useState({});
+    let navigate = useNavigate();
     let handleChange = (e) => {
       e.preventDefault()
       setFormData({

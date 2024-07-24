@@ -10,6 +10,7 @@ let userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        // signing in
         signInStart: (state) => {
             state.loading = true
         },
@@ -22,6 +23,8 @@ let userSlice = createSlice({
             state.error = action.payload;
             state.loading = false
         },
+
+        //updating
         updateUserStart: (state) => {
             state.loading = true
         },
@@ -30,10 +33,12 @@ let userSlice = createSlice({
             state.loading = false;
             state.error = null
         },
-        updateUserFailure: (state,action) => {
+        updateUserFailure: (state, action) => {
             state.error = action.payload;
             state.loading = false
         }, 
+
+        //deleting
         deleteUserStart: (state) => {
             state.loading = true
         },
@@ -46,6 +51,8 @@ let userSlice = createSlice({
             state.error = action.payload;
             state.loading = false
         },
+
+        //signing out
         signOutUserStart: (state) => {
             state.loading = true
         },

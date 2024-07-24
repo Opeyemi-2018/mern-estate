@@ -83,9 +83,9 @@ useEffect(() => {
 
   return (
     <main>
-      {loading && <p className='text-center my-7 text-2xl'>Loading...</p>}
+      {loading && <div className='h-8 w-8 rounded-full animate-ping  bg-blue-600 absolute top-1/2 -translate-x-1/2 -translate-y-1/2 left-1/2 '></div>}
       {error && (
-        <p className='text-center my-7 text-2xl'>Something went wrong!</p>
+        <p className='text-center my-7  text-2xl'>Something went wrong!</p>
       )}
       {listing && !loading && !error && (
         <div>

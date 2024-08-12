@@ -2,7 +2,7 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import OAuth from "../component/OAuth"
-
+import signUpImage from '../assets/images/sign-up.png'
 
 const SignUp = () => {
     let [loading, setLoading] = useState(false)
@@ -45,26 +45,30 @@ const SignUp = () => {
 
 
   return (
-    <div className='p-3 max-w-lg mx-auto'>
-        <h1 className='text-3xl text-center font-semibold my-7'>Sign Up</h1>
-        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-            <input type="text" id='username' placeholder='username' className='border p-3 rounded-lg' onChange={handleChange} />
-            <input type="text" id='email' placeholder='email' className='border p-3 rounded-lg' onChange={handleChange}/>
-            <input type="password" id='password' placeholder='password' className='border p-3 rounded-lg' onChange={handleChange}/>
-            <button disabled={loading} className='bg-slate-700 p-3 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{loading ? 'Loading' : 'Sign Up'}</button>
-            <OAuth/>
-        </form>
-        <div className="flex gap-2 mt-5 justify-center">
-            <p>Have an account</p>
-            <Link to={'/sign-in'}>
-                <span className="text-blue-700">Sign in</span> 
-             </Link>
+    <div className='sm:px-28 px-3 py-10  mt-20 min-h-screen'>
+      <div className="flex gap-10 justify-between">
+      <img src={signUpImage} alt="" className="flex-1 sm:inline hidden rounded-lg w-40 h-[500px] cover/center"/>  
+        <div className="flex-1">
+          <h1 className='text-3xl text-[#1E2128] font-semibold my-7'>Welcome to finder</h1>
+            <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+                <input type="text" id='username' placeholder='username' className=' w-full border p-3 rounded-lg' onChange={handleChange} />
+                <input type="text" id='email' placeholder='email' className='w-full border p-3 rounded-lg' onChange={handleChange}/>
+                <input type="password" id='password' placeholder='password' className='w-full border p-3 rounded-lg' onChange={handleChange}/>
+                <button disabled={loading} className='w-full bg-[#1E2128] p-3 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{loading ? 'Loading' : 'Sign Up'}</button>
+                <OAuth/>
+            </form>
+            <div className="flex gap-2 mt-5 ">
+                <p>Have an account</p>
+                <Link to={'/sign-in'}>
+                    <span className="text-blue-700">Sign in</span> 
+                </Link>
+            </div>
+            {error && <p className="text-red-500">{error}</p>}
         </div>
-        {error && <p className="text-red-500">{error}</p>}
+      </div>
     </div>
   )
 }
 
 export default SignUp
 
-//2:01

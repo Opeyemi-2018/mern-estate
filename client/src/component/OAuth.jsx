@@ -53,7 +53,7 @@ const OAuth = () => {
         <button
             type='button'
             onClick={handleGoogleClick} // Attach the handleGoogleClick function to the button's onClick event
-            className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95' // Add Tailwind CSS classes for styling
+            className='bg-red-700 text-white p-3 w-full rounded-lg uppercase hover:opacity-95' // Add Tailwind CSS classes for styling
         >
             Continue with Google
         </button>

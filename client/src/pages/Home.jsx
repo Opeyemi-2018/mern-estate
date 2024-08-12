@@ -5,13 +5,16 @@ import { Navigation } from 'swiper/modules';
 import SwiperCore from 'swiper';
 import 'swiper/css/bundle';
 import ListingItem from '../component/ListingItem';
+import HeroImage from '../assets/images/hero-image.jpeg'
+import { BsFillSendFill } from "react-icons/bs";
 
-export default function Home() {
+
+
+export default function Home({setShowNav, showNav}) {
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
   SwiperCore.use([Navigation]);
-  console.log(offerListings);
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
@@ -48,28 +51,30 @@ export default function Home() {
   return (
     <div>
       {/* top */}
-      <div className='flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto'>
-        <h1 className='text-slate-700 font-bold text-3xl lg:text-6xl'>
-          Find your next <span className='text-slate-500'>perfect</span>
-          <br />
-          place with ease
-        </h1>
-        <div className='text-gray-400 text-xs sm:text-sm'>
-          Opeyemi Estate is the best place to find your next perfect place to
-          live.
-          <br />
-          We have a wide range of properties for you to choose from.
-        </div>
-        <Link
-          to={'/search'}
-          className='text-xs sm:text-sm text-blue-800 font-bold hover:underline'
-        >
-          Let's get started...
-        </Link>
+      <div className={showNav ? 'mt-20' : 'mt-0'}>
+          <div  style={{
+            background: `linear-gradient(to bottom, rgba(36, 67, 105, 1) 0%, rgba(33, 69, 109, 0.6) 60%, rgba(30, 70, 113, 0.1) 90%), url(${HeroImage}) center/cover no-repeat`,
+          }}>
+          <div className='flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto'>
+            <h1 className='text-slate-200 font-bold text-3xl lg:text-6xl'>
+              Find your next 
+              <br />
+              place with ease
+            </h1>
+            <div className='text-white text-xs sm:text-sm'>
+              Opeyemi Estate is the best place to find your next perfect place to
+              live.
+              <br />
+              We have a wide range of properties for you to choose from.
+            </div>
+            <Link to={'/search'} className='text-xs sm:text-sm flex justify-between bg-slate-200 font-bold p-3 rounded-md'>
+              <p>Let's get started...</p> <BsFillSendFill />
+            </Link>
+          </div>
+          </div>
       </div>
-
       {/* swiper */}
-      <Swiper navigation>
+      {/* <Swiper navigation>
         {offerListings &&
           offerListings.length > 0 &&
           offerListings.map((listing) => (
@@ -84,7 +89,7 @@ export default function Home() {
               ></div>
             </SwiperSlide>
           ))}
-      </Swiper>
+      </Swiper> */}
 
       {/* listing results for offer, sale and rent */}
 

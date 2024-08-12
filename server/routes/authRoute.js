@@ -10,3 +10,6 @@ router.get('/signout', signOut)
 
 export default router
 
+// Router: This creates a new router object using express.Router().
+// The router is used to define route handlers for different HTTP methods and paths. 
+// It allows you to modularize your routing logic, keeping it organized and maintainable

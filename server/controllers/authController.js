@@ -81,11 +81,22 @@ export let google = async (req, res, next) => {
 }
 
 // Sign-out controller function
+// export const signOut = async (req, res, next) => {
+//     try {
+//         res.clearCookie('access_token'); // Clear the 'access_token' cookie
+//         res.status(200).json('User has been logged out!'); // Send a success response with status code 200
+//     } catch (error) {
+//         next(error); // Pass any error to the next middleware (error handler)
+//     }
+// };
+
 export const signOut = async (req, res, next) => {
     try {
-        res.clearCookie('access_token'); // Clear the 'access_token' cookie
-        res.status(200).json('User has been logged out!'); // Send a success response with status code 200
+      res.clearCookie('access_token');
+      res.status(200).json('User has been logged out!');
     } catch (error) {
-        next(error); // Pass any error to the next middleware (error handler)
+      next(error);
+      console.log(error);
+      
     }
 };

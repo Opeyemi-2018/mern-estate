@@ -10,13 +10,19 @@ import CreateListing from './pages/CreateListing'
 import UpdateListing from './pages/UpdateListing'
 import Listing from './pages/Listing'
 import Search from './pages/Search'
+import { useState } from 'react'
+import ScrollToTop from './component/ScrollToTop'
+import Footer from './component/Footer'
 
 const App = () => {
+  let [showNav, setShowNav] = useState(false)
+
   return (
     <BrowserRouter >
-     <Header/>
+    <ScrollToTop/>
+     <Header setShowNav={setShowNav} showNav={showNav}/>
         <Routes>
-          <Route path='/' element={<Home/>}/>
+          <Route path='/' element={<Home setShowNav={setShowNav} showNav={showNav}/>}/>
           <Route path='/sign-in' element={<Signin/>}/>
           <Route path='/sign-up' element={<SignUp/>}/>
           <Route element={<PrivateRoute/>}>
@@ -28,6 +34,7 @@ const App = () => {
           <Route path='/search' element={<Search/>}/>
           <Route path='/listing/:listingId' element={<Listing />} />
         </Routes>
+        <Footer/>
     </BrowserRouter>
   )
 }

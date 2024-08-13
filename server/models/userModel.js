@@ -11,6 +11,8 @@ let userSchema = new mongoose.Schema({
     
     // Define the "password" field as a string type, which is required
     password: { type: String, required: true },
+
+    isAdmin: {type: Boolean, default: false},
     
     // Define the "avatar" field as a string type with a default value
     avatar: {

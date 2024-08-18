@@ -53,7 +53,8 @@ export default function Home({setShowNav, showNav}) {
       {/* top */}
       <div className={showNav ? 'mt-20' : 'mt-0'}>
           <div  style={{
-            background: `linear-gradient(to bottom, rgba(36, 67, 105, 1) 0%, rgba(33, 69, 109, 0.6) 60%, rgba(30, 70, 113, 0.1) 90%), url(${HeroImage}) center/cover no-repeat`,
+            background: `linear-gradient(to bottom, rgba(20, 45, 75, 1) 0%, rgba(18, 50, 80, 0.8) 60%, rgba(15, 55, 85, 0.3) 90%), url(${HeroImage}) center/cover no-repeat
+`,
           }}>
           <div className='flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto'>
             <h1 className='text-slate-200 font-bold text-3xl lg:text-6xl'>

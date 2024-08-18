@@ -6,10 +6,17 @@ import { useEffect, useState } from 'react';
 import { FaHouseChimney } from "react-icons/fa6";
 import { FaBars } from "react-icons/fa";
 import { LiaTimesSolid } from "react-icons/lia";
+import { useDispatch } from 'react-redux';
+import { signOutUserStart, deleteUserFailure, deleteUserSuccess } from '../redux/user/userSlice';
+
 
 
 // Define and export the Header component
 export default function Header({setShowNav, showNav}) {
+  let [showPopUp, setShowPopUp] = useState(false)
+
+  let dispatch = useDispatch()
+
 
   // Extract the current user from the Redux store using the useSelector hook
   const { currentUser } = useSelector((state) => state.user);
@@ -38,6 +45,21 @@ export default function Header({setShowNav, showNav}) {
     }
   }, [location.search]); // Run this effect whenever the location.search changes
 
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutUserStart());
+      const res = await fetch('/api/auth/signout');
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailure(data.message));
+    }
+  };
+
   return (
     <header className='bg-white shadow-lg fixed top-0 left-0 right-0 z-20'>
       {/* Header container */}
@@ -60,7 +82,7 @@ export default function Header({setShowNav, showNav}) {
           <input
             type='text'
             placeholder='Search...'
-            className='bg-[rgb(241,245,241)] focus:outline-none w-24 sm:w-64'
+            className='bg-[rgb(241,245,241)] focus:outline-none border-none w-24 sm:w-64'
             value={searchTerm} // Bind the input field's value to the searchTerm state
             onChange={(e) => setSearchTerm(e.target.value)} // Update the searchTerm state on input change
           />
@@ -82,19 +104,33 @@ export default function Header({setShowNav, showNav}) {
               About
             </li>
           </Link>
-          <Link to='/profile'>
+         
             {currentUser ? (
               // If the user is signed in, show the user's profile picture
-              <img
-                className='rounded-full h-7 w-7 object-cover'
-                src={currentUser.avatar}
-                alt='profile'
-              />
+              <div className='relative'>
+                <img onClick={()=> setShowPopUp(!showPopUp)}
+                  className='rounded-full h-7 w-7 object-cover'
+                  src={currentUser.avatar}
+                  alt='profile'
+                />
+                {showPopUp && (
+                  <div className='absolute top-14  right-0 bg-white shadow-lg p-4 rounded-md'>
+                    <div className='flex flex-col mb-2 text-gray-800 items-center border border-x-0 border-t-0'>
+                      <h1 className=''>{currentUser.username}</h1>
+                      <p>{currentUser.email}</p>
+                    </div >
+                    <div className='flex gap-2 flex-col items-start'>
+                      <Link to={'/dashboard?tab=profile'}  onClick={()=> setShowPopUp(!showPopUp)} className='my-2 border border-x-0 border-t-0' >Profile</Link>
+                      <button onClick={() => { setShowPopUp(!showPopUp); handleSignOut();}} className=' text-red-700 border border-x-0 border-t-0'>Sign out</button>
+                    </div>
+                  </div>
+                )}
+              </div>
             ) : (
               // If the user is not signed in, show the 'Sign in' link
-              <li className=' text-white bg-[#1E2128] px-3 py-1 rounded-md'> Sign in</li>
+              <Link to={'/sign-in'} className=' text-white bg-[#1E2128] px-3 py-1 rounded-md'> Sign in</Link>
             )}
-          </Link>
+          
             <button  className='sm:hidden inline' onClick={()=> setShowNav(!showNav)}>
              {showNav? <LiaTimesSolid size={30}/> : <FaBars size={20}/> }
             </button>

@@ -150,7 +150,7 @@ let handleImage = () => {
       };
 
   return (
-    <main className='p-3 max-w-4xl mx-auto'>
+    <main className='p-3 mt-10 max-w-4xl mx-auto'>
         <h1 className='text-3xl font-semibold text-center my-7'>Edit a Listing</h1>
         <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4'>
             <div className='flex flex-col gap-4 flex-1'>

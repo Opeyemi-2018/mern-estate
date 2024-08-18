@@ -155,10 +155,11 @@ export default function CreateListing() {
     }
   };
   return (
-    <main className='p-3 max-w-4xl mx-auto'>
-      <h1 className='text-3xl font-semibold text-center my-7'>
+   <main className='mt-20'>
+    <h1 className='text-3xl font-semibold text-center my-7'>
         Create a Listing
       </h1>
+      <div className='p-3 flex items-center justify-center'>
       <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4'>
         <div className='flex flex-col gap-4 flex-1'>
           <input
@@ -330,7 +331,7 @@ export default function CreateListing() {
               type='button'
               disabled={uploading}
               onClick={handleImageSubmit}
-              className='p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80'
+              className='md:px-3 px-2 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80'
             >
               {uploading ? 'Uploading...' : 'Upload'}
             </button>
@@ -360,13 +361,14 @@ export default function CreateListing() {
             ))}
           <button
             disabled={loading || uploading}
-            className='p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'
+            className='p-3 bg-[#1E2128] text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'
           >
             {loading ? 'Creating...' : 'Create listing'}
           </button>
           {error && <p className='text-red-700 text-sm'>{error}</p>}
         </div>
       </form>
-    </main>
+    </div>
+   </main>
   );
 }

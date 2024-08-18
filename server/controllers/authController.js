@@ -28,7 +28,7 @@ export let signIn = async (req, res, next) => {
         let validPassword = bcryptjs.compareSync(password, validUser.password); // Compare the provided password with the stored hashed password
         if (!validPassword) return next(errorHandler(401, 'Wrong credentials')); // If the password is incorrect, pass an error to the next middleware
 
-        let token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET); // Generate a JWT token with the user's ID and secret key from environment variables
+        let token = jwt.sign({ id: validUser._id, isAdmin: validUser.isAdmin }, process.env.JWT_SECRET); // Generate a JWT token with the user's ID and secret key from environment variables
         let { password: pass, ...rest } = validUser._doc; // Exclude the password from the user object to be sent in the response
 
         res.cookie('access_token', token, { httpOnly: true }) // Set the token in an HTTP-only cookie
@@ -46,7 +46,7 @@ export let google = async (req, res, next) => {
 
         if (user) {
             // If user exists, generate a token and send the user data (excluding password) in the response
-            let token = jwt.sign({ id: user._id }, process.env.JWT_SECRET); // Generate a JWT token with the user's ID and secret key from environment variables
+            let token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET); // Generate a JWT token with the user's ID and secret key from environment variables
             let { password: pass, ...rest } = user._doc; // Exclude the password from the user object to be sent in the response
 
             res.cookie('access_token', token, { httpOnly: true }) // Set the token in an HTTP-only cookie
@@ -68,7 +68,7 @@ export let google = async (req, res, next) => {
 
             await newUser.save(); // Save the new user to the database
 
-            let token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET); // Generate a JWT token with the new user's ID and secret key from environment variables
+            let token = jwt.sign({ id: newUser._id, isAdmin: newUser.isAdmin }, process.env.JWT_SECRET); // Generate a JWT token with the new user's ID and secret key from environment variables
             let { password: pass, ...rest } = newUser._doc; // Exclude the password from the new user object to be sent in the response
 
             res.cookie('access_token', token, { httpOnly: true }) // Set the token in an HTTP-only cookie

@@ -2,17 +2,18 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Home from './pages/Home'
 import Signin from './pages/Signin'
 import SignUp from './pages/SignUp'
-import Profile from './pages/Profile'
 import About from './pages/About'
 import Header from './component/Header'
 import PrivateRoute from './component/PrivateRoute'
-import CreateListing from './pages/CreateListing'
 import UpdateListing from './pages/UpdateListing'
 import Listing from './pages/Listing'
 import Search from './pages/Search'
 import { useState } from 'react'
 import ScrollToTop from './component/ScrollToTop'
 import Footer from './component/Footer'
+import Dashboard from './pages/Dashboard'
+import OnlyAdminAndAgentRoute from './component/OnlyAdminAndAgentRoute'
+import CreateListing from './pages/CreateListing'
 
 const App = () => {
   let [showNav, setShowNav] = useState(false)
@@ -26,7 +27,10 @@ const App = () => {
           <Route path='/sign-in' element={<Signin/>}/>
           <Route path='/sign-up' element={<SignUp/>}/>
           <Route element={<PrivateRoute/>}>
-             <Route path='/profile' element={<Profile/>}/>
+            <Route path='/dashboard' element={<Dashboard/>}/> 
+            <Route path='/update-listing' element={<UpdateListing/>}/>
+          </Route>
+          <Route element={<OnlyAdminAndAgentRoute/>}>
              <Route path='/create-listing' element={<CreateListing/>}/>
              <Route path='/update-listing/:listingId' element={<UpdateListing/>}/>
           </Route>

@@ -27,7 +27,8 @@ export let updateUser = async (req, res, next) => {
             $set:{
                 username: req.body.username,
                 email: req.body.email,
-                password: req.body.password
+                password: req.body.password,
+                avatar: req.body.avatar
             }
         }, {new: true}); // Return the updated document
 
@@ -43,7 +44,7 @@ export let updateUser = async (req, res, next) => {
 
 export let deleteUser = async (req, res, next) => {
     // Check if the user is trying to delete their own account
-    if (req.user.id !== req.params.id) {
+    if (!req.user.isAdmin && req.user.id !== req.params.id) {
         return next(errorHandler(401, 'You can only delete your own account'));
     }
 
@@ -93,5 +94,24 @@ export const getUser = async (req, res, next) => {
       // If an error occurs, pass it to the next middleware
       next(error);
     }
-  };
+};
+
+export let getUsers = async (req, res, next) => {
+    if (!req.user.isAdmin) {
+        return next(errorHandler(404, 'You are not allow to see user'))
+    }
+
+    try {
+        let users = await User.find()
+
+        let usersWithoutPassword = users.map((user) => {
+            let {password, ...rest} = user._doc;
+            return rest
+        })
+
+        res.status(200).json({users: usersWithoutPassword})
+    } catch (error) {
+        
+    }
+}
   

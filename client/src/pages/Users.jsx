@@ -3,6 +3,10 @@ import { useSelector } from "react-redux";
 import { FaUserCheck } from "react-icons/fa6";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { RiErrorWarningLine } from "react-icons/ri";
+import { ImUsers } from "react-icons/im";
+import { MdSupportAgent } from "react-icons/md";
+
+
 
 const Users = () => {
     const currentUser = useSelector((state) => state.user.currentUser);
@@ -70,7 +74,7 @@ const Users = () => {
                 <p>No users found</p>
             ) : (
                 users.map((user) => {
-                    const { username, email, avatar, isAdmin } = user;
+                    const { username, email, avatar, isAdmin, isAgent} = user;
                     return (
                         <div key={user._id} className="flex items-center flex-wrap gap-4 bg-white rounded-md hover:bg-gray-300 shadow-lg p-3 justify-between my-2">
                             <div className="flex items-center gap-1 sm:border-r-2 border-none flex-1 flex-wrap">
@@ -81,8 +85,10 @@ const Users = () => {
                                         <span className="flex items-center gap-1 font-semibold text-green-600">
                                             - Admin <FaUserCheck />
                                         </span>
-                                    ) : (
-                                        <span className="font-semibold text-[#1E2128]">- User</span>
+                                    ) : isAgent ? (<span className="flex items-center gap-1 font-semibold text-[#dfad39]">
+                                        - Agent <MdSupportAgent />
+                                    </span>): (
+                                        <span className="font-semibold text-[#1E2128]">- Client</span>
                                     )}
                                 </div>
                             </div>

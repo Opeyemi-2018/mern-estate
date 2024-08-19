@@ -49,11 +49,11 @@ const UserListing = () => {
     <div className="p-3">
         {userListings && userListings.length > 0 && (
           <div className='max-w-full mx-auto'>
-                <h1 className='text-center mt-7 text-2xl font-semibold'>
-                    Your Listings
+                <h1 className=' my-2 text-2xl font-semibold'>
+                    {currentUser.isAdmin ? `${userListings.length > 1 ? 'All Listings' : 'All listing'}` : 'My listing'}
                 </h1>
                 {userListings.map((listing) => (
-                    <div key={listing._id} className='border rounded-lg p-3 flex justify-between items-center gap-4'>
+                    <div key={listing._id} className='flex items-center flex-wrap gap-4 bg-white rounded-md hover:bg-gray-300 shadow-lg p-3 justify-between my-2'>
                         <Link to={`/listing/${listing._id}`}>
                             <img src={listing.imageUrls[0]} alt='listing cover'
                             className='h-16 w-16 object-contain' />

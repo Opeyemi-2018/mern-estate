@@ -114,12 +114,12 @@ export default function Header({setShowNav, showNav}) {
                   alt='profile'
                 />
                 {showPopUp && (
-                  <div className='absolute top-14  right-0 bg-white shadow-lg p-4 rounded-md'>
+                  <div className='absolute top-14 w-48 right-0 bg-white shadow-lg p-4 rounded-md'>
                     <div className='flex flex-col mb-2 text-gray-800 items-center border border-x-0 border-t-0'>
-                      <h1 className=''>{currentUser.username}</h1>
-                      <p>{currentUser.email}</p>
+                      <h1 className='truncate w-20'>{currentUser.username}</h1>
+                      {/* <p className='truncate w-20'>{currentUser.email}</p> */}
                     </div >
-                    <div className='flex gap-2 flex-col items-start'>
+                    <div className='flex  gap-2 flex-col items-start'>
                       <Link to={'/dashboard?tab=profile'}  onClick={()=> setShowPopUp(!showPopUp)} className='my-2 border border-x-0 border-t-0' >Profile</Link>
                       <button onClick={() => { setShowPopUp(!showPopUp); handleSignOut();}} className=' text-red-700 border border-x-0 border-t-0'>Sign out</button>
                     </div>
@@ -132,7 +132,7 @@ export default function Header({setShowNav, showNav}) {
             )}
           
             <button  className='sm:hidden inline' onClick={()=> setShowNav(!showNav)}>
-             {showNav? <LiaTimesSolid size={30}/> : <FaBars size={20}/> }
+             {showNav? <LiaTimesSolid size={20}/> : <FaBars size={20}/> }
             </button>
         </ul> 
       </div>

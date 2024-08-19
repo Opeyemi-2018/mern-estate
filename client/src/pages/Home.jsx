@@ -10,7 +10,7 @@ import { BsFillSendFill } from "react-icons/bs";
 
 
 
-export default function Home({setShowNav, showNav}) {
+export default function Home({ showNav }) {
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);

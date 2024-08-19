@@ -3,7 +3,7 @@ import { Outlet, Navigate  } from "react-router-dom"
 
 const OnlyAdminAndAgentRoute = () => {
   let {currentUser} = useSelector((state) => state.user)
-  return currentUser && currentUser.isAdmin ? <Outlet/> : <Navigate to={'/sign-in'}/>
+  return currentUser && (currentUser.isAdmin || currentUser.isAgent) ? <Outlet/> : <Navigate to={'/sign-in'}/>
   
 }
 

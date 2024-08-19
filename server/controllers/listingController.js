@@ -2,28 +2,35 @@ import Listing from '../models/listingModel.js';
 import { errorHandler } from '../utils/error.js';
 
 export const createListing = async (req, res, next) => {
+  // Check if the user is either an admin or an agent
+  if (!req.user || (!req.user.isAdmin && !req.user.isAgent)) {
+    return res.status(403).json({ msg: 'Access denied. Admins and agents only.' });
+  }
+
   try {
+    // Create the listing with the provided data
     const listing = await Listing.create(req.body);
     return res.status(201).json(listing);
   } catch (error) {
+    // Pass any error to the next middleware (usually an error handler)
     next(error);
   }
 };
 
+
+
 export const deleteListing = async (req, res, next) => {
   const listing = await Listing.findById(req.params.id);
-
   if (!listing) {
     return next(errorHandler(404, 'Listing not found!'));
   }
-
-  if (req.user.id !== listing.userRef) {
-    return next(errorHandler(401, 'You can only delete your own listings!'));
-  }
-
   try {
-    await Listing.findByIdAndDelete(req.params.id);
-    res.status(200).json('Listing has been deleted!');
+    if(req.user.isAdmin || req.user.id === listing.userRef){
+      await Listing.findByIdAndDelete(req.params.id);
+      return res.status(200).json('Listing has been deleted!');
+    } else{ 
+       return next(errorHandler(401, 'You can only delete your own listings!'));
+    }
   } catch (error) {
     next(error);
   }

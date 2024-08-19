@@ -64,16 +64,24 @@ export let deleteUser = async (req, res, next) => {
 };
 
 export const getUserListings = async (req, res, next) => {
-    if (req.user.id === req.params.id) { // Check if the logged-in user's ID matches the ID in the request parameters
-      try {
-        const listings = await Listing.find({ userRef: req.params.id }); // Fetch listings from the database where the userRef matches the ID in the request parameters
-        res.status(200).json(listings); // Send the listings as a JSON response with a status code of 200 (OK)
+    try {
+        // Check if the logged-in user is an admin or if the user ID matches the request parameter ID
+        if (req.user.isAdmin) {
+          // If the user is an admin, fetch all listings
+          const listings = await Listing.find({});
+          return res.status(200).json(listings);
+        } else if (req.user.id === req.params.id) {
+          // If the user is not an admin, check if the user ID matches the request parameter ID
+          const listings = await Listing.find({ userRef: req.params.id });
+          return res.status(200).json(listings);
+        } else {
+          // If the user is neither an admin nor the owner of the listings, return a 401 Unauthorized error
+          return res.status(401).json({ message: 'You can only view your own listings!' });
+        }
       } catch (error) {
-        next(error); // If an error occurs during the database query, pass the error to the next middleware (usually an error handler)
+        // Pass any errors to the next middleware
+        next(error);
       }
-    } else {
-      return next(errorHandler(401, 'You can only view your own listings!')); // If the logged-in user’s ID does not match the ID in the request parameters, return a 401 Unauthorized error
-    }
 };
   
 

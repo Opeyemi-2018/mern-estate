@@ -13,6 +13,10 @@ let userSchema = new mongoose.Schema({
     password: { type: String, required: true },
 
     isAdmin: {type: Boolean, default: false},
+
+    isAgent: {type: Boolean, required: true, default: false},
+
+    isClient: {type: Boolean, required: true, default: false},
     
     // Define the "avatar" field as a string type with a default value
     avatar: {

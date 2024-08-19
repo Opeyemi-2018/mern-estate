@@ -5,9 +5,9 @@ import { errorHandler } from '../utils/error.js'; // Import a custom error handl
 
 // Sign-up controller function
 export let signUp = async (req, res, next) => {
-    let { username, email, password } = req.body; // Destructure username, email, and password from the request body
+    let { username, email, password, isAgent, isClient } = req.body; // Destructure username, email, and password from the request body
     let hashPassword = bcryptjs.hashSync(password, 10); // Hash the password using bcryptjs with a salt rounds of 10
-    let newUser = new User({ username, email, password: hashPassword }); // Create a new User instance with hashed password
+    let newUser = new User({ username, email, password: hashPassword, isAgent, isClient }); // Create a new User instance with hashed password
 
     try {
         await newUser.save(); // Attempt to save the new user to the database

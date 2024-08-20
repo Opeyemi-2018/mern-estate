@@ -160,7 +160,7 @@ export default function Profile() {
           placeholder='username'
           defaultValue={currentUser.username}
           id='username'
-          className='border p-2 rounded-lg'
+          className='border p-2 rounded-lg shadow-sm'
           onChange={handleChange}
         />
         <input
@@ -168,7 +168,7 @@ export default function Profile() {
           placeholder='email'
           id='email'
           defaultValue={currentUser.email}
-          className='border p-2 rounded-lg'
+          className='border p-2 rounded-lg shadow-sm'
           onChange={handleChange}
         />
         <input
@@ -176,11 +176,11 @@ export default function Profile() {
           placeholder='password'
           onChange={handleChange}
           id='password'
-          className='border p-2 rounded-lg'
+          className='border p-2 rounded-lg shadow-sm'
         />
         <button
           disabled={loading}
-          className='bg-[#1E2128] text-white rounded-lg p-2 uppercase hover:opacity-95 disabled:opacity-80'
+          className='bg-[#001030] text-white rounded-lg p-2 uppercase hover:opacity-95 disabled:opacity-80'
         >
           {loading ? 'Loading...' : 'Update'}
         </button>

@@ -68,7 +68,8 @@ const Users = () => {
     };
 
     return (
-        <div>
+        <div className="">
+            <h1 className="font-bold text-3xl underline mb-1">Current Users</h1>
             {error && <p>{error}</p>}
             {users.length === 0 ? (
                 <p>No users found</p>
@@ -76,7 +77,7 @@ const Users = () => {
                 users.map((user) => {
                     const { username, email, avatar, isAdmin, isAgent} = user;
                     return (
-                        <div key={user._id} className="flex items-center flex-wrap gap-4 bg-white rounded-md hover:bg-gray-300 shadow-lg p-3 justify-between my-2">
+                        <div key={user._id} className="flex items-center flex-wrap gap-4 bg-white rounded-md hover:bg-gray-300 shadow-lg p-3 justify-between mb-2">
                             <div className="flex items-center gap-1 sm:border-r-2 border-none flex-1 flex-wrap">
                                 <img src={avatar} alt="user image" className="rounded-full sm:inline hidden h-10 h-10 object-cover object-center" />
                                 <div>

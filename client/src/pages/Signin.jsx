@@ -50,9 +50,9 @@ const Signin = () => {
         <div className="flex-1">
           <h1 className='text-3xl text-[#1E2128] font-semibold my-7'>Sign in to your account</h1>
             <form onSubmit={handleSubmit} className='flex items-start flex-col gap-4'>
-                <input type="text" id='email' placeholder='email' className='w-full border p-3 rounded-lg' onChange={handleChange}/>
-                <input type="password" id='password' placeholder='password' className='w-full border p-3 rounded-lg' onChange={handleChange}/>
-                <button disabled={loading} className='w-full bg-[#1E2128] p-3 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{loading ? 'Loading' : 'Sign in'}</button>
+                <input type="text" id='email' placeholder='email' className='w-full border p-3 rounded-lg shadow-sm' onChange={handleChange}/>
+                <input type="password" id='password' placeholder='password' className='w-full border p-3 rounded-lg shadow-sm' onChange={handleChange}/>
+                <button disabled={loading} className='w-full bg-[#001030] p-3 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{loading ? 'Loading' : 'Sign in'}</button>
                 <OAuth/>
             </form>
             <div className="flex gap-2 mt-5">

@@ -68,9 +68,9 @@ const SignUp = () => {
           <div className="flex-1">
             <h1 className='text-3xl text-[#1E2128] font-semibold my-7'>Welcome to Finder</h1>
             <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-              <input type="text" id='username' placeholder='Username' className='w-full border p-3 rounded-lg' onChange={handleChange} />
-              <input type="text" id='email' placeholder='Email' className='w-full border p-3 rounded-lg' onChange={handleChange}/>
-              <input type="password" id='password' placeholder='Password' className='w-full border p-3 rounded-lg' onChange={handleChange}/>
+              <input type="text" id='username' placeholder='Username' className='w-full border  p-3 rounded-lg shadow-sm' onChange={handleChange} />
+              <input type="text" id='email' placeholder='Email' className='w-full border p-3 rounded-lg shadow-sm' onChange={handleChange}/>
+              <input type="password" id='password' placeholder='Password' className='w-full border p-3 rounded-lg shadow-sm' onChange={handleChange}/>
               <div className="flex items-center gap-8">
                 <div className="flex items-center gap-2">
                   <input type="checkbox" id="agent" className="w-5 h-5" onChange={handleChange} checked={formData.isAgent || false} />
@@ -81,7 +81,7 @@ const SignUp = () => {
                   <span className="font-semibold text-gray-600">Client</span>
                 </div>
               </div>
-              <button disabled={loading} className='w-full bg-[#1E2128] p-3 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
+              <button disabled={loading} className='w-full bg-[#001030] p-3 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
                 {loading ? 'Loading...' : 'Sign Up'}
               </button>
               <OAuth />

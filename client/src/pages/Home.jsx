@@ -51,7 +51,7 @@ export default function Home({ showNav }) {
   return (
     <div>
       {/* top */}
-      <div className={showNav ? 'mt-20' : 'mt-0'}>
+      <div className=''>
           <div  style={{
             background: `linear-gradient(to bottom, rgba(20, 45, 75, 1) 0%, rgba(18, 50, 80, 0.8) 60%, rgba(15, 55, 85, 0.3) 90%), url(${HeroImage}) center/cover no-repeat
 `,

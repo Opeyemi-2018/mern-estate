@@ -23,11 +23,11 @@ const App = () => {
     <ScrollToTop/>
      <Header setShowNav={setShowNav} showNav={showNav}/>
         <Routes>
-          <Route path='/' element={<Home setShowNav={setShowNav} showNav={showNav}/>}/>
+          <Route path='/' element={<Home />}/>
           <Route path='/sign-in' element={<Signin/>}/>
           <Route path='/sign-up' element={<SignUp/>}/>
           <Route element={<PrivateRoute/>}>
-            <Route path='/dashboard' element={<Dashboard setShowNav={setShowNav} showNav={showNav}/>}/> 
+            <Route path='/dashboard' element={<Dashboard  showNav={showNav}/>}/> 
             {/* <Route path='/update-listing' element={<UpdateListing/>}/> */}
           </Route>
           <Route element={<OnlyAdminAndAgentRoute/>}>

@@ -70,7 +70,7 @@ const Users = () => {
 
     return (
         <div className="">
-            <h1 className="font-bold sm:text-3xl text-1xl underline mb-1">Current Users</h1>
+            <h1 className="font-semibold sm:text-3xl text-1xl underline mb-1">Current Users</h1>
             {error && <p>{error}</p>}
             {users.length === 0 ? (
                 <p>No users found</p>
@@ -132,3 +132,5 @@ const Users = () => {
 };
 
 export default Users;
+
+// i'm yet to understand this compnent

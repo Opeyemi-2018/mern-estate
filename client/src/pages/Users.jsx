@@ -104,17 +104,17 @@ const Users = () => {
 
             {/* modal for delete */}
             {showModal && (
-                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-md shadow-md p-4">
+                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-50 rounded-md shadow-md md:p-4 p-3">
                     <div className="text-center">
-                        <RiErrorWarningLine className="h-14 w-14 text-gray-400 mb-4 mx-auto" />
+                        <RiErrorWarningLine className="sm:h-14 sm:w-14 w-12 h-12 text-gray-400 mb-4 mx-auto" />
                         <h3 className="mb-5 text-lg text-gray-500">
                             Are you sure you want to delete this user?
                         </h3>
                         <div className="flex justify-center gap-10 text-white">
-                            <button onClick={handleDeleteUser} className="bg-[#1E2128] p-2 rounded-md">
+                            <button onClick={handleDeleteUser} className="bg-[#1E2128] sm:p-2 p-1 rounded-md">
                                 Yes, I'm sure
                             </button>
-                            <button onClick={closeModal} className="bg-red-700 rounded-md p-2">
+                            <button onClick={closeModal} className="bg-red-700 rounded-md sm:p-2 p-1">
                                 No, cancel
                             </button>
                         </div>

@@ -62,8 +62,8 @@ export default function Home({ showNav }) {
               <br />
               place with ease
             </h1>
-            <div className='text-white text-xs sm:text-sm'>
-              Opeyemi Estate is the best place to find your next perfect place to
+            <div className='text-white text-md'>
+              Finder is the best place to find your next perfect place to
               live.
               <br />
               We have a wide range of properties for you to choose from.

@@ -29,9 +29,9 @@ const Footer = () => {
          
         <div className="flex items-center sm:justify-center justify-start sm:gap-10 gap-5 mt-4">
           <p className="text-white"> © {new Date().getFullYear()} Your Company</p>
-            <button className="rounded-full bg-white  p-1"><FaXTwitter/></button>
-            <button className="rounded-full bg-white  p-1"><FiFacebook/></button>
-            <button className="rounded-full bg-white  p-1"><FaLinkedinIn/></button>
+            <button className="rounded-full bg-white text-[#001030] p-1"><FaXTwitter/></button>
+            <button className="rounded-full bg-white text-[#001030] p-1"><FiFacebook/></button>
+            <button className="rounded-full bg-white text-[#001030] p-1"><FaLinkedinIn/></button>
         </div>
 
     </div>

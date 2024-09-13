@@ -4,7 +4,6 @@ import {useDispatch, useSelector} from 'react-redux'
 import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice"
 import OAuth from "../component/OAuth"
 import signInImage from '../assets/images/sign-in.png'
-import animate from '../assets/images/animate.png'
 const Signin = () => {
     let {loading, error} = useSelector((state) => state.user)
     let [formData, setFormData] = useState({})

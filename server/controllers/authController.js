@@ -29,7 +29,7 @@ export let signIn = async (req, res, next) => {
         if (!validPassword) return next(errorHandler(401, 'Wrong credentials')); // If the password is incorrect, pass an error to the next middleware
 
         let token = jwt.sign({ id: validUser._id, isAdmin: validUser.isAdmin, isAgent: validUser.isAgent,
-            isClient: validUser.isClient, }, process.env.JWT_SECRET, {expiresIn: '7d'}); // Generate a JWT token with the user's ID and secret key from environment variables
+            isClient: validUser.isClient, }, process.env.JWT_SECRET); // Generate a JWT token with the user's ID and secret key from environment variables
         let { password: pass, ...rest } = validUser._doc; // Exclude the password from the user object to be sent in the response
 
         res.cookie('access_token', token, { httpOnly: true }) // Set the token in an HTTP-only cookie

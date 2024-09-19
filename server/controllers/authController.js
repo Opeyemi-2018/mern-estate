@@ -48,8 +48,13 @@ export let signIn = async (req, res, next) => {
     ); // Generate a JWT token with the user's ID and secret key from environment variables
     let { password: pass, ...rest } = validUser._doc; // Exclude the password from the user object to be sent in the response
 
+    res;
     res
-      .cookie("access_token", token, { httpOnly: true }) // Set the token in an HTTP-only cookie
+      .cookie("access_token", token, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      }) // Expires after 7 days
       .status(200) // Set the response status code to 200
       .json(rest); // Send the user data (excluding password) in the response
   } catch (error) {

@@ -59,7 +59,7 @@ export default function Header({ setShowNav, showNav }) {
         <Link to="/">
           <h1 className="font-bold text-sm sm:text-xl flex flex-wrap gap-1 items-center">
             <span className="text-[#1E2128]">Finder</span>
-            <FaHouseChimney className="text-[#1E2128] sm:inline hidden" />
+            <FaHouseChimney className="text-[#1E2128] md:inline hidden" />
           </h1>
         </Link>
 

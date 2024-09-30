@@ -9,12 +9,11 @@ const Users = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
+
   // State to manage modal visibility for delete confirmation
   const [showModal, setShowModal] = useState(false);
-
   // State to store the ID of the user selected for deletion
   const [userToDelete, setUserToDelete] = useState(null);
-
   // State to store the username of the user selected for deletion, used in the modal
   const [usernameToDelete, setUsernameToDelete] = useState("");
 
@@ -99,7 +98,7 @@ const Users = () => {
                 <img
                   src={avatar}
                   alt="user image"
-                  className="rounded-full sm:inline hidden h-10 h-10 object-cover object-center"
+                  className="rounded-full sm:inline hidden h-10  object-cover object-center"
                 />
                 <div>
                   <p className="truncate flex-1">{email}</p>
@@ -172,5 +171,3 @@ const Users = () => {
 };
 
 export default Users;
-
-// i'm yet to understand this compnent

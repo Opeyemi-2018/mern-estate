@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
-
+import { MdOutlineDone } from "react-icons/md";
 import {
   getDownloadURL,
   getStorage,
@@ -33,7 +32,6 @@ export default function CreateListing() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.log(formData);
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
       setUploading(true);
@@ -151,6 +149,21 @@ export default function CreateListing() {
       }
       setSuccessMsg("listing created successfully");
       setTimeout(() => setSuccessMsg(null), 3000);
+      setFormData({
+        imageUrls: [],
+        name: "",
+        description: "",
+        address: "",
+        type: "rent",
+        bedrooms: 1,
+        bathrooms: 1,
+        regularPrice: 50,
+        discountPrice: 0,
+        offer: false,
+        parking: false,
+        furnished: false,
+      });
+      setFiles([]);
       // navigate(`/listing/${data._id}`);
     } catch (error) {
       setError(error.message);
@@ -372,19 +385,20 @@ export default function CreateListing() {
               {loading ? "Creating..." : "Create listing"}
             </button>
             {error && <p className="text-red-700 text-sm">{error}</p>}
-            {successMsg && (
-              <p className="bg-green-50 text-green-600 rounded-md p-2 flex justify-between">
-                {successMsg}{" "}
-                <span>
-                  <IoCheckmarkDoneCircleSharp
-                    size={30}
-                    className="bg-white text-green-600 p-1"
-                  />
-                </span>
-              </p>
-            )}
           </div>
         </form>
+
+        {/* create message */}
+        <div className="fixed top-[15%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          {successMsg && (
+            <p className="flex text-nowrap items-center justify-between gap-3 text-white bg-green-500 rounded-md px-2 py-1">
+              <span>
+                <MdOutlineDone className="bg-white rounded-full p-1 text-3xl text-green-600" />
+              </span>{" "}
+              <span>{successMsg}</span>
+            </p>
+          )}
+        </div>
       </div>
     </main>
   );

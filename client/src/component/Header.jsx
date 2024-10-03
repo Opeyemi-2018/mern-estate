@@ -54,7 +54,7 @@ export default function Header({ setShowNav, showNav }) {
   };
 
   return (
-    <header className="bg-white shadow-lg w-full">
+    <header className="bg-white shadow-lg z-30 w-full">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to="/">
           <h1 className="font-bold text-sm sm:text-xl flex flex-wrap gap-1 items-center">

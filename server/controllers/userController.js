@@ -100,11 +100,13 @@ export const getUser = async (req, res, next) => {
     // If the user is not found, pass an error to the next middleware
     if (!user) return next(errorHandler(404, "User not found!"));
 
+    let listingCount = await Listing.countDocuments({ userRef: user._id });
+
     // Destructure the user document to exclude the password field
     const { password: pass, ...rest } = user._doc;
 
-    // Send a JSON response with the user data (excluding the password)
-    res.status(200).json(rest);
+    // Send a JSON response wit h the user data (excluding the password)
+    res.status(200).json({ user: rest, listingCount });
   } catch (error) {
     // If an error occurs, pass it to the next middleware
     next(error);

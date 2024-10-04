@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { PiWarningCircle } from "react-icons/pi";
+import { RiErrorWarningLine } from "react-icons/ri";
 import { MdOutlineDone } from "react-icons/md";
 
 const UserListing = () => {
@@ -87,7 +87,7 @@ const UserListing = () => {
     );
   }
   return (
-    <div className="p-3 relative">
+    <div className="py-3 sm:px-3 px-1 relative">
       {userListings && userListings.length > 0 && (
         <div className="max-w-full mx-auto">
           <h1 className=" my-2 text-2xl font-semibold">
@@ -100,13 +100,13 @@ const UserListing = () => {
             return (
               <div
                 key={listing._id}
-                className="flex items-center flex-wrap gap-4 bg-white rounded-md hover:bg-gray-300 shadow-lg px-3 sm:py-2 p-1 justify-between my-2"
+                className="flex items-center  gap-4 bg-white rounded-md hover:bg-gray-300 shadow-lg sm:px-3 px-1 sm:py-2 p-1 justify-between my-2"
               >
                 <Link to={`/listing/${_id}`}>
                   <img
                     src={imageUrls[0]}
                     alt="listing cover"
-                    className="h-16 w-16 object-contain"
+                    className="h-16 w-16  object-contain"
                   />
                 </Link>
 
@@ -149,26 +149,20 @@ const UserListing = () => {
 
       {/* modal for deletion */}
       {showModal && (
-        <div className="fixed md:w-[600px]  w-[370px] mx-4 text-white sm:mx-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg rounded-md bg-red-600 p-4 sm:py-8 sm:px-10">
-          <div className="">
-            <span className="flex justify-center items-center sm:text-5xl text-4xl ">
-              <PiWarningCircle />
-            </span>
-            <h1 className="text-center sm:text-2xl text-white text-[18px] mb-3">
+        <div className="fixed inset-0  sm:px-0 px-2 bg-gray-800 bg-opacity-30 flex justify-center items-center z-30">
+          <div className="w-96 h-60 bg-red-600 p-4 shadow-lg rounded-md">
+            <RiErrorWarningLine className="sm:h-14 sm:w-14 w-12 h-12 text-white mb-4 mx-auto" />{" "}
+            {/* <h1 className="text-center sm:text-2xl text-white text-[18px] mb-3">
               Are you sure ?
-            </h1>
-            <p className="text-center text-wrap  sm:text-[17px]  text-[15px] ">
-              did you really want to delete{" "}
-              <span className="font-semibold  underline ml-1">
-                {deleteName}
-              </span>
-              ? this process cannot be undone
-            </p>
-
+            </h1> */}
+            <div className="flex flex-col items-center text-white mb-4">
+              <h1 className="text-lg"> did you really want to delete </h1>
+              <span className="font-semibold  underline ">{deleteName} ?</span>
+            </div>
             <div className="flex gap-8 justify-center mt-6">
               <button
                 onClick={closeModal}
-                className="bg-black capitalize rounded-md sm:py-2 py-[7px] px-4"
+                className="bg-black capitalize text-white rounded-md sm:py-2 py-[7px] px-4"
               >
                 no cancel
               </button>

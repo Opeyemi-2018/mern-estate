@@ -13,7 +13,7 @@ const Users = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
-
+  let [loading, setLoading] = useState(false);
   // State to manage modal visibility for delete confirmation
   const [showModal, setShowModal] = useState(false);
   // State to store the ID of the user selected for deletion
@@ -26,13 +26,16 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+        setLoading(true);
         const response = await fetch("/api/user/getusers");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
         setUsers(data.users);
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.error("Failed to fetch users:", error);
         setError("Failed to fetch users. Please try again later.");
       }
@@ -90,6 +93,14 @@ const Users = () => {
   let showUserDetails = (user) => {
     setSelectedUser(user);
   };
+
+  if (loading) {
+    return (
+      <div className="flex flex-col min-h-screen items-center justify-center flex-grow">
+        <div className="h-8 w-8 rounded-full animate-ping bg-[#001030]"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="">

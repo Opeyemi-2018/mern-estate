@@ -141,6 +141,7 @@ const Dashboard = ({ showNav }) => {
         </span>
         <div className={`flex flex-col gap-6 mt-10`}>
           <Link
+            onClick={() => setShowSideBar(false)}
             to={"/dashboard?tab=profile"}
             className={`font-semibold  text-white  py-1  rounded-sm flex items-center justify-between ${
               tab === "profile" ? "bg-[#002670]" : "hover:bg-[#002670]"
@@ -167,6 +168,7 @@ const Dashboard = ({ showNav }) => {
 
           {currentUser && currentUser.isAdmin && (
             <Link
+              onClick={() => setShowSideBar(false)}
               to={"/dashboard?tab=users"}
               className={`text-white p-1 rounded-sm flex items-center gap-2 font-semibold ${
                 tab === "users" ? "bg-[#002670]" : "hover:bg-[#002670]"
@@ -179,6 +181,7 @@ const Dashboard = ({ showNav }) => {
 
           {currentUser && (currentUser.isAdmin || currentUser.isAgent) && (
             <Link
+              onClick={() => setShowSideBar(false)}
               to={"/create-listing"}
               className={`text-[#002670] hover:text-white bg-[#fff] p-2 rounded-md flex items-center gap-2 font-semibold ${
                 tab === "create-listing" ? "bg-[#002670]" : "hover:bg-[#002670]"
@@ -192,6 +195,7 @@ const Dashboard = ({ showNav }) => {
           )}
 
           <Link
+            onClick={() => setShowSideBar(false)}
             to={"/dashboard?tab=user-listing"}
             className={`text-white p-1 rounded-sm font-semibold flex items-center gap-2 ${
               tab === "user-listing" ? "bg-[#002670]" : "hover:bg-[#002670]"

@@ -6,9 +6,17 @@ import authRouter from "./routes/authRoute.js";
 import listingRouter from "./routes/listingRoute.js";
 import cookieParser from "cookie-parser";
 import path from "path";
+import cors from "cors";
 dotenv.config();
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Your Vite frontend URL
+    credentials: true, // Allow sending cookies with requests
+  })
+);
 
 mongoose
   .connect(process.env.MONGO)

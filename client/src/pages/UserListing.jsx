@@ -102,7 +102,7 @@ const UserListing = () => {
                 key={listing._id}
                 className="flex items-center  gap-4 bg-white rounded-md hover:bg-gray-300 shadow-lg sm:px-3 px-1 sm:py-2 p-1 justify-between my-2"
               >
-                <Link to={`/listing/${_id}`}>
+                <Link to={`/listing/${_id}`} className="flex-1">
                   <img
                     src={imageUrls[0]}
                     alt="listing cover"
@@ -111,7 +111,7 @@ const UserListing = () => {
                 </Link>
 
                 <Link
-                  className="text-slate-700 font-semibold  hover:underline truncate"
+                  className="text-slate-700 flex-1 font-semibold  hover:underline truncate"
                   to={`/listing/${_id}`}
                 >
                   {" "}
@@ -120,14 +120,16 @@ const UserListing = () => {
 
                 <button
                   onClick={() => openModal(listing)}
-                  className="text-red-700 uppercase"
+                  className="text-red-700 flex-1 uppercase"
                 >
                   {" "}
                   Delete
                 </button>
 
                 <Link to={`/update-listing/${_id}`}>
-                  <button className="text-green-700 uppercase">Edit</button>
+                  <button className="text-green-700 flex-1 uppercase">
+                    Edit
+                  </button>
                 </Link>
               </div>
             );

@@ -7,11 +7,13 @@ const SignUp = () => {
   let [loading, setLoading] = useState(false);
   let [error, setError] = useState(null);
   let [formData, setFormData] = useState({});
+  console.log(formData);
+
   let navigate = useNavigate();
 
   // Handle text inputs (username, email, password) and checkboxes (agent, client)
   let handleChange = (e) => {
-    const { id, type, checked } = e.target;
+    const { id, type, checked, value } = e.target;
 
     if (type === "radio") {
       // When a checkbox is clicked, update the formData to ensure only one is true
@@ -22,9 +24,14 @@ const SignUp = () => {
       }
     } else {
       // Handle other inputs (username, email, password)
-      setFormData({ ...formData, [id]: e.target.value });
+      setFormData({ ...formData, [id]: value });
     }
     console.log(formData);
+  };
+  const submissionData = {
+    ...formData,
+    username: formData.username?.toLowerCase(),
+    email: formData.email?.toLowerCase(),
   };
 
   let handleSubmit = async (e) => {
@@ -43,7 +50,7 @@ const SignUp = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(submissionData),
       });
       let data = await res.json();
       if (data.success === false) {

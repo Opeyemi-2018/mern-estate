@@ -13,7 +13,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // Your Vite frontend URL
+    origin: "http://localhost:5173", //  Vite frontend URL
     credentials: true, // Allow sending cookies with requests
   })
 );

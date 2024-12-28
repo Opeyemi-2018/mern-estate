@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore from 'swiper';
-import { useSelector } from 'react-redux';
-import { Navigation } from 'swiper/modules';
-import 'swiper/css/bundle';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore from "swiper";
+import { useSelector } from "react-redux";
+import { Navigation } from "swiper/modules";
+import "swiper/css/bundle";
 import {
   FaBath,
   FaBed,
@@ -12,8 +12,25 @@ import {
   FaMapMarkerAlt,
   FaParking,
   FaShare,
-} from 'react-icons/fa';
-import Contact from '../component/Contact';
+} from "react-icons/fa";
+import Contact from "../component/Contact";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+
+// Function to fetch coordinates from the address using Nominatim API
+const fetchCoordinates = async (address) => {
+  const response = await fetch(
+    `https://nominatim.openstreetmap.org/search?q=${address}&format=json&addressdetails=1&limit=1`
+  );
+  const data = await response.json();
+  if (data && data[0]) {
+    return {
+      lat: parseFloat(data[0].lat),
+      lon: parseFloat(data[0].lon),
+    };
+  }
+  return null;
+};
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
@@ -22,10 +39,13 @@ export default function Listing() {
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
   const [contact, setContact] = useState(false);
+  const [coordinates, setCoordinates] = useState(null);
   const { listingId } = useParams();
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
+    console.log("Fetching listing...", listingId);
+
     const fetchListing = async () => {
       try {
         setLoading(true);
@@ -37,6 +57,9 @@ export default function Listing() {
           return;
         }
         setListing(data);
+        // Fetch coordinates after listing data is loaded
+        const coords = await fetchCoordinates(data.address);
+        setCoordinates(coords);
         setLoading(false);
         setError(false);
       } catch (error) {
@@ -46,6 +69,13 @@ export default function Listing() {
     };
     fetchListing();
   }, [listingId]);
+
+  useEffect(() => {
+    // Ensure the map recalculates on coordinates update
+    if (coordinates) {
+      window.dispatchEvent(new Event("resize"));
+    }
+  }, [coordinates]);
 
   return (
     <main className="min-h-screen flex flex-col justify-between">
@@ -68,7 +98,7 @@ export default function Listing() {
                   className="h-[550px]"
                   style={{
                     background: `url(${url}) center no-repeat`,
-                    backgroundSize: 'cover',
+                    backgroundSize: "cover",
                   }}
                 ></div>
               </SwiperSlide>
@@ -91,57 +121,83 @@ export default function Listing() {
               Link copied!
             </p>
           )}
-          <div className="flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4">
-            <p className="text-2xl font-semibold">
-              {listing.name} - ${' '}
-              {listing.offer
-                ? listing.discountPrice.toLocaleString('en-US')
-                : listing.regularPrice.toLocaleString('en-US')}
-              {listing.type === 'rent' && ' / month'}
-            </p>
-            <p className="flex items-center mt-6 gap-2 text-slate-600 text-sm">
-              <FaMapMarkerAlt className="text-green-700" />
-              {listing.address}
-            </p>
-            <div className="flex gap-4">
-              <p className="bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md">
-                {listing.type === 'rent' ? 'For Rent' : 'For Sale'}
-              </p>
-              {listing.offer && (
-                <p className="bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md">
-                  ${+listing.regularPrice - +listing.discountPrice} OFF
+          <div className="max-w-6xl mx-auto p-3 my-7">
+            <div className="flex md:flex-row flex-col gap-4">
+              <div className="flex flex-col gap-4 md:mb-0 mb-4">
+                <p className="text-2xl font-semibold">
+                  {listing.name} - ${" "}
+                  {listing.offer
+                    ? listing.discountPrice.toLocaleString("en-US")
+                    : listing.regularPrice.toLocaleString("en-US")}
+                  {listing.type === "rent" && " / month"}
                 </p>
+                <p className="flex items-center mt-6 gap-2 text-slate-600 text-sm">
+                  <FaMapMarkerAlt className="text-green-700" />
+                  {listing.address}
+                </p>
+                <div className="flex gap-4">
+                  <p className="bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md">
+                    {listing.type === "rent" ? "For Rent" : "For Sale"}
+                  </p>
+                  {listing.offer && (
+                    <p className="bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md">
+                      ${+listing.regularPrice - +listing.discountPrice} OFF
+                    </p>
+                  )}
+                </div>
+                <p className="text-slate-800">
+                  <span className="font-semibold text-black">
+                    Description -{" "}
+                  </span>
+                  {listing.description}
+                </p>
+                <ul className="text-green-900 font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6">
+                  <li className="flex items-center gap-1 whitespace-nowrap">
+                    <FaBed className="text-lg" />
+                    {listing.bedrooms > 1
+                      ? `${listing.bedrooms} beds `
+                      : `${listing.bedrooms} bed `}
+                  </li>
+                  <li className="flex items-center gap-1 whitespace-nowrap">
+                    <FaBath className="text-lg" />
+                    {listing.bathrooms > 1
+                      ? `${listing.bathrooms} baths `
+                      : `${listing.bathrooms} bath `}
+                  </li>
+                  <li className="flex items-center gap-1 whitespace-nowrap">
+                    <FaParking className="text-lg" />
+                    {listing.parking ? "Parking spot" : "No Parking"}
+                  </li>
+                  <li className="flex items-center gap-1 whitespace-nowrap">
+                    <FaChair className="text-lg" />
+                    {listing.furnished ? "Furnished" : "Unfurnished"}
+                  </li>
+                </ul>
+              </div>
+
+              {/* Map Container */}
+              {coordinates && coordinates.lat && coordinates.lon && (
+                <div style={{ height: "400px", width: "100%" }}>
+                  <MapContainer
+                    center={[coordinates.lat, coordinates.lon]}
+                    zoom={13}
+                    style={{ width: "100%", height: "100%" }}
+                    whenCreated={(map) => map.invalidateSize()}
+                  >
+                    <TileLayer
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    />
+                    <Marker position={[coordinates.lat, coordinates.lon]}>
+                      <Popup>{listing.address}</Popup>
+                    </Marker>
+                  </MapContainer>
+                </div>
               )}
             </div>
-            <p className="text-slate-800">
-              <span className="font-semibold text-black">Description - </span>
-              {listing.description}
-            </p>
-            <ul className="text-green-900 font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6">
-              <li className="flex items-center gap-1 whitespace-nowrap">
-                <FaBed className="text-lg" />
-                {listing.bedrooms > 1
-                  ? `${listing.bedrooms} beds `
-                  : `${listing.bedrooms} bed `}
-              </li>
-              <li className="flex items-center gap-1 whitespace-nowrap">
-                <FaBath className="text-lg" />
-                {listing.bathrooms > 1
-                  ? `${listing.bathrooms} baths `
-                  : `${listing.bathrooms} bath `}
-              </li>
-              <li className="flex items-center gap-1 whitespace-nowrap">
-                <FaParking className="text-lg" />
-                {listing.parking ? 'Parking spot' : 'No Parking'}
-              </li>
-              <li className="flex items-center gap-1 whitespace-nowrap">
-                <FaChair className="text-lg" />
-                {listing.furnished ? 'Furnished' : 'Unfurnished'}
-              </li>
-            </ul>
-            {currentUser &&
-              listing.userRef !== currentUser._id &&
-              !contact && (
+
+            <div className="flex flex-col">
+              {currentUser && listing.userRef !== currentUser._id && !contact && (
                 <button
                   onClick={() => setContact(true)}
                   className="bg-[#001030] text-white rounded-lg uppercase hover:opacity-95 p-3"
@@ -149,11 +205,11 @@ export default function Listing() {
                   Contact landlord
                 </button>
               )}
-            {contact && <Contact listing={listing} />}
+              {contact && <Contact listing={listing} />}
+            </div>
           </div>
         </div>
       )}
-      
     </main>
   );
 }

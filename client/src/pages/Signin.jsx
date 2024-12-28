@@ -14,10 +14,12 @@ const Signin = () => {
   let navigate = useNavigate();
   let dispatch = useDispatch();
   let handleChange = (e) => {
-    e.preventDefault();
+    const { id, value } = e.target;
+    const formattedValue =
+      id === "email" || id === "name" ? value.toLowerCase() : value;
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value,
+      [e.target.id]: formattedValue,
     });
   };
   let handleSubmit = async (e) => {

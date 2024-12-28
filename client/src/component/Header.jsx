@@ -165,9 +165,14 @@ export default function Header({ setShowNav, showNav }) {
           <Link to="/about">
             <li className="text-slate-700 hover:underline">About</li>
           </Link>
-          <Link to="#">
-            <li className="text-slate-700 hover:underline">Dashboard</li>
-          </Link>
+          {currentUser && (currentUser.isAdmin || currentUser.isAgent) && (
+            <Link
+              to={"/create-listing"}
+              className="bg-[#001030] text-center text-white rounded-md sm:px-3 px-2 py-2 sm:text-[13px] text-[11px] text-nowrap uppercase"
+            >
+              create listing
+            </Link>
+          )}
         </ul>
       </div>
     </header>

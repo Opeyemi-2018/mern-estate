@@ -3,7 +3,6 @@ import bcryptjs from "bcryptjs"; // Import bcryptjs for password hashing
 import jwt from "jsonwebtoken"; // Import jwt for token generation
 import { errorHandler } from "../utils/error.js"; // Import a custom error handler utility
 
-import crypto from "crypto";
 // Sign-up controller function
 export let signUp = async (req, res, next) => {
   let { username, email, password, isAgent, isClient } = req.body; // Destructure username, email, and password from the request body
@@ -44,11 +43,10 @@ export let signIn = async (req, res, next) => {
         isClient: validUser.isClient,
       },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+      { expiresIn: "24h" }
     ); // Generate a JWT token with the user's ID and secret key from environment variables
     let { password: pass, ...rest } = validUser._doc; // Exclude the password from the user object to be sent in the response
 
-    res;
     res
       .cookie("access_token", token, {
         httpOnly: true,

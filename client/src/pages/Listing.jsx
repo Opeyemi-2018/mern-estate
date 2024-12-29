@@ -122,7 +122,7 @@ export default function Listing() {
             </p>
           )}
           <div className="max-w-6xl mx-auto p-3 my-7">
-            <div className="flex md:flex-row flex-col gap-4">
+            <div className="flex xl:flex-row flex-col gap-4">
               <div className="flex flex-col gap-4 md:mb-0 mb-4">
                 <p className="text-2xl font-semibold">
                   {listing.name} - ${" "}

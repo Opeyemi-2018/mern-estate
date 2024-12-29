@@ -173,6 +173,19 @@ export default function Listing() {
                     {listing.furnished ? "Furnished" : "Unfurnished"}
                   </li>
                 </ul>
+                <div className="xl:flex flex-col hidden mt-4">
+                  {currentUser &&
+                    listing.userRef !== currentUser._id &&
+                    !contact && (
+                      <button
+                        onClick={() => setContact(true)}
+                        className="bg-[#001030] text-white rounded-lg uppercase hover:opacity-95 p-3"
+                      >
+                        Contact landlord
+                      </button>
+                    )}
+                  {contact && <Contact listing={listing} />}
+                </div>
               </div>
 
               {/* Map Container */}
@@ -196,7 +209,7 @@ export default function Listing() {
               )}
             </div>
 
-            <div className="flex flex-col">
+            <div className="xl:hidden flex flex-col mt-4">
               {currentUser && listing.userRef !== currentUser._id && !contact && (
                 <button
                   onClick={() => setContact(true)}

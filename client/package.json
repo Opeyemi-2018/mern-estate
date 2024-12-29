@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@react-leaflet/core": "^3.0.0",
-    "@reduxjs/toolkit": "^2.2.6",
+    "@reduxjs/toolkit": "^2.5.0",
     "firebase": "^10.12.3",
     "flowbite": "^2.5.1",
     "flowbite-react": "^0.10.1",

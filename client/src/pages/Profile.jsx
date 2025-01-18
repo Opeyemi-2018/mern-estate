@@ -6,7 +6,7 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   signOutUserStart,
-} from "../redux/user/userSlice";
+} from "../redux/userSlice";
 import { useDispatch } from "react-redux";
 import UserUpdate from "../component/UserUpdate";
 

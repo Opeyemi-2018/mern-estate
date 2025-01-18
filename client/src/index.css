@@ -6,3 +6,7 @@ body{
     background-color: white;
 }
 
+.leaflet-container {
+    z-index: 1 !important; /* Ensure the map stays behind other elements */
+  }
+

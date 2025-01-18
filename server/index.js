@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import userRouter from "./routes/userRoute.js";
 import authRouter from "./routes/authRoute.js";
 import listingRouter from "./routes/listingRoute.js";
+import messageRoute from "./routes/messageRoute.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import cors from "cors";
@@ -13,8 +14,8 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173", //  Vite frontend URL
-    credentials: true, // Allow sending cookies with requests
+    origin: "http://localhost:5173",
+    credentials: true,
   })
 );
 
@@ -38,6 +39,7 @@ app.use(cookieParser());
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/listing", listingRouter);
+app.use("/api/message", messageRoute);
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 

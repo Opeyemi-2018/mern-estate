@@ -66,17 +66,15 @@ export let google = async (req, res, next) => {
     let user = await User.findOne({ email: req.body.email }); // Find a user by email in the database
 
     if (user) {
-      // If user exists, generate a token and send the user data (excluding password) in the response
       let token = jwt.sign(
         { id: user._id, isAdmin: user.isAdmin },
         process.env.JWT_SECRET
-      ); // Generate a JWT token with the user's ID and secret key from environment variables
-      let { password: pass, ...rest } = user._doc; // Exclude the password from the user object to be sent in the response
-
+      );
+      let { password: pass, ...rest } = user._doc;
       res
-        .cookie("access_token", token, { httpOnly: true }) // Set the token in an HTTP-only cookie
-        .status(200) // Set the response status code to 200
-        .json(rest); // Send the user data (excluding password) in the response
+        .cookie("access_token", token, { httpOnly: true })
+        .status(200)
+        .json(rest);
     } else {
       // If user does not exist, create a new user with a randomly generated password
       let generatedPassword =
@@ -111,16 +109,6 @@ export let google = async (req, res, next) => {
     next(error); // Pass any error to the next middleware (error handler)
   }
 };
-
-// Sign-out controller function
-// export const signOut = async (req, res, next) => {
-//     try {
-//         res.clearCookie('access_token'); // Clear the 'access_token' cookie
-//         res.status(200).json('User has been logged out!'); // Send a success response with status code 200
-//     } catch (error) {
-//         next(error); // Pass any error to the next middleware (error handler)
-//     }
-// };
 
 export const signOut = async (req, res, next) => {
   try {

@@ -5,6 +5,7 @@ import SwiperCore from "swiper";
 import { useSelector } from "react-redux";
 import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
+
 import {
   FaBath,
   FaBed,
@@ -13,9 +14,9 @@ import {
   FaParking,
   FaShare,
 } from "react-icons/fa";
-import Contact from "../component/Contact";
+import { ClipLoader } from "react-spinners";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import L from "leaflet";
+import ListingsLandLordInfo from "../component/ListingsLandlordInfo";
 
 // Function to fetch coordinates from the address using Nominatim API
 const fetchCoordinates = async (address) => {
@@ -35,10 +36,11 @@ const fetchCoordinates = async (address) => {
 export default function Listing() {
   SwiperCore.use([Navigation]);
   const [listing, setListing] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [contact, setContact] = useState(false);
+  const [userInfo, setUserInfo] = useState(false);
+  const [cancelInfo, setCancelInfo] = useState(false);
   const [coordinates, setCoordinates] = useState(null);
   const { listingId } = useParams();
   const { currentUser } = useSelector((state) => state.user);
@@ -77,17 +79,30 @@ export default function Listing() {
     }
   }, [coordinates]);
 
+  const handleShowMessage = () => {
+    setCancelInfo(true);
+    setUserInfo(false);
+  };
+
   return (
     <main className="min-h-screen flex flex-col justify-between">
       {loading && (
-        <div className="flex flex-col items-center justify-center flex-grow">
-          <div className="h-8 w-8 rounded-full animate-ping bg-[#001030]"></div>
+        <div className="spinner min-h-screen flex items-center justify-center">
+          <ClipLoader color="blue" size={50} loading={loading} />
         </div>
       )}
       {error && (
-        <p className="text-center my-7 text-2xl flex-grow">
-          Something went wrong!
-        </p>
+        <div className="flex items-center justify-center flex-col mt-10">
+          <p className="text-center my-7 text-2xl flex-grow">
+            Something went wrong!
+          </p>
+          <button
+            className="bg-[#001030] p-3 rounded-md text-white "
+            onClick={() => window.location.reload()}
+          >
+            Refresh page
+          </button>
+        </div>
       )}
       {listing && !loading && !error && (
         <div className="flex-grow">
@@ -176,15 +191,23 @@ export default function Listing() {
                 <div className="xl:flex flex-col hidden mt-4">
                   {currentUser &&
                     listing.userRef !== currentUser._id &&
-                    !contact && (
+                    !userInfo && (
                       <button
-                        onClick={() => setContact(true)}
+                        onClick={() => setUserInfo(true)}
                         className="bg-[#001030] text-white rounded-lg uppercase hover:opacity-95 p-3"
                       >
                         Contact landlord
                       </button>
                     )}
-                  {contact && <Contact listing={listing} />}
+                  {userInfo && !cancelInfo && (
+                    <div className="fixed inset-0  sm:px-0 px-2 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+                      <ListingsLandLordInfo
+                        listing={listing}
+                        setCancelInfo={setCancelInfo}
+                        handleShowMessage={handleShowMessage}
+                      />{" "}
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -208,17 +231,25 @@ export default function Listing() {
                 </div>
               )}
             </div>
-
+            {/* button for mobile screen */}
             <div className="xl:hidden flex flex-col mt-4">
-              {currentUser && listing.userRef !== currentUser._id && !contact && (
+              {currentUser && listing.userRef !== currentUser._id && !userInfo && (
                 <button
-                  onClick={() => setContact(true)}
+                  onClick={() => setUserInfo(true)}
                   className="bg-[#001030] text-white rounded-lg uppercase hover:opacity-95 p-3"
                 >
                   Contact landlord
                 </button>
               )}
-              {contact && <Contact listing={listing} />}
+              {userInfo && !cancelInfo && (
+                <div className="fixed inset-0  sm:px-0 px-2 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+                  <ListingsLandLordInfo
+                    listing={listing}
+                    setCancelInfo={setCancelInfo}
+                    handleShowMessage={handleShowMessage}
+                  />{" "}
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -11,16 +11,17 @@ import DashboardOverview from "./DashboardOverview";
 import { IoIosCreate } from "react-icons/io";
 import { LiaTimesSolid } from "react-icons/lia";
 import { IoIosArrowForward } from "react-icons/io";
-
+import { FaMessage } from "react-icons/fa6";
 import { useState, useEffect } from "react";
 import {
   deleteUserFailure,
   signOutUserStart,
   deleteUserSuccess,
-} from "../redux/user/userSlice";
+} from "../redux/userSlice";
 import UserListing from "./UserListing";
 import { IoMdCreate } from "react-icons/io";
 import Users from "./Users";
+import Messaging from "./Messaging";
 
 const Dashboard = ({ showNav }) => {
   const location = useLocation();
@@ -99,18 +100,29 @@ const Dashboard = ({ showNav }) => {
             </Link>
           )}
 
+          {!currentUser.isClient && (
+            <Link
+              to={"/dashboard?tab=user-listing"}
+              className={`text-white p-1 rounded-sm font-semibold flex items-center gap-2 ${
+                tab === "user-listing" ? "bg-[#002670]" : "hover:bg-[#002670]"
+              }`}
+            >
+              <BsFillHousesFill size={20} />{" "}
+              {currentUser.isAdmin ? (
+                <span>Available listings</span>
+              ) : (
+                <span>My listing</span>
+              )}
+            </Link>
+          )}
+
           <Link
-            to={"/dashboard?tab=user-listing"}
+            to={"/dashboard?tab=messaging"}
             className={`text-white p-1 rounded-sm font-semibold flex items-center gap-2 ${
               tab === "user-listing" ? "bg-[#002670]" : "hover:bg-[#002670]"
             }`}
           >
-            <BsFillHousesFill size={20} />{" "}
-            {currentUser.isAdmin ? (
-              <span>Available listings</span>
-            ) : (
-              <span>My listing</span>
-            )}
+            <FaMessage size={20} /> <h1>Messaging</h1>
           </Link>
 
           <div>
@@ -213,6 +225,18 @@ const Dashboard = ({ showNav }) => {
             )}
           </Link>
 
+          <Link
+            to={"/dashboard?tab=messaging"}
+            className={`text-white p-1 rounded-sm font-semibold flex items-center gap-2 ${
+              tab === "user-listing" ? "bg-[#002670]" : "hover:bg-[#002670]"
+            }`}
+          >
+            <FaMessage size={25} />
+            <span className={`${showSideBar ? "inline" : "hidden"}`}>
+              Messaging
+            </span>
+          </Link>
+
           <div>
             <button
               onClick={handleSignOut}
@@ -233,6 +257,7 @@ const Dashboard = ({ showNav }) => {
         {tab === "profile" && <Profile />}
         {tab === "user-listing" && <UserListing />}
         {tab === "users" && <Users />}
+        {tab === "messaging" && <Messaging />}
       </div>
     </main>
   );

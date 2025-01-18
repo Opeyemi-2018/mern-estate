@@ -7,12 +7,13 @@ import { FaBars } from "react-icons/fa";
 import { LiaTimesSolid } from "react-icons/lia";
 import { useDispatch } from "react-redux";
 import { IoIosCreate } from "react-icons/io";
+import { LuMessageCircleMore } from "react-icons/lu";
 
 import {
   signOutUserStart,
   deleteUserFailure,
   deleteUserSuccess,
-} from "../redux/user/userSlice";
+} from "../redux/userSlice";
 
 export default function Header({ setShowNav, showNav }) {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -97,6 +98,16 @@ export default function Header({ setShowNav, showNav }) {
               className="bg-[#001030] hidden sm:inline text-white rounded-md sm:px-3 px-2 py-2 sm:text-[13px] text-[11px] text-nowrap uppercase"
             >
               create listing
+            </Link>
+          )}
+
+          {currentUser && (
+            <Link
+              to={"/dashboard?tab=messaging"}
+              className=" hidden sm:flex  text-slate-700  items-center gap-1"
+            >
+              <p>Messaging</p>
+              <LuMessageCircleMore />
             </Link>
           )}
 

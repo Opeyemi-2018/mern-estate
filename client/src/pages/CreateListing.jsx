@@ -6,13 +6,14 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+import "react-toastify/dist/ReactToastify.css";
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ClipLoader } from "react-spinners";
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
-  let [successMsg, setSuccessMsg] = useState(null);
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
     imageUrls: [],
@@ -28,14 +29,11 @@ export default function CreateListing() {
     parking: false,
     furnished: false,
   });
-  const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
       setUploading(true);
-      setImageUploadError(false);
       const promises = [];
 
       for (let i = 0; i < files.length; i++) {
@@ -47,15 +45,16 @@ export default function CreateListing() {
             ...formData,
             imageUrls: formData.imageUrls.concat(urls),
           });
-          setImageUploadError(false);
           setUploading(false);
         })
-        .catch((err) => {
-          setImageUploadError("Image upload failed (2 mb max per image)");
+        .catch((error) => {
           setUploading(false);
         });
     } else {
-      setImageUploadError("You can only upload 6 images per listing");
+      toast.error("you can only upload 6 images per listing", {
+        pauseOnHover: false,
+        draggable: true,
+      });
       setUploading(false);
     }
   };
@@ -127,11 +126,16 @@ export default function CreateListing() {
     e.preventDefault();
     try {
       if (formData.imageUrls.length < 1)
-        return setError("You must upload at least one image");
+        return toast.error("you must upload atleast one image", {
+          pauseOnHover: false,
+          draggable: true,
+        });
       if (+formData.regularPrice < +formData.discountPrice)
-        return setError("Discount price must be lower than regular price");
+        return toast.error("discount price must be lower than regular price", {
+          pauseOnHover: false,
+          draggable: true,
+        });
       setLoading(true);
-      setError(false);
       const res = await fetch("/api/listing/create", {
         method: "POST",
         headers: {
@@ -145,10 +149,15 @@ export default function CreateListing() {
       const data = await res.json();
       setLoading(false);
       if (data.success === false) {
-        setError(data.message);
+        toast.error(data.message, {
+          pauseOnHover: false,
+          draggable: true,
+        });
       }
-      setSuccessMsg("listing created successfully");
-      setTimeout(() => setSuccessMsg(null), 3000);
+      toast.success("listing successfully created!", {
+        pauseOnHover: false,
+        draggable: true,
+      });
       setFormData({
         imageUrls: [],
         name: "",
@@ -166,12 +175,18 @@ export default function CreateListing() {
       setFiles([]);
       // navigate(`/listing/${data._id}`);
     } catch (error) {
-      setError(error.message);
+      toast.error(error.message, {
+        pauseOnHover: false,
+        draggable: true,
+      });
       setLoading(false);
     }
   };
   return (
     <main className="mt-20">
+      <div className="absolute left-1/2 top-5 transform -translate-y-1/2 -translate-x-1/2">
+        <ToastContainer position="top-center" autoClose={5000} />
+      </div>{" "}
       <h1 className="text-3xl font-semibold text-center my-7">
         Create a Listing
       </h1>
@@ -352,12 +367,18 @@ export default function CreateListing() {
                 onClick={handleImageSubmit}
                 className="md:px-3 px-2 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
               >
-                {uploading ? "Uploading..." : "Upload"}
+                {uploading ? (
+                  <div className="spinner  flex items-center justify-center">
+                    <ClipLoader color="blue" size={50} loading={uploading} />
+                  </div>
+                ) : (
+                  "Upload"
+                )}
               </button>
             </div>
-            <p className="text-red-700 text-sm">
+            {/* <p className="text-red-700 text-sm">
               {imageUploadError && imageUploadError}
-            </p>
+            </p> */}
             {formData.imageUrls.length > 0 &&
               formData.imageUrls.map((url, index) => (
                 <div
@@ -382,23 +403,16 @@ export default function CreateListing() {
               disabled={loading || uploading}
               className="p-3 bg-[#001030] text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
             >
-              {loading ? "Creating..." : "Create listing"}
+              {loading ? (
+                <div className="spinner  flex items-center justify-center">
+                  <ClipLoader color="blue" size={50} loading={loading} />
+                </div>
+              ) : (
+                "Create listing"
+              )}
             </button>
-            {error && <p className="text-red-700 text-sm">{error}</p>}
           </div>
         </form>
-
-        {/* create message */}
-        <div className="fixed top-[15%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          {successMsg && (
-            <p className="flex text-nowrap items-center justify-between gap-3 text-white bg-green-500 rounded-md px-2 py-1">
-              <span>
-                <MdOutlineDone className="bg-white rounded-full p-1 text-3xl text-green-600" />
-              </span>{" "}
-              <span>{successMsg}</span>
-            </p>
-          )}
-        </div>
       </div>
     </main>
   );

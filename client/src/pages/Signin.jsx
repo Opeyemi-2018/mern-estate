@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  signInStart,
-  signInSuccess,
-  signInFailure,
-} from "../redux/user/userSlice";
+import { signInStart, signInSuccess, signInFailure } from "../redux/userSlice";
 import OAuth from "../component/OAuth";
 import signInImage from "../assets/images/sign-in.png";
 const Signin = () => {

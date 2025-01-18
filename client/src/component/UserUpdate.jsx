@@ -11,7 +11,7 @@ import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailure,
-} from "../redux/user/userSlice";
+} from "../redux/userSlice";
 import { LiaTimesSolid } from "react-icons/lia";
 import { useDispatch } from "react-redux";
 

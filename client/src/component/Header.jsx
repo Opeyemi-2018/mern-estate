@@ -1,7 +1,7 @@
 import { FaSearch } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FaHouseChimney } from "react-icons/fa6";
 import { FaBars } from "react-icons/fa";
 import { LiaTimesSolid } from "react-icons/lia";
@@ -18,6 +18,21 @@ import {
 export default function Header({ setShowNav, showNav }) {
   const [showPopUp, setShowPopUp] = useState(false);
   const dispatch = useDispatch();
+  const popupRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowPopUp(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const { currentUser } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = useState("");
@@ -58,7 +73,7 @@ export default function Header({ setShowNav, showNav }) {
     <header className="bg-white shadow-lg z-30 w-full">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to="/">
-          <h1 className="font-bold text-sm sm:text-xl flex flex-wrap gap-1 items-center">
+          <h1 className="font-bold md:text-2xl text-[20px] flex flex-wrap gap-1 items-center">
             <span className="text-[#1E2128]">Finder</span>
             <FaHouseChimney className="text-[#1E2128] md:inline hidden" />
           </h1>
@@ -95,7 +110,7 @@ export default function Header({ setShowNav, showNav }) {
           {currentUser && (currentUser.isAdmin || currentUser.isAgent) && (
             <Link
               to={"/create-listing"}
-              className="bg-[#001030] hidden sm:inline text-white rounded-md sm:px-3 px-2 py-2 sm:text-[13px] text-[11px] text-nowrap uppercase"
+              className="bg-[#1E2128] hidden sm:inline text-white rounded-md sm:px-3 px-2 py-2 sm:text-[13px] text-[11px] text-nowrap uppercase"
             >
               create listing
             </Link>
@@ -120,7 +135,10 @@ export default function Header({ setShowNav, showNav }) {
                 alt="profile"
               />
               {showPopUp && (
-                <div className="absolute top-14 w-48 z-10 right-0 bg-white shadow-lg p-4 rounded-md">
+                <div
+                  ref={popupRef}
+                  className="absolute top-14 w-48 z-10 right-0 bg-white shadow-lg p-4 rounded-md"
+                >
                   <div className="flex flex-col mb-2 text-gray-800 items-center border border-x-0 border-t-0">
                     <h1 className="truncate w-20">{currentUser.username}</h1>
                   </div>
@@ -158,20 +176,20 @@ export default function Header({ setShowNav, showNav }) {
             className="sm:hidden inline"
             onClick={() => setShowNav(!showNav)}
           >
-            {showNav ? <LiaTimesSolid size={20} /> : <FaBars size={20} />}
+            {showNav ? <LiaTimesSolid size={25} /> : <FaBars size={25} />}
           </button>
         </ul>
       </div>
 
       {/* nav for mobile screen */}
       <div
-        className={`sm:hidden overflow-hidden transition-all duration-300 ${
+        className={` text-[20px] sm:hidden overflow-hidden transition-all duration-300 ${
           showNav ? "block max-h-screen" : "max-h-0"
         }`}
       >
         <ul className="flex flex-col gap-2 p-3">
           <Link to="/">
-            <li className="text-slate-700 hover:underline">Home</li>
+            <li className="text-slate-700 hover:underline ">Home</li>
           </Link>
           <Link to="/about">
             <li className="text-slate-700 hover:underline">About</li>
@@ -179,7 +197,7 @@ export default function Header({ setShowNav, showNav }) {
           {currentUser && (currentUser.isAdmin || currentUser.isAgent) && (
             <Link
               to={"/create-listing"}
-              className="bg-[#001030] text-center text-white rounded-md sm:px-3 px-2 py-2 sm:text-[13px] text-[11px] text-nowrap uppercase"
+              className="bg-[#1E2128]  text-white rounded-md sm:px-3 px-2 py-2 text-[18px] text-nowrap uppercase"
             >
               create listing
             </Link>

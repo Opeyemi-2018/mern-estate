@@ -34,7 +34,7 @@ const ListingsLandLordInfo = ({
     fetchLandlord();
   }, [listing.userRef]);
   return (
-    <div className="bg-white relative rounded-md w-[500px] h-44 shadow-lg p-3">
+    <div className="bg-white relative rounded-md w-[500px] md:h-44 h-60 shadow-lg p-3">
       {loading && (
         <div className="spinner  flex items-center justify-center">
           <ClipLoader color="blue" size={50} loading={loading} />
@@ -48,11 +48,11 @@ const ListingsLandLordInfo = ({
       />
 
       {landlord ? (
-        <div className="flex gap-2">
+        <div className="flex md:flex-row flex-col gap-2">
           <img
             src={landlord.avatar}
             alt="house owner image"
-            className="rounded-full object-cover"
+            className="rounded-full object-cover md:w-full md:h-full h-20 w-20"
           />
           <p className="mt-6">
             Hi! my name is{" "}

@@ -63,12 +63,14 @@ const Signin = () => {
           >
             <input
               type="text"
+              autoComplete="off"
               id="email"
               placeholder="email"
               className="w-full border p-3 rounded-lg shadow-sm"
               onChange={handleChange}
             />
             <input
+              autoComplete="off"
               type="password"
               id="password"
               placeholder="password"
@@ -77,7 +79,7 @@ const Signin = () => {
             />
             <button
               disabled={loading}
-              className="w-full bg-[#001030] p-3 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+              className="w-full bg-[#1e2128] p-3 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
             >
               {loading ? "Loading" : "Sign in"}
             </button>

@@ -13,6 +13,8 @@ import { LiaTimesSolid } from "react-icons/lia";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaMessage } from "react-icons/fa6";
 import { useState, useEffect } from "react";
+import { IoHomeOutline } from "react-icons/io5";
+
 import {
   deleteUserFailure,
   signOutUserStart,
@@ -22,6 +24,7 @@ import UserListing from "./UserListing";
 import { IoMdCreate } from "react-icons/io";
 import Users from "./Users";
 import Messaging from "./Messaging";
+import CreateListing from "./CreateListing";
 
 const Dashboard = ({ showNav }) => {
   const location = useLocation();
@@ -54,85 +57,101 @@ const Dashboard = ({ showNav }) => {
   };
 
   return (
-    <main className="min-h-screen flex bg-gray-50">
+    <main className="flex justify-between ">
       {/* Fixed Sidebar */}
       <div
-        className={`bg-[#001030] w-[250px] px-3  py-2 hidden md:inline-block fixed top-[72px] bottom-40 `}
+        className={`w-[250px]  font-nunito px-3 bg-[#1e2128] pt-4 pb-5  hidden md:flex flex-col justify-between h-screen sticky top-0`}
       >
-        <div className="flex flex-col gap-6 mt-10">
+        {/* top div */}
+        <div className="flex flex-col gap-6 ">
+          <div>
+            <Link to={"/"} className="text-white flex gap-2 p-2 ">
+              {" "}
+              <IoHomeOutline size={25} /> Finder
+            </Link>
+            <hr className="" />
+          </div>
+
+          <div className="flex items-center gap-2 bg-[#DBB65D]">
+            <img
+              src={currentUser.avatar}
+              className="w-14 object-cover "
+              alt=""
+            />
+            <div className="p-2">
+              <p>{currentUser.username}</p>
+              <p>{currentUser.email}</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2 ">
+            {currentUser && currentUser.isAdmin && (
+              <Link
+                to={"/dashboard?tab=users"}
+                className={`flex items-center gap-2 rounded-md p-2 hover:bg-[#2c2f36] ${
+                  tab === "users" ? "bg-[#2c2f36]" : ""
+                }`}
+              >
+                <FaUsers size={20} className="text-white" />
+                <p className="text-white">Users</p>
+              </Link>
+            )}
+
+            {currentUser && (currentUser.isAdmin || currentUser.isAgent) && (
+              <Link
+                to={"/dashboard?tab=create-listing"}
+                className={`flex items-center gap-2 rounded-md p-2 hover:bg-[#2c2f36] ${
+                  tab === "create-listing" ? "bg-[#2c2f36]" : ""
+                }`}
+              >
+                <IoMdCreate size={20} className="text-white" />
+                <p className="text-white">Create listing</p>
+              </Link>
+            )}
+
+            {!currentUser.isClient && (
+              <Link
+                to={"/dashboard?tab=user-listing"}
+                className={`flex items-center gap-2 rounded-md p-2 hover:bg-[#2c2f36] ${
+                  tab === "user-listing" ? "bg-[#2c2f36]" : ""
+                }`}
+              >
+                <BsFillHousesFill size={20} className="text-white" />
+                <p className="text-white">
+                  {currentUser.isAdmin ? "Available listings" : "My listing"}
+                </p>
+              </Link>
+            )}
+
+            <Link
+              to={"/dashboard?tab=messaging"}
+              className={`flex items-center gap-2 rounded-md p-2 hover:bg-[#2c2f36] ${
+                tab === "messaging" ? "bg-[#2c2f36]" : ""
+              }`}
+            >
+              <FaMessage size={20} className="text-white" />
+              <p className="text-white">Messaging</p>
+            </Link>
+          </div>
+        </div>
+
+        {/* bottom div  */}
+        <div className="bg-white rounded-md text-[#1e2128] p-2">
           <Link
             to={"/dashboard?tab=profile"}
-            className={`font-semibold  text-white px-2 py-1  rounded-sm flex items-center justify-between ${
-              tab === "profile" ? "bg-[#002670]" : "hover:bg-[#002670]"
+            className={`flex items-center gap-2 rounded-md p-2 text-[#2c2f36] hover:text-white hover:bg-[#2c2f36]s
             }`}
           >
-            <p className="flex items-center gap-2">
-              <FaUser size={20} /> Profile
-            </p>
-            <span className="text-sm font-normal bg-white px-[6px] text-[#1E2128] hover:bg-[#1E2128] border border-gray-950 hover:text-white rounded-md">
-              {currentUser.isAdmin
-                ? "Admin"
-                : currentUser.isAgent
-                ? "Agent"
-                : "Client"}
-            </span>
+            <FaUser size={20} className="" />
+            <p className="">Profile</p>
           </Link>
-
-          {currentUser && currentUser.isAdmin && (
-            <Link
-              to={"/dashboard?tab=users"}
-              className={`text-white p-1 rounded-sm flex items-center gap-2 font-semibold ${
-                tab === "users" ? "bg-[#002670]" : "hover:bg-[#002670]"
-              }`}
-            >
-              <FaUsers /> Users
-            </Link>
-          )}
-
-          {currentUser && (currentUser.isAdmin || currentUser.isAgent) && (
-            <Link
-              to={"/create-listing"}
-              className={`text-[#002670] hover:text-white bg-[#fff] p-2 rounded-md flex items-center gap-2 font-semibold ${
-                tab === "create-listing" ? "bg-[#002670]" : "hover:bg-[#002670]"
-              }`}
-            >
-              <IoMdCreate /> Create listing
-            </Link>
-          )}
-
-          {!currentUser.isClient && (
-            <Link
-              to={"/dashboard?tab=user-listing"}
-              className={`text-white p-1 rounded-sm font-semibold flex items-center gap-2 ${
-                tab === "user-listing" ? "bg-[#002670]" : "hover:bg-[#002670]"
-              }`}
-            >
-              <BsFillHousesFill size={20} />{" "}
-              {currentUser.isAdmin ? (
-                <span>Available listings</span>
-              ) : (
-                <span>My listing</span>
-              )}
-            </Link>
-          )}
-
-          <Link
-            to={"/dashboard?tab=messaging"}
-            className={`text-white p-1 rounded-sm font-semibold flex items-center gap-2 ${
-              tab === "user-listing" ? "bg-[#002670]" : "hover:bg-[#002670]"
-            }`}
+          <button
+            onClick={handleSignOut}
+            className="flex items-center gap-2 rounded-md p-2 w-full hover:bg-[#2c2f36] hover:text-white"
           >
-            <FaMessage size={20} /> <h1>Messaging</h1>
-          </Link>
-
-          <div>
-            <button
-              onClick={handleSignOut}
-              className="pointer text-white  hover:bg-[#002670] p-1 rounded-sm flex items-center gap-2 font-semibold"
-            >
-              <FaSignOutAlt size={20} /> Sign out
-            </button>
-          </div>
+            <FaSignOutAlt size={20} className="" />
+            <p className="">Sign out</p>
+          </button>
         </div>
       </div>
 
@@ -252,12 +271,13 @@ const Dashboard = ({ showNav }) => {
       </div>
 
       {/* Content Area with padding to account for the fixed sidebar */}
-      <div className="flex-1 p-4 md:ml-[250px] ml-[25px] overflow-auto whitespace-nowrap w-full">
+      <div className="flex-1">
         {/* Render content based on active tab */}
         {tab === "profile" && <Profile />}
         {tab === "user-listing" && <UserListing />}
         {tab === "users" && <Users />}
         {tab === "messaging" && <Messaging />}
+        {tab === "create-listing" && <CreateListing />}
       </div>
     </main>
   );

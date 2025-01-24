@@ -166,7 +166,7 @@ export default function Header({ setShowNav, showNav }) {
           ) : (
             <Link
               to={"/sign-in"}
-              className="text-white bg-[#1E2128] px-3 py-1 rounded-md"
+              className="text-white bg-[#1E2128] md:px-3 px-2 py-1 text-nowrap rounded-md"
             >
               Sign in
             </Link>

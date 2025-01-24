@@ -133,45 +133,44 @@ const UserListing = () => {
                 ? `${userListings.length > 1 ? "All Listings" : "All listing"}`
                 : "My listing"}
             </h1>
-            {userListings.map((listing) => {
-              let { name, _id, imageUrls } = listing;
-              return (
-                <div
-                  key={listing._id}
-                  className="flex items-center  gap-4 bg-white rounded-md hover:bg-gray-300 shadow-lg sm:px-3 px-1 sm:py-2 p-1 justify-between my-2"
-                >
-                  <Link to={`/listing/${_id}`} className="flex-1">
-                    <img
-                      src={imageUrls[0]}
-                      alt="listing cover"
-                      className="h-16 w-16  object-contain"
-                    />
-                  </Link>
+            <div className="grid grid-cols-4 gap-2 grid-rows-4">
+              {userListings.map((listing) => {
+                let { name, _id, imageUrls } = listing;
+                return (
+                  <div key={listing._id} className="flex flex-col   gap-2 ">
+                    <Link to={`/listing/${_id}`} className="flex-1 rounded-lg">
+                      <img
+                        src={imageUrls[0]}
+                        alt="listing cover"
+                        className="h-40  w-full  object-contain"
+                      />
+                    </Link>
 
-                  <Link
-                    className="text-slate-700 flex-1 font-semibold  hover:underline truncate"
-                    to={`/listing/${_id}`}
-                  >
-                    {" "}
-                    <p>{name}</p>
-                  </Link>
-
-                  <button
-                    onClick={() => openModal(listing)}
-                    className="text-red-700 flex-1 uppercase"
-                  >
-                    {" "}
-                    Delete
-                  </button>
-
-                  <Link to={`/update-listing/${_id}`}>
-                    <button className="text-green-700 flex-1 uppercase">
-                      Edit
+                    <Link
+                      className="text-slate-700 flex-1 font-semibold  hover:underline truncate"
+                      to={`/listing/${_id}`}
+                    >
+                      {" "}
+                      <p>{name}</p>
+                    </Link>
+                    {/* 
+                    <button
+                      onClick={() => openModal(listing)}
+                      className="text-red-700 flex-1 uppercase"
+                    >
+                      {" "}
+                      Delete
                     </button>
-                  </Link>
-                </div>
-              );
-            })}
+
+                    <Link to={`/update-listing/${_id}`}>
+                      <button className="text-green-700 flex-1 uppercase">
+                        Edit
+                      </button>
+                    </Link> */}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
 

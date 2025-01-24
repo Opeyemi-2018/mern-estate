@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../component/OAuth";
 import signUpImage from "../assets/images/sign-up.png";
@@ -7,9 +7,14 @@ const SignUp = () => {
   let [loading, setLoading] = useState(false);
   let [error, setError] = useState(null);
   let [formData, setFormData] = useState({});
+  const fileRef = useRef();
   console.log(formData);
 
   let navigate = useNavigate();
+
+  const uploadImage = () => {
+    fileRef.current.click();
+  };
 
   // Handle text inputs (username, email, password) and checkboxes (agent, client)
   let handleChange = (e) => {
@@ -68,7 +73,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="sm:px-28 px-3 py-10 mt-20 min-h-screen">
+    <div className="sm:px-28 px-3 py-5 min-h-screen">
       <div className="flex gap-10 justify-between">
         <img
           src={signUpImage}
@@ -76,7 +81,7 @@ const SignUp = () => {
           className="flex-1 sm:inline hidden rounded-lg w-40 h-[500px] cover/center"
         />
         <div className="flex-1">
-          <h1 className="text-3xl text-[#1E2128] font-semibold my-7">
+          <h1 className="text-3xl text-[#1E2128] font-semibold mb-3">
             Welcome to Finder
           </h1>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -101,36 +106,65 @@ const SignUp = () => {
               className="w-full border p-3 rounded-lg shadow-sm"
               onChange={handleChange}
             />
-            <div className="flex items-center gap-8">
-              <div className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="group-1"
-                  id="agent"
-                  className="w-5 h-5"
-                  onChange={handleChange}
-                  checked={formData.isAgent || false}
-                />
-                <span className="font-semibold text-gray-600">Agent</span>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-8">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="group-1"
+                    id="agent"
+                    className="w-5 h-5"
+                    onChange={handleChange}
+                    checked={formData.isAgent || false}
+                  />
+                  <span className="font-semibold text-gray-600">Agent</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="group-1"
+                    id="client"
+                    className="w-5 h-5"
+                    onChange={handleChange}
+                    checked={formData.isClient || false}
+                  />
+                  <span className="font-semibold text-gray-600">Client</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="group-1"
-                  id="client"
-                  className="w-5 h-5"
-                  onChange={handleChange}
-                  checked={formData.isClient || false}
-                />
-                <span className="font-semibold text-gray-600">Client</span>
+
+              <div>
+                <input type="file" className="hidden" ref={fileRef} />
+                <button
+                  type="button"
+                  onClick={uploadImage}
+                  className="bg-gray-600 p-2 rounded-md text-white"
+                >
+                  Add your image
+                </button>
               </div>
             </div>
+
+            <div className="flex items-center justify-between gap-4">
+              <select className="py-1 px-3 rounded-md w-full focus:outline-none border border-gray-400">
+                <option disabled value="">
+                  Select country
+                </option>
+              </select>
+
+              <select className="py-1 px-3 rounded-md w-full focus:outline-none border border-gray-400">
+                <option value="" disabled>
+                  Select state
+                </option>
+              </select>
+            </div>
+
             <button
               disabled={loading}
               className="w-full bg-[#1e2128] p-3 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
             >
               {loading ? "Loading..." : "Sign Up"}
             </button>
+
             <OAuth />
           </form>
           <div className="flex gap-2 mt-5">

@@ -205,7 +205,7 @@ const UserListing = () => {
               <div className="flex flex-col gap-3 ">
                 <h1 className="text-lg font-semibold"> Delete property ?</h1>
                 <div className="text-gray-700">
-                  this will delete{" "}
+                  This will delete{" "}
                   <span className="underline text-black font-semibold">
                     {deleteName}
                   </span>{" "}

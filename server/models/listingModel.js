@@ -14,6 +14,11 @@ const listingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    state: {
+      type: String,
+      required: true,
+    },
+    apartmentType: { type: String, required: true },
     regularPrice: {
       type: Number,
       required: true,

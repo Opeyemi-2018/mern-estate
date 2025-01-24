@@ -20,6 +20,8 @@ export default function CreateListing() {
     name: "",
     description: "",
     address: "",
+    state: "",
+    apartmentType: "",
     type: "rent",
     bedrooms: 1,
     bathrooms: 1,
@@ -163,6 +165,8 @@ export default function CreateListing() {
         name: "",
         description: "",
         address: "",
+        state: "",
+        apartmentType: "",
         type: "rent",
         bedrooms: 1,
         bathrooms: 1,
@@ -224,6 +228,24 @@ export default function CreateListing() {
               required
               onChange={handleChange}
               value={formData.address}
+            />
+            <input
+              type="text"
+              placeholder="Address"
+              className="border p-3 rounded-lg"
+              id="address"
+              required
+              onChange={handleChange}
+              value={formData.state}
+            />
+            <input
+              type="text"
+              placeholder="Address"
+              className="border p-3 rounded-lg"
+              id="address"
+              required
+              onChange={handleChange}
+              value={formData.apartmentType}
             />
             <div className="flex gap-6 flex-wrap">
               <div className="flex gap-2">

@@ -5,6 +5,8 @@ import { RiErrorWarningLine } from "react-icons/ri";
 import { MdOutlineDone } from "react-icons/md";
 import { IoLocationOutline } from "react-icons/io5";
 import { PiBuildingApartment } from "react-icons/pi";
+import { CiEdit } from "react-icons/ci";
+import { RiDeleteBin5Line } from "react-icons/ri";
 
 const UserListing = () => {
   let { currentUser } = useSelector((state) => state.user);
@@ -135,39 +137,49 @@ const UserListing = () => {
             </h1>
             <div className="grid grid-cols-4 gap-2 grid-rows-4">
               {userListings.map((listing) => {
-                let { name, _id, imageUrls } = listing;
+                let { name, _id, imageUrls, regularPrice } = listing;
                 return (
-                  <div key={listing._id} className="flex flex-col   gap-2 ">
-                    <Link to={`/listing/${_id}`} className="flex-1 rounded-lg">
+                  <Link
+                    key={listing._id}
+                    className="flex flex-col gap-1 relative group"
+                  >
+                    <div className="relative">
+                      <Link
+                        to={`/update-listing/${_id}`}
+                        className="absolute z-10 bg-green-600 p-1 rounded-full text-white left-1 top-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <CiEdit size={25} />
+                      </Link>
+                      <button
+                        onClick={() => openModal(listing)}
+                        className="bg-red-600 z-10  text-white rounded-full p-1 absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <RiDeleteBin5Line size={25} />
+                      </button>
+                    </div>
+                    <Link
+                      className="text-slate-700   hover:underline   truncate"
+                      to={`/listing/${_id}`}
+                    >
                       <img
                         src={imageUrls[0]}
                         alt="listing cover"
-                        className="h-40  w-full  object-contain"
+                        className="h-40  w-full rounded-lg object-cover "
                       />
+                      <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"></div>
                     </Link>
 
                     <Link
-                      className="text-slate-700 flex-1 font-semibold  hover:underline truncate"
+                      className="text-slate-700   hover:underline z-10  truncate"
                       to={`/listing/${_id}`}
                     >
                       {" "}
-                      <p>{name}</p>
+                      <p className="text-1xl font-normal">
+                        {name.slice(0, 20)} .....
+                      </p>
+                      <p>${regularPrice}</p>
                     </Link>
-                    {/* 
-                    <button
-                      onClick={() => openModal(listing)}
-                      className="text-red-700 flex-1 uppercase"
-                    >
-                      {" "}
-                      Delete
-                    </button>
-
-                    <Link to={`/update-listing/${_id}`}>
-                      <button className="text-green-700 flex-1 uppercase">
-                        Edit
-                      </button>
-                    </Link> */}
-                  </div>
+                  </Link>
                 );
               })}
             </div>
@@ -189,29 +201,28 @@ const UserListing = () => {
         {/* modal for deletion */}
         {showModal && (
           <div className="fixed inset-0  sm:px-0 px-2 bg-gray-800 bg-opacity-30 flex justify-center items-center z-30">
-            <div className="w-96 h-60 bg-red-600 p-4 shadow-lg rounded-md">
-              <RiErrorWarningLine className="sm:h-14 sm:w-14 w-12 h-12 text-white mb-4 mx-auto" />{" "}
-              {/* <h1 className="text-center sm:text-2xl text-white text-[18px] mb-3">
-              Are you sure ?
-              </h1> */}
-              <div className="flex flex-col items-center text-white mb-4">
-                <h1 className="text-lg"> did you really want to delete </h1>
-                <span className="font-semibold  underline ">
-                  {deleteName} ?
-                </span>
+            <div className="w-96  bg-white p-5 shadow-lg rounded-md">
+              <div className="flex flex-col gap-3 ">
+                <h1 className="text-lg font-semibold"> Delete property ?</h1>
+                <div className="text-gray-700">
+                  this will delete{" "}
+                  <span className="underline text-black font-semibold">
+                    {deleteName}
+                  </span>{" "}
+                </div>
               </div>
-              <div className="flex gap-8 justify-center mt-6">
+              <div className="flex gap-5 justify-end mt-4 items-end">
                 <button
                   onClick={closeModal}
-                  className="bg-black capitalize text-white rounded-md sm:py-2 py-[7px] px-4"
+                  className="border border-gray-600 rounded-full  text-black py-2  px-3"
                 >
-                  no cancel
+                  Cancel
                 </button>
                 <button
                   onClick={handleListingDelete}
-                  className="bg-white capitalize border-white rounded-md sm:py-2 py-[7px] px-4 text-black"
+                  className="bg-red-600 hover:bg-red-500  border-white rounded-full py-2 px-3 text-white"
                 >
-                  yes delete
+                  Delete
                 </button>
               </div>
             </div>

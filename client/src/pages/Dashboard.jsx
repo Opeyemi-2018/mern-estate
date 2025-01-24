@@ -25,6 +25,7 @@ import { IoMdCreate } from "react-icons/io";
 import Users from "./Users";
 import Messaging from "./Messaging";
 import CreateListing from "./CreateListing";
+import UpdateListing from "./UpdateListing";
 
 const Dashboard = ({ showNav }) => {
   const location = useLocation();
@@ -278,6 +279,7 @@ const Dashboard = ({ showNav }) => {
         {tab === "users" && <Users />}
         {tab === "messaging" && <Messaging />}
         {tab === "create-listing" && <CreateListing />}
+        {tab === `listing/:listingId` && <UpdateListing />}
       </div>
     </main>
   );

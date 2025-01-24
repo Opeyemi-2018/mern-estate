@@ -5,7 +5,6 @@ import SignUp from "./pages/SignUp";
 import About from "./pages/About";
 import Header from "./component/Header";
 import PrivateRoute from "./component/PrivateRoute";
-import UpdateListing from "./pages/UpdateListing";
 import Listing from "./pages/Listing";
 import Search from "./pages/Search";
 import { useState } from "react";

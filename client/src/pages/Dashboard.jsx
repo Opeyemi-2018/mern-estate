@@ -79,8 +79,8 @@ const Dashboard = ({ showNav }) => {
               alt=""
             />
             <div className="p-2">
-              <p>{currentUser.username}</p>
-              <p>{currentUser.email}</p>
+              <p>{currentUser.username.slice(0, 5)}</p>
+              <p>{currentUser.email.slice(0, 10)}</p>
             </div>
           </div>
 
@@ -139,7 +139,7 @@ const Dashboard = ({ showNav }) => {
         <div className="bg-white rounded-md text-[#1e2128] p-2">
           <Link
             to={"/dashboard?tab=profile"}
-            className={`flex items-center gap-2 rounded-md p-2 text-[#2c2f36] hover:text-white hover:bg-[#2c2f36]s
+            className={`flex items-center gap-2 rounded-md p-2 text-[#2c2f36] hover:text-white hover:bg-[#2c2f36]
             }`}
           >
             <FaUser size={20} className="" />

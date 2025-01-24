@@ -14,32 +14,37 @@ export default function Home({ showNav }) {
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null); // New state for error handling
+
   SwiperCore.use([Navigation]);
+
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
         setLoading(true);
+        setError(null); // Reset error state before fetching
         const res = await fetch("/api/listing/get?offer=true&limit=4");
+        if (!res.ok) throw new Error("Failed to fetch offer listings");
         const data = await res.json();
         setOfferListings(data);
-        setLoading(false);
         fetchRentListings();
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        setError("Failed to load offers.");
       } finally {
         setLoading(false);
       }
     };
+
     const fetchRentListings = async () => {
       try {
         setLoading(true);
         const res = await fetch("/api/listing/get?type=rent&limit=4");
+        if (!res.ok) throw new Error("Failed to fetch rent listings");
         const data = await res.json();
         setRentListings(data);
-        setLoading(false);
         fetchSaleListings();
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        setError("Failed to load rent listings.");
       } finally {
         setLoading(false);
       }
@@ -49,25 +54,26 @@ export default function Home({ showNav }) {
       try {
         setLoading(true);
         const res = await fetch("/api/listing/get?type=sale&limit=4");
+        if (!res.ok) throw new Error("Failed to fetch sale listings");
         const data = await res.json();
         setSaleListings(data);
-        setLoading(false);
-      } catch (error) {
-        log(error);
+      } catch (err) {
+        setError("Failed to load sale listings.");
       } finally {
         setLoading(false);
       }
     };
+
     fetchOfferListings();
   }, []);
+
   return (
     <div>
-      {/* top */}
+      {/* Top Section */}
       <div className="">
         <div
           style={{
-            background: `linear-gradient(to bottom, rgba(20, 45, 75, 1) 0%, rgba(18, 50, 80, 0.8) 60%, rgba(15, 55, 85, 0.3) 90%), url(${HeroImage}) center/cover no-repeat
-`,
+            background: `linear-gradient(to bottom, rgba(20, 45, 75, 1) 0%, rgba(18, 50, 80, 0.8) 60%, rgba(15, 55, 85, 0.3) 90%), url(${HeroImage}) center/cover no-repeat`,
           }}
         >
           <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
@@ -90,34 +96,27 @@ export default function Home({ showNav }) {
           </div>
         </div>
       </div>
-      {/* swiper */}
-      {/* <Swiper navigation>
-        {offerListings &&
-          offerListings.length > 0 &&
-          offerListings.map((listing) => (
-            <SwiperSlide>
-              <div
-                style={{
-                  background: `url(${listing.imageUrls[0]}) center no-repeat`,
-                  backgroundSize: 'cover',
-                }}
-                className='h-[500px]'
-                key={listing._id}
-              ></div>
-            </SwiperSlide>
-          ))}
-      </Swiper> */}
 
-      {/* listing results for offer, sale and rent */}
-
+      {/* Main Content */}
       {loading ? (
-        <div className="spinner  min-h-screen flex items-center justify-center">
+        <div className="spinner min-h-screen flex items-center justify-center">
           <ClipLoader color="blue" size={50} loading={loading} />
         </div>
+      ) : error ? (
+        <div className="text-center text-red-600 my-10">
+          <p>{error}</p>
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+            onClick={() => window.location.reload()}
+          >
+            Refresh Page
+          </button>
+        </div>
       ) : (
-        <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10">
-          {offerListings && offerListings.length > 0 && (
-            <div className="">
+        <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10 min-h-screen">
+          {/* Offers Section */}
+          {offerListings && offerListings.length > 0 ? (
+            <div>
               <div className="my-3">
                 <h2 className="text-2xl font-semibold text-slate-600">
                   Recent offers
@@ -135,9 +134,15 @@ export default function Home({ showNav }) {
                 ))}
               </div>
             </div>
+          ) : (
+            <div className="text-center text-slate-500">
+              <p>No offers available at the moment.</p>
+            </div>
           )}
-          {rentListings && rentListings.length > 0 && (
-            <div className="">
+
+          {/* Rent Section */}
+          {rentListings && rentListings.length > 0 ? (
+            <div>
               <div className="my-3">
                 <h2 className="text-2xl font-semibold text-slate-600">
                   Recent places for rent
@@ -155,9 +160,15 @@ export default function Home({ showNav }) {
                 ))}
               </div>
             </div>
+          ) : (
+            <div className="text-center text-slate-500">
+              <p>No rental properties available at the moment.</p>
+            </div>
           )}
-          {saleListings && saleListings.length > 0 && (
-            <div className="">
+
+          {/* Sale Section */}
+          {saleListings && saleListings.length > 0 ? (
+            <div>
               <div className="my-3">
                 <h2 className="text-2xl font-semibold text-slate-600">
                   Recent places for sale
@@ -174,6 +185,10 @@ export default function Home({ showNav }) {
                   <ListingItem listing={listing} key={listing._id} />
                 ))}
               </div>
+            </div>
+          ) : (
+            <div className="text-center text-slate-500">
+              <p>No properties for sale at the moment.</p>
             </div>
           )}
         </div>

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="bg-[#1e2128] sm:px-28 px-3 py-10">
+    <div className="bg-black sm:px-28 px-3 py-10">
       <div className="flex flex-wrap items-center gap-4 justify-between">
         <h1 className="font-bold text-sm sm:text-xl flex flex-wrap gap-1 items-center">
           <span className="text-white">Finder</span>

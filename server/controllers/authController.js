@@ -1,20 +1,20 @@
-import User from "../models/userModel.js"; // Import the User model from the models directory
-import bcryptjs from "bcryptjs"; // Import bcryptjs for password hashing
-import jwt from "jsonwebtoken"; // Import jwt for token generation
-import { errorHandler } from "../utils/error.js"; // Import a custom error handler utility
+import User from "../models/userModel.js";
+import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { errorHandler } from "../utils/error.js";
 
 // Sign-up controller function
 export let signUp = async (req, res, next) => {
-  let { username, email, password, isAgent, isClient } = req.body; // Destructure username, email, and password from the request body
-  let hashPassword = bcryptjs.hashSync(password, 10); // Hash the password using bcryptjs with a salt rounds of 10
+  let { username, email, password, isAgent, isClient, image } = req.body;
+  let hashPassword = bcryptjs.hashSync(password, 10);
   let newUser = new User({
     username,
     email,
     password: hashPassword,
     isAgent,
     isClient,
-    // emailVerificationToken: crypto.randomUUID(),
-  }); // Create a new User instance with hashed password
+    image,
+  });
 
   try {
     await newUser.save(); // Attempt to save the new user to the database

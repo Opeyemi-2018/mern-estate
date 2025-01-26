@@ -109,7 +109,7 @@ export default function Header({ setShowNav, showNav }) {
 
           {currentUser && (currentUser.isAdmin || currentUser.isAgent) && (
             <Link
-              to={"/create-listing"}
+              to={"/dashboard?tab=create-listing"}
               className="bg-[#1E2128] hidden sm:inline text-white rounded-md sm:px-3 px-2 py-2 sm:text-[13px] text-[11px] text-nowrap uppercase"
             >
               create listing
@@ -130,8 +130,8 @@ export default function Header({ setShowNav, showNav }) {
             <div className="relative">
               <img
                 onClick={() => setShowPopUp(!showPopUp)}
-                className="rounded-full h-7  object-cover border-[#001030]  border"
-                src={currentUser.avatar}
+                className="rounded-full h-7 w-7  object-cover border-[#001030]  border"
+                src={currentUser.image}
                 alt="profile"
               />
               {showPopUp && (
@@ -196,7 +196,7 @@ export default function Header({ setShowNav, showNav }) {
           </Link>
           {currentUser && (currentUser.isAdmin || currentUser.isAgent) && (
             <Link
-              to={"/create-listing"}
+              to={"/dashboard?tab=create-listing"}
               className="bg-[#1E2128]  text-white rounded-md sm:px-3 px-2 py-2 text-[18px] text-nowrap uppercase"
             >
               create listing

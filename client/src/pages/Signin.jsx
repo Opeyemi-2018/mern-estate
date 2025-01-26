@@ -1,14 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signInStart, signInSuccess, signInFailure } from "../redux/userSlice";
 import OAuth from "../component/OAuth";
 import signInImage from "../assets/images/sign-in.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ClipLoader } from "react-spinners";
 const Signin = () => {
   let { loading, error } = useSelector((state) => state.user);
   let [formData, setFormData] = useState({});
   let navigate = useNavigate();
   let dispatch = useDispatch();
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        pauseOnHover: false,
+        draggable: true,
+      });
+    }
+  }, [error]);
+
   let handleChange = (e) => {
     const { id, value } = e.target;
     const formattedValue =
@@ -34,17 +47,28 @@ const Signin = () => {
       let data = await res.json();
       if (data.success === false) {
         dispatch(signInFailure(data.message));
+        toast.error(data.message, {
+          pauseOnHover: false,
+          draggable: true,
+        });
         return;
       }
       dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {
       dispatch(signInFailure(error.message));
+      toast.error(error.message, {
+        pauseOnHover: false,
+        draggable: true,
+      });
     }
   };
 
   return (
-    <div className="sm:px-28 px-3 py-10  mt-20 min-h-screen">
+    <div className="sm:px-28 px-3 py-5   min-h-screen">
+      <div className="absolute left-1/2 top-16 transform -translate-y-1/2 -translate-x-1/2">
+        <ToastContainer position="top-center" autoClose={5000} />
+      </div>{" "}
       <div className="flex gap-10 justify-between">
         {/* <div className=""> */}
         <img
@@ -66,7 +90,7 @@ const Signin = () => {
               autoComplete="off"
               id="email"
               placeholder="email"
-              className="w-full border p-3 rounded-lg shadow-sm"
+              className="w-full border p-3 outline-none rounded-lg shadow-sm"
               onChange={handleChange}
             />
             <input
@@ -74,14 +98,20 @@ const Signin = () => {
               type="password"
               id="password"
               placeholder="password"
-              className="w-full border p-3 rounded-lg shadow-sm"
+              className="w-full border p-3 outline-none rounded-lg shadow-sm"
               onChange={handleChange}
             />
             <button
               disabled={loading}
               className="w-full bg-[#1e2128] p-3 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
             >
-              {loading ? "Loading" : "Sign in"}
+              {loading ? (
+                <div className="spinner  flex items-center justify-center">
+                  <ClipLoader color="blue" size={25} loading={loading} />
+                </div>
+              ) : (
+                "Sign in"
+              )}
             </button>
             <OAuth />
           </form>
@@ -91,7 +121,6 @@ const Signin = () => {
               <span className="text-blue-700">Sign Up</span>
             </Link>
           </div>
-          {error && <p className="text-red-500">{error}</p>}
         </div>
       </div>
     </div>

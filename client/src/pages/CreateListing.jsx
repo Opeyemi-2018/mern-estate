@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MdOutlineDone } from "react-icons/md";
 import {
   getDownloadURL,
@@ -6,7 +6,6 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import "react-toastify/dist/ReactToastify.css";
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
@@ -31,6 +30,26 @@ export default function CreateListing() {
     parking: false,
     furnished: false,
   });
+
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  useEffect(() => {
+    const fetchCountry = async () => {
+      const res = await fetch("https://restcountries.com/v3.1/all");
+      const data = await res.json();
+      const countryList = data.map((country) => ({
+        name: country.name.common,
+        code: country.cca2,
+      }));
+      setCountries(countryList);
+    };
+    fetchCountry();
+  }, []);
+
+  const handleStateChange = (e) => {
+    setFormData({ ...formData, state: e.target.value });
+  };
+
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(false);
   const handleImageSubmit = (e) => {
@@ -166,6 +185,7 @@ export default function CreateListing() {
         description: "",
         address: "",
         state: "",
+        country: "",
         apartmentType: "",
         type: "rent",
         bedrooms: 1,
@@ -231,7 +251,7 @@ export default function CreateListing() {
             />
             <input
               type="text"
-              placeholder="Address"
+              placeholder="state"
               className="border p-3 rounded-lg"
               id="address"
               required
@@ -240,13 +260,44 @@ export default function CreateListing() {
             />
             <input
               type="text"
-              placeholder="Address"
+              placeholder="apartmentType"
               className="border p-3 rounded-lg"
               id="address"
               required
               onChange={handleChange}
               value={formData.apartmentType}
             />
+
+            <div className="flex items-center justify-between gap-4">
+              <select
+                // onChange={handleCountryChange}
+                className="py-1 px-3 rounded-md w-full border"
+              >
+                <option value="" disabled selected>
+                  Select Country
+                </option>
+                {countries.map((country) => (
+                  <option key={country.code} value={country.code}>
+                    {country.name}
+                  </option>
+                ))}
+              </select>
+              <select
+                onChange={handleStateChange}
+                className="py-1 px-3 rounded-md w-full border"
+                disabled={!states.length}
+              >
+                <option value="" disabled selected>
+                  Select State
+                </option>
+                {states.map((state, idx) => (
+                  <option key={idx} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div className="flex gap-6 flex-wrap">
               <div className="flex gap-2">
                 <input
@@ -427,7 +478,7 @@ export default function CreateListing() {
             >
               {loading ? (
                 <div className="spinner  flex items-center justify-center">
-                  <ClipLoader color="blue" size={50} loading={loading} />
+                  <ClipLoader color="blue" size={25} loading={loading} />
                 </div>
               ) : (
                 "Create listing"

@@ -1,14 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { MdDashboard } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
+import { BsHouse } from "react-icons/bs";
+
 import { BsFillHousesFill } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
-import { ImUsers } from "react-icons/im";
+import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { FaSignOutAlt } from "react-icons/fa";
 import Profile from "./Profile";
-import DashboardOverview from "./DashboardOverview";
-import { IoIosCreate } from "react-icons/io";
+import { LuMessageCircleMore } from "react-icons/lu";
+
 import { LiaTimesSolid } from "react-icons/lia";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaMessage } from "react-icons/fa6";
@@ -26,6 +27,7 @@ import Users from "./Users";
 import Messaging from "./Messaging";
 import CreateListing from "./CreateListing";
 import UpdateListing from "./UpdateListing";
+import DashboardOverview from "./DashboardOverview";
 
 const Dashboard = ({ showNav }) => {
   const location = useLocation();
@@ -73,19 +75,19 @@ const Dashboard = ({ showNav }) => {
             <hr className="" />
           </div>
 
-          <div className="flex items-center gap-2 bg-[#DBB65D]">
-            <img
-              src={currentUser.avatar}
-              className="w-14 object-cover "
-              alt=""
-            />
-            <div className="p-2">
-              <p>{currentUser.username.slice(0, 5)}</p>
-              <p>{currentUser.email.slice(0, 10)}</p>
-            </div>
-          </div>
-
           <div className="flex flex-col gap-2 ">
+            {currentUser && currentUser.isAdmin && (
+              <Link
+                to={"/dashboard?tab=overview"}
+                className={`flex items-center gap-2 rounded-md p-2 hover:bg-[#2c2f36] ${
+                  tab === "users" ? "bg-[#2c2f36]" : ""
+                }`}
+              >
+                <MdOutlineSpaceDashboard size={25} className="text-white" />
+                <p className="text-white">Overview</p>
+              </Link>
+            )}
+
             {currentUser && currentUser.isAdmin && (
               <Link
                 to={"/dashboard?tab=users"}
@@ -117,7 +119,7 @@ const Dashboard = ({ showNav }) => {
                   tab === "user-listing" ? "bg-[#2c2f36]" : ""
                 }`}
               >
-                <BsFillHousesFill size={20} className="text-white" />
+                <BsHouse size={20} className="text-white" />
                 <p className="text-white">
                   {currentUser.isAdmin ? "Available listings" : "My listing"}
                 </p>
@@ -130,7 +132,7 @@ const Dashboard = ({ showNav }) => {
                 tab === "messaging" ? "bg-[#2c2f36]" : ""
               }`}
             >
-              <FaMessage size={20} className="text-white" />
+              <LuMessageCircleMore size={20} className="text-white" />
               <p className="text-white">Messaging</p>
             </Link>
           </div>
@@ -140,11 +142,21 @@ const Dashboard = ({ showNav }) => {
         <div className="bg-white rounded-md text-[#1e2128] p-2">
           <Link
             to={"/dashboard?tab=profile"}
-            className={`flex items-center gap-2 rounded-md p-2 text-[#2c2f36] hover:text-white hover:bg-[#2c2f36]
+            className={`flex items-center gap-2 rounded-md p-1 text-[#2c2f36] hover:text-white hover:bg-[#2c2f36]
             }`}
           >
-            <FaUser size={20} className="" />
-            <p className="">Profile</p>
+            {/* <FaUser size={20} className="" />
+            <p className="">Profile</p> */}
+            <div className="flex items-center gap-1">
+              <img
+                src={currentUser.image}
+                className="w-9 h-9 object-cover rounded-full border-2 hover:border-white border-[#2c2f36] "
+                alt=""
+              />
+              <div className="p-2">
+                <p>{currentUser.username.slice(0, 5)}</p>
+              </div>
+            </div>
           </Link>
           <button
             onClick={handleSignOut}
@@ -274,6 +286,7 @@ const Dashboard = ({ showNav }) => {
       {/* Content Area with padding to account for the fixed sidebar */}
       <div className="flex-1">
         {/* Render content based on active tab */}
+        {tab === "overview" && <DashboardOverview />}
         {tab === "profile" && <Profile />}
         {tab === "user-listing" && <UserListing />}
         {tab === "users" && <Users />}

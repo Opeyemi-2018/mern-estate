@@ -1,7 +1,7 @@
 import conversation from "../assets/images/conversation.png";
 const Messaging = () => {
   return (
-    <div className="flex items-center mt-20 justify-center">
+    <div className="flex items-center  justify-center">
       <div>
         <p>Messaging</p>
         <img src={conversation} alt="" className="w-40 h-40" />

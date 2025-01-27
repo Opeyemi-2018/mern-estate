@@ -92,7 +92,7 @@ const UserListing = () => {
   }
   return (
     <div className="flex flex-col">
-      <div className="bg-gray-50 px-4 py-3 flex flex-col gap-2">
+      <div className=" shadow-sm px-4 py-3 flex flex-col gap-2">
         <div className="flex items-center gap-4 ">
           <button className="bg-[#DBB65D]  px-3 py-1 rounded-md">buy</button>
           <button className="bg-white px-3 py-1 rounded-md">rent</button>
@@ -135,7 +135,7 @@ const UserListing = () => {
                 ? `${userListings.length > 1 ? "All Listings" : "All listing"}`
                 : "My listing"}
             </h1>
-            <div className="grid grid-cols-4 gap-2 grid-rows-4">
+            <div className="grid grid-cols-4 gap-2 ">
               {userListings.map((listing) => {
                 let { name, _id, imageUrls, regularPrice } = listing;
                 return (
@@ -186,7 +186,6 @@ const UserListing = () => {
           </div>
         )}
 
-        {/* deleted message popup */}
         <div className="fixed top-[10%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           {deleteSuccess && (
             <p className="flex text-nowrap items-center justify-between gap-3 text-white bg-green-500 rounded-md px-2 py-1">
@@ -198,7 +197,6 @@ const UserListing = () => {
           )}
         </div>
 
-        {/* modal for deletion */}
         {showModal && (
           <div className="fixed inset-0  sm:px-0 px-2 bg-gray-800 bg-opacity-30 flex justify-center items-center z-30">
             <div className="w-96  bg-white p-5 shadow-lg rounded-md">

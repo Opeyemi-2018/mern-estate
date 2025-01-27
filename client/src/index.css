@@ -10,3 +10,12 @@ body{
     z-index: 1 !important; /* Ensure the map stays behind other elements */
   }
 
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Hides the scrollbar in WebKit-based browsers */
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* Hides the scrollbar in IE and Edge */
+    scrollbar-width: none;     /* Hides the scrollbar in Firefox */
+  }
+

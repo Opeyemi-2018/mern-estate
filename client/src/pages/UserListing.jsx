@@ -10,29 +10,29 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 
 const UserListing = () => {
   let { currentUser } = useSelector((state) => state.user);
-  const [showListingsError, setShowListingsError] = useState(false);
+  const [error, setError] = useState(null);
   const [userListings, setUserListings] = useState([]);
   let [deleteId, setDeleteId] = useState(null);
   let [deleteName, setDeleteName] = useState("");
   let [showModal, setShowModal] = useState(false);
   let [deleteSuccess, setDeleteSuccess] = useState(null);
+  // const [error, setError] = useState(null)
   console.log(deleteName);
 
   useEffect(() => {
     const handleShowListings = async () => {
       try {
-        setShowListingsError(false);
         const res = await fetch(`/api/user/listing/${currentUser._id}`);
         const data = await res.json();
         if (data.success === false) {
-          setShowListingsError(true);
+          setError("unable to get");
           return;
         }
-        console.log(data);
 
         setUserListings(data);
+        setError(null);
       } catch (error) {
-        setShowListingsError(true);
+        setError(error.message);
       } finally {
         setDeleteId(null);
         setDeleteName("");
@@ -90,6 +90,10 @@ const UserListing = () => {
       </div>
     );
   }
+
+  if (error) {
+    return <div className="flex items-center justify-center">{error}</div>;
+  }
   return (
     <div className="flex flex-col">
       <div className=" shadow-sm px-4 py-3 flex flex-col gap-2">
@@ -135,7 +139,7 @@ const UserListing = () => {
                 ? `${userListings.length > 1 ? "All Listings" : "All listing"}`
                 : "My listing"}
             </h1>
-            <div className="grid grid-cols-4 gap-2 ">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 ">
               {userListings.map((listing) => {
                 let { name, _id, imageUrls, regularPrice } = listing;
                 return (
@@ -212,7 +216,7 @@ const UserListing = () => {
               <div className="flex gap-5 justify-end mt-4 items-end">
                 <button
                   onClick={closeModal}
-                  className="border border-gray-600 rounded-full  text-black py-2  px-3"
+                  className="border border-gray-600 hover:bg-gray-200 rounded-full  text-black py-2  px-3"
                 >
                   Cancel
                 </button>

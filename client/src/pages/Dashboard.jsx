@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { BsHouse } from "react-icons/bs";
 
-import { BsFillHousesFill } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { FaSignOutAlt } from "react-icons/fa";
@@ -12,7 +11,6 @@ import { LuMessageCircleMore } from "react-icons/lu";
 
 import { LiaTimesSolid } from "react-icons/lia";
 import { IoIosArrowForward } from "react-icons/io";
-import { FaMessage } from "react-icons/fa6";
 import { useState, useEffect } from "react";
 import { IoHomeOutline } from "react-icons/io5";
 
@@ -60,7 +58,7 @@ const Dashboard = ({ showNav }) => {
   };
 
   return (
-    <main className="relative bg-gray-100 min-h-screen p-4">
+    <main className="relative bg-gray-100 min-h-screen lg:p-4 p-0">
       {/* Fixed Sidebar */}
       <div
         className={` z-20 fixed lg:inline hidden bg-[#2c2f36] rounded-md  p-4  top-3 bottom-3  left-3 w-60  `}
@@ -79,11 +77,11 @@ const Dashboard = ({ showNav }) => {
               {currentUser && currentUser.isAdmin && (
                 <Link
                   to={"/dashboard?tab=overview"}
-                  className={`flex items-center gap-2 rounded-md p-2 hover:bg-[#2c2f36] ${
+                  className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
                     tab === "users" ? "bg-[#2c2f36]" : ""
                   }`}
                 >
-                  <MdOutlineSpaceDashboard size={25} className="text-white" />
+                  <MdOutlineSpaceDashboard size={20} className="text-white" />
                   <p className="text-white">Overview</p>
                 </Link>
               )}
@@ -91,7 +89,7 @@ const Dashboard = ({ showNav }) => {
               {currentUser && currentUser.isAdmin && (
                 <Link
                   to={"/dashboard?tab=users"}
-                  className={`flex items-center gap-2 rounded-md p-2 hover:bg-[#2c2f36] ${
+                  className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
                     tab === "users" ? "bg-[#2c2f36]" : ""
                   }`}
                 >
@@ -103,7 +101,7 @@ const Dashboard = ({ showNav }) => {
               {currentUser && (currentUser.isAdmin || currentUser.isAgent) && (
                 <Link
                   to={"/dashboard?tab=create-listing"}
-                  className={`flex items-center gap-2 rounded-md p-2 hover:bg-[#2c2f36] ${
+                  className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
                     tab === "create-listing" ? "bg-[#2c2f36]" : ""
                   }`}
                 >
@@ -115,7 +113,7 @@ const Dashboard = ({ showNav }) => {
               {!currentUser.isClient && (
                 <Link
                   to={"/dashboard?tab=user-listing"}
-                  className={`flex items-center gap-2 rounded-md p-2 hover:bg-[#2c2f36] ${
+                  className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
                     tab === "user-listing" ? "bg-[#2c2f36]" : ""
                   }`}
                 >
@@ -128,7 +126,7 @@ const Dashboard = ({ showNav }) => {
 
               <Link
                 to={"/dashboard?tab=messaging"}
-                className={`flex items-center gap-2 rounded-md p-2 hover:bg-[#2c2f36] ${
+                className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
                   tab === "messaging" ? "bg-[#2c2f36]" : ""
                 }`}
               >
@@ -171,10 +169,9 @@ const Dashboard = ({ showNav }) => {
 
       {/* sidebar for mobile screen  */}
       <div
-        className={`bg-[#001030] z-20 px-1 py-3 inline md:hidden fixed ${
-          showNav ? "top-[180px]" : "top-[72px]"
-        } bottom-40 transition-all duration-500`}
-        style={{ width: showSideBar ? "250px" : "40px" }} // Use inline style for dynamic width
+        className={`bg-[#2c2f36] z-20 px-1 py-3 top-0 bottom-0 inline lg:hidden fixed 
+         transition-all duration-500`}
+        style={{ width: showSideBar ? "250px" : "40px" }}
       >
         {/* icon for sidebar toggle */}
         <span onClick={() => setShowSideBar(!showSideBar)}>
@@ -188,12 +185,11 @@ const Dashboard = ({ showNav }) => {
           <Link
             onClick={() => setShowSideBar(false)}
             to={"/dashboard?tab=profile"}
-            className={`font-semibold  text-white  py-1  rounded-sm flex items-center justify-between ${
-              tab === "profile" ? "bg-[#002670]" : "hover:bg-[#002670]"
-            }`}
+            className={`font-semibold  text-white  py-1  rounded-sm flex items-center justify-between 
+            `}
           >
             <p className="flex items-center gap-2 ">
-              <FaUser size={25} />{" "}
+              <FaUser size={20} />{" "}
               <h1 className={`${showSideBar ? "inline" : "hidden"}`}>
                 Profile
               </h1>
@@ -215,11 +211,10 @@ const Dashboard = ({ showNav }) => {
             <Link
               onClick={() => setShowSideBar(false)}
               to={"/dashboard?tab=users"}
-              className={`text-white p-1 rounded-sm flex items-center gap-2 font-semibold ${
-                tab === "users" ? "bg-[#002670]" : "hover:bg-[#002670]"
-              }`}
+              className={`text-white p-1 rounded-sm flex items-center gap-2 
+              `}
             >
-              <FaUsers size={25} />{" "}
+              <FaUsers size={20} />{" "}
               <h1 className={`${showSideBar ? "inline" : "hidden"}`}>Users</h1>
             </Link>
           )}
@@ -228,11 +223,10 @@ const Dashboard = ({ showNav }) => {
             <Link
               onClick={() => setShowSideBar(false)}
               to={"/create-listing"}
-              className={`text-[#002670] hover:text-white bg-[#fff] p-2 rounded-md flex items-center gap-2 font-semibold ${
-                tab === "create-listing" ? "bg-[#002670]" : "hover:bg-[#002670]"
-              }`}
+              className={`text-white   p-2 rounded-md flex items-center gap-2 
+              `}
             >
-              <IoMdCreate size={25} />{" "}
+              <IoMdCreate size={20} />{" "}
               <h1 className={`${showSideBar ? "inline" : "hidden"}`}>
                 Create listing
               </h1>
@@ -242,11 +236,9 @@ const Dashboard = ({ showNav }) => {
           <Link
             onClick={() => setShowSideBar(false)}
             to={"/dashboard?tab=user-listing"}
-            className={`text-white p-1 rounded-sm font-semibold flex items-center gap-2 ${
-              tab === "user-listing" ? "bg-[#002670]" : "hover:bg-[#002670]"
-            }`}
+            className={`text-white p-1 rounded-sm  flex items-center gap-2 `}
           >
-            <BsFillHousesFill size={25} />{" "}
+            <BsHouse size={20} />{" "}
             {currentUser.isAdmin ? (
               <span className={`${showSideBar ? "inline" : "hidden"}`}>
                 Available listings
@@ -260,11 +252,9 @@ const Dashboard = ({ showNav }) => {
 
           <Link
             to={"/dashboard?tab=messaging"}
-            className={`text-white p-1 rounded-sm font-semibold flex items-center gap-2 ${
-              tab === "user-listing" ? "bg-[#002670]" : "hover:bg-[#002670]"
-            }`}
+            className={`text-white p-1 rounded-sm  flex items-center gap-2`}
           >
-            <FaMessage size={25} />
+            <LuMessageCircleMore size={20} />
             <span className={`${showSideBar ? "inline" : "hidden"}`}>
               Messaging
             </span>
@@ -273,9 +263,9 @@ const Dashboard = ({ showNav }) => {
           <div>
             <button
               onClick={handleSignOut}
-              className="pointer text-white  hover:bg-[#002670] p-1 rounded-sm flex items-center gap-2 font-semibold"
+              className="pointer text-white   p-1 rounded-sm flex items-center gap-2 "
             >
-              <FaSignOutAlt size={25} />{" "}
+              <FaSignOutAlt size={20} />{" "}
               <h1 className={`${showSideBar ? "inline" : "hidden"}`}>
                 Sign out
               </h1>

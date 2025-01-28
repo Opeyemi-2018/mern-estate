@@ -75,23 +75,52 @@ export default function Home({ showNav }) {
             background: `linear-gradient(to bottom, rgba(20, 45, 75, 1) 0%, rgba(18, 50, 80, 0.8) 60%, rgba(15, 55, 85, 0.3) 90%), url(${HeroImage}) center/cover no-repeat`,
           }}
         >
-          <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
+          <div className="flex flex-col items-center gap-6 p-28 px-3 max-w-6xl mx-auto">
             <h1 className="text-slate-200 font-bold text-3xl lg:text-6xl">
-              Find your next
-              <br />
-              place with ease
+              Find your next place with ease
             </h1>
             <div className="text-white text-md">
               Finder is the best place to find your next perfect place to live.
               <br />
               We have a wide range of properties for you to choose from.
             </div>
-            <Link
+            {/* <Link
               to={"/search"}
               className="text-xs sm:text-sm flex justify-between bg-slate-200 font-bold p-3 rounded-md"
             >
               <p>Let's get started...</p> <BsFillSendFill />
-            </Link>
+            </Link> */}
+
+            <div>
+              <form className="bg-white p-4 rounded-md ">
+                <div className="flex items-center justify-between mb-5">
+                  <input
+                    type="text"
+                    className="p-1  bg-gray-100 outline-none border-r-2"
+                    placeholder="apartment type"
+                  />
+                  <input
+                    type="text"
+                    className="p-1 border-none outline-none bg-gray-100"
+                    placeholder="location"
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex gap-2">
+                    <button className="bg-[#DBB65D] w-[60px] py-[2px] px-2 rounded-sm">
+                      Buy
+                    </button>
+                    <button className="bg-gray-200 w-[60px] py-[2px] px-2 rounded-sm">
+                      Rent
+                    </button>
+                  </div>
+                  <button className="bg-[#1E2128] py-[2px] px-3 text-white rounded-sm">
+                    Search
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>

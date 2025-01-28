@@ -222,7 +222,7 @@ const Dashboard = ({ showNav }) => {
           {currentUser && (currentUser.isAdmin || currentUser.isAgent) && (
             <Link
               onClick={() => setShowSideBar(false)}
-              to={"/create-listing"}
+              to={"/dashboard?tab=create-listing"}
               className={`text-white   p-2 rounded-md flex items-center gap-2 
               `}
             >

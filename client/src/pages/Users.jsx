@@ -46,26 +46,22 @@ const Users = () => {
     }
   }, [currentUser]);
 
-  // Function to handle the deletion of a user
   const handleDeleteUser = async () => {
-    if (!userToDelete) return; // If no user is selected, exit the function
-
+    if (!userToDelete) return;
     try {
-      // Send a DELETE request to the server with the selected user's ID
       const res = await fetch(`/api/user/delete/${userToDelete}`, {
         method: "DELETE",
       });
-      const data = await res.json(); // Parse the response data
+      const data = await res.json();
 
       if (res.ok) {
-        // If the response is successful, filter the deleted user out of the users state
         const updatedUsers = users.filter((user) => user._id !== userToDelete);
-        setUsers(updatedUsers); // Update the users state with the remaining users
+        setUsers(updatedUsers);
         setDeleteSuccess("user deleted");
         setTimeout(() => setDeleteSuccess(null), 3000);
         setSelectedUser(null);
       } else {
-        console.log(data.message); // Log the error message if the response is not ok
+        console.log(data.message);
       }
     } catch (error) {
       console.log(error.message); // Log any errors that occur during the fetch request

@@ -54,14 +54,14 @@ const Hero = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 1 }}
-        className="text-center text-white"
+        className="text-center text-white "
       >
         <h1 className="text-3xl lg:text-6xl font-bold px-2">
           {HeroContent[index].title}
         </h1>
         <p className="text-lg mt-4">{HeroContent[index].description}</p>
       </motion.div>
-      <div className=" md:px-4 px-0">
+      <div>
         <SearchProperty />
       </div>
     </div>

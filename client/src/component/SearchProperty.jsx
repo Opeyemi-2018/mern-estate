@@ -2,7 +2,7 @@ import React from "react";
 
 const SearchProperty = () => {
   return (
-    <div className="max-w-6xl mx-auto px-4">
+    <div className="">
       <form className="bg-white p-4 rounded-md ">
         <div className="flex items-center justify-between mb-5">
           <input

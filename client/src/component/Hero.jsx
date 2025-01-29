@@ -11,7 +11,7 @@ const HeroContent = [
     image: designOne,
     title: "Find your next place with ease",
     description:
-      "Finder is the best place to find your next perfect place to live. We have a wide range of properties for you to choose from.",
+      "Finder is the best place to find your next perfect place to live.",
   },
   {
     image: designTwo,
@@ -40,7 +40,7 @@ const Hero = () => {
 
   return (
     <div
-      className="relative w-full h-[400px] flex items-center flex-col gap-10 justify-center transition-all duration-1000 ease-in-out"
+      className="relative w-full h-[460px] flex items-center flex-col gap-10 justify-center transition-all duration-1000 ease-in-out"
       style={{
         background: `linear-gradient(to bottom, rgba(20, 45, 75, 1) 0%, rgba(18, 50, 80, 0.8) 60%, rgba(15, 55, 85, 0.3) 90%), 
                  url(${HeroContent[index].image}) center/cover no-repeat`,
@@ -54,15 +54,16 @@ const Hero = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 1 }}
-        className="text-center text-white "
+        className="text-center text-white"
       >
-        <h1 className="text-3xl lg:text-6xl font-bold">
+        <h1 className="text-3xl lg:text-6xl font-bold px-2">
           {HeroContent[index].title}
         </h1>
         <p className="text-lg mt-4">{HeroContent[index].description}</p>
       </motion.div>
-
-      <SearchProperty />
+      <div className=" md:px-4 px-0">
+        <SearchProperty />
+      </div>
     </div>
   );
 };

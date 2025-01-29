@@ -2,8 +2,8 @@ import React from "react";
 
 const SearchProperty = () => {
   return (
-    <div>
-      <form className="bg-white p-4 rounded-md md:w-full w-[400px] maw-w-6xl mx-auto">
+    <div className="px-2">
+      <form className="bg-white py-4 px-2 rounded-md max-w-5xl mx-auto sm:px-10 sm:w-full w-[330px]">
         <div className="flex md:flex-row flex-col md:gap-0 gap-3 items-center justify-between mb-5">
           <input
             type="text"

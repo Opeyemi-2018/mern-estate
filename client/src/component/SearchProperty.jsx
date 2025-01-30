@@ -14,12 +14,12 @@ const SearchProperty = () => {
         <div className="flex md:flex-row flex-col md:gap-0 gap-3 items-center justify-between mb-5">
           <input
             type="text"
-            className="p-2 w-full  bg-gray-100 outline-none border-r-2"
+            className="p-3 w-full  bg-gray-100 outline-none border-r-2"
             placeholder="apartment type"
           />
           <input
             type="text"
-            className="p-2 w-full border-none outline-none bg-gray-100"
+            className="p-3 w-full border-none outline-none bg-gray-100"
             placeholder="location"
           />
         </div>
@@ -29,14 +29,14 @@ const SearchProperty = () => {
             <button
               type="button"
               onClick={() => scrollToSection("saleSection")}
-              className="hover:bg-red-800 bg-red-600 text-white w-[60px] py-[3px] px-2 rounded-sm"
+              className="hover:bg-red-800 bg-red-600 text-white w-[60px] py-[4px] px-3 rounded-sm"
             >
               Buy
             </button>
             <button
               type="button"
               onClick={() => scrollToSection("rentSection")}
-              className="bg-gray-200 w-[60px] py-[3px] px-2 rounded-sm"
+              className="bg-gray-200 w-[60px] py-[4px] px-3 rounded-sm"
             >
               Rent
             </button>

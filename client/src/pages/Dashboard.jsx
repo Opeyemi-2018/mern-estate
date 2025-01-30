@@ -2,12 +2,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { BsHouse } from "react-icons/bs";
+import { FaBars } from "react-icons/fa";
 
 import { FaUsers } from "react-icons/fa";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { FaSignOutAlt } from "react-icons/fa";
 import Profile from "./Profile";
 import { LuMessageCircleMore } from "react-icons/lu";
+import { MdOutlineRealEstateAgent } from "react-icons/md";
 
 import { LiaTimesSolid } from "react-icons/lia";
 import { IoIosArrowForward } from "react-icons/io";
@@ -70,7 +72,7 @@ const Dashboard = ({ showNav }) => {
                 {" "}
                 <IoHomeOutline size={25} /> Finder
               </Link>
-              <div className="bg-[#DBB65D] w-full h-[1px]"> </div>
+              <div className="bg-red-500 w-full h-[1px]"> </div>
             </div>
 
             <div className="flex flex-col gap-2 ">
@@ -169,19 +171,41 @@ const Dashboard = ({ showNav }) => {
 
       {/* sidebar for mobile screen  */}
       <div
-        className={`bg-[#2c2f36] z-20 px-1 py-3 top-0 bottom-0 inline lg:hidden fixed 
+        className={`bg-[#2c2f36] z-20  top-0 bottom-0 inline lg:hidden fixed 
          transition-all duration-500`}
         style={{ width: showSideBar ? "250px" : "40px" }}
       >
         {/* icon for sidebar toggle */}
-        <span onClick={() => setShowSideBar(!showSideBar)}>
-          {showSideBar ? (
-            <LiaTimesSolid className="absolute text-white text-3xl border p-1 bg-[#001030] border-white rounded-full -right-4" />
-          ) : (
-            <IoIosArrowForward className="absolute text-white text-3xl border p-1 bg-[#001030] border-white rounded-full -right-4" />
-          )}
-        </span>
-        <div className={`flex flex-col gap-6 mt-10`}>
+        <div
+          className={`flex flex-col gap-6 mt-8 relative ${
+            showSideBar ? "items-left pl-3" : "items-center"
+          } `}
+        >
+          <div>
+            <span onClick={() => setShowSideBar(!showSideBar)}>
+              {showSideBar ? (
+                <LiaTimesSolid
+                  size={25}
+                  className=" text-white absolute right-3 top-0"
+                />
+              ) : (
+                <FaBars size={25} className=" text-white  " />
+              )}
+            </span>
+          </div>
+
+          <Link
+            onClick={() => setShowSideBar(false)}
+            to={"/"}
+            className={`font-semibold  text-white  py-1  rounded-sm flex items-center justify-between 
+            `}
+          >
+            <p className="flex items-center gap-2 ">
+              <MdOutlineRealEstateAgent size={25} />{" "}
+              <h1 className={`${showSideBar ? "inline" : "hidden"}`}>Home</h1>
+            </p>
+          </Link>
+
           <Link
             onClick={() => setShowSideBar(false)}
             to={"/dashboard?tab=profile"}
@@ -189,7 +213,7 @@ const Dashboard = ({ showNav }) => {
             `}
           >
             <p className="flex items-center gap-2 ">
-              <FaUser size={20} />{" "}
+              <FaUser size={25} />{" "}
               <h1 className={`${showSideBar ? "inline" : "hidden"}`}>
                 Profile
               </h1>
@@ -214,7 +238,7 @@ const Dashboard = ({ showNav }) => {
               className={`text-white p-1 rounded-sm flex items-center gap-2 
               `}
             >
-              <FaUsers size={20} />{" "}
+              <FaUsers size={25} />{" "}
               <h1 className={`${showSideBar ? "inline" : "hidden"}`}>Users</h1>
             </Link>
           )}
@@ -226,7 +250,7 @@ const Dashboard = ({ showNav }) => {
               className={`text-white   p-2 rounded-md flex items-center gap-2 
               `}
             >
-              <IoMdCreate size={20} />{" "}
+              <IoMdCreate size={25} />{" "}
               <h1 className={`${showSideBar ? "inline" : "hidden"}`}>
                 Create listing
               </h1>
@@ -238,7 +262,7 @@ const Dashboard = ({ showNav }) => {
             to={"/dashboard?tab=user-listing"}
             className={`text-white p-1 rounded-sm  flex items-center gap-2 `}
           >
-            <BsHouse size={20} />{" "}
+            <BsHouse size={25} />{" "}
             {currentUser.isAdmin ? (
               <span className={`${showSideBar ? "inline" : "hidden"}`}>
                 Available listings
@@ -251,10 +275,11 @@ const Dashboard = ({ showNav }) => {
           </Link>
 
           <Link
+            onClick={() => setShowSideBar(false)}
             to={"/dashboard?tab=messaging"}
             className={`text-white p-1 rounded-sm  flex items-center gap-2`}
           >
-            <LuMessageCircleMore size={20} />
+            <LuMessageCircleMore size={25} />
             <span className={`${showSideBar ? "inline" : "hidden"}`}>
               Messaging
             </span>
@@ -265,7 +290,7 @@ const Dashboard = ({ showNav }) => {
               onClick={handleSignOut}
               className="pointer text-white   p-1 rounded-sm flex items-center gap-2 "
             >
-              <FaSignOutAlt size={20} />{" "}
+              <FaSignOutAlt size={25} />{" "}
               <h1 className={`${showSideBar ? "inline" : "hidden"}`}>
                 Sign out
               </h1>

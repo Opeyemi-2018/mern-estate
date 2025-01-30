@@ -1,4 +1,4 @@
-import { FaHouseChimney } from "react-icons/fa6";
+import { MdOutlineRealEstateAgent } from "react-icons/md";
 import { FaXTwitter } from "react-icons/fa6";
 import { FiFacebook } from "react-icons/fi";
 import { FaLinkedinIn } from "react-icons/fa";
@@ -12,7 +12,7 @@ const Footer = () => {
           <Link to={"/"} className="text-white">
             Finder
           </Link>
-          <FaHouseChimney className="text-white" />
+          <MdOutlineRealEstateAgent className="text-white" />
         </h1>
 
         <div className="flex flex-col gap-3">

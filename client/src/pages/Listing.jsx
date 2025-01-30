@@ -194,7 +194,7 @@ export default function Listing() {
                     !userInfo && (
                       <button
                         onClick={() => setUserInfo(true)}
-                        className="bg-[#001030] text-white rounded-lg uppercase hover:opacity-95 p-3"
+                        className="hover:bg-red-800 bg-red-600 text-white rounded-lg uppercase hover:opacity-95 p-3"
                       >
                         Contact landlord
                       </button>

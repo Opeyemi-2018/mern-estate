@@ -2,11 +2,10 @@ import { FaSearch } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react";
-import { FaHouseChimney } from "react-icons/fa6";
 import { FaBars } from "react-icons/fa";
 import { LiaTimesSolid } from "react-icons/lia";
 import { useDispatch } from "react-redux";
-import { IoIosCreate } from "react-icons/io";
+import { MdOutlineRealEstateAgent } from "react-icons/md";
 import { LuMessageCircleMore } from "react-icons/lu";
 
 import {
@@ -75,7 +74,7 @@ export default function Header({ setShowNav, showNav }) {
         <Link to="/">
           <h1 className="font-bold md:text-2xl text-[20px] flex flex-wrap gap-1 items-center">
             <span className="text-[#1E2128]">Finder</span>
-            <FaHouseChimney className="text-[#1E2128] md:inline hidden" />
+            <MdOutlineRealEstateAgent className="text-[#1E2128] md:inline hidden" />
           </h1>
         </Link>
 

@@ -1,83 +1,66 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Navigation } from "swiper/modules";
 import SwiperCore from "swiper";
 import "swiper/css/bundle";
 import ListingItem from "../component/ListingItem";
-import { BsFillSendFill } from "react-icons/bs";
 import { ClipLoader } from "react-spinners";
 import Hero from "../component/Hero";
 import Count from "../component/Count";
 
-export default function Home({ showNav }) {
+export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null); // New state for error handling
+  const [error, setError] = useState(null);
 
   SwiperCore.use([Navigation]);
 
-  useEffect(() => {
-    const fetchOfferListings = async () => {
-      try {
-        setLoading(true);
-        setError(null); // Reset error state before fetching
-        const res = await fetch("/api/listing/get?offer=true&limit=4");
-        if (!res.ok) throw new Error("Failed to fetch offer listings");
-        const data = await res.json();
-        setOfferListings(data);
-        fetchRentListings();
-      } catch (err) {
-        setError("Failed to load offers.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchListings = useCallback(async () => {
+    setLoading(true);
+    setError(null);
 
-    const fetchRentListings = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch("/api/listing/get?type=rent&limit=4");
-        if (!res.ok) throw new Error("Failed to fetch rent listings");
-        const data = await res.json();
-        setRentListings(data);
-        fetchSaleListings();
-      } catch (err) {
-        setError("Failed to load rent listings.");
-      } finally {
-        setLoading(false);
-      }
-    };
+    try {
+      const [offerRes, rentRes, saleRes] = await Promise.all([
+        fetch("/api/listing/get?offer=true&limit=4"),
+        fetch("/api/listing/get?type=rent&limit=4"),
+        fetch("/api/listing/get?type=sale&limit=4"),
+      ]);
 
-    const fetchSaleListings = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch("/api/listing/get?type=sale&limit=4");
-        if (!res.ok) throw new Error("Failed to fetch sale listings");
-        const data = await res.json();
-        setSaleListings(data);
-      } catch (err) {
-        setError("Failed to load sale listings.");
-      } finally {
-        setLoading(false);
+      if (!offerRes.ok || !rentRes.ok || !saleRes.ok) {
+        throw new Error("Failed to fetch listings");
       }
-    };
 
-    fetchOfferListings();
+      const [offerData, rentData, saleData] = await Promise.all([
+        offerRes.json(),
+        rentRes.json(),
+        saleRes.json(),
+      ]);
+
+      setOfferListings(offerData);
+      setRentListings(rentData);
+      setSaleListings(saleData);
+    } catch (err) {
+      setError("Failed to load listings.");
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchListings();
+  }, [fetchListings]);
 
   return (
     <div>
       {/* Top Section */}
-      <div className="">
-        <Hero />
-      </div>
+      <Hero />
 
       {/* Main Content */}
       {loading ? (
-        <div className="spinner min-h-screen flex items-center justify-center">
-          <ClipLoader color="blue" size={50} loading={loading} />
+        <div className="min-h-screen flex items-center justify-center">
+          <ClipLoader color="blue" size={50} />
         </div>
       ) : error ? (
         <div className="text-center text-red-600 my-10">
@@ -92,82 +75,63 @@ export default function Home({ showNav }) {
       ) : (
         <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10 min-h-screen">
           {/* Offers Section */}
-          {offerListings && offerListings.length > 0 ? (
+          {offerListings.length > 0 && (
             <div>
-              <div className="my-3">
-                <h2 className="text-2xl font-semibold text-slate-600">
-                  Recent offers
-                </h2>
-                <Link
-                  className="text-sm text-blue-800 hover:underline"
-                  to={"/search?offer=true"}
-                >
-                  Show more offers
-                </Link>
-              </div>
+              <h2 className="text-2xl font-semibold text-slate-600">
+                Recent offers
+              </h2>
+              <Link
+                className="text-sm text-blue-800 hover:underline"
+                to={"/search?offer=true"}
+              >
+                Show more offers
+              </Link>
               <div className="flex flex-wrap gap-4">
                 {offerListings.map((listing) => (
                   <ListingItem listing={listing} key={listing._id} />
                 ))}
               </div>
             </div>
-          ) : (
-            <div className="text-center text-slate-500">
-              <p>No offers available at the moment.</p>
-            </div>
           )}
 
+          <Count />
           {/* Rent Section */}
-          {rentListings && rentListings.length > 0 ? (
-            <div>
-              <div className="my-3">
-                <h2 className="text-2xl font-semibold text-slate-600">
-                  Recent places for rent
-                </h2>
-                <Link
-                  className="text-sm text-blue-800 hover:underline"
-                  to={"/search?type=rent"}
-                >
-                  Show more places for rent
-                </Link>
-              </div>
+          {rentListings.length > 0 && (
+            <div id="rentSection">
+              <h2 className="text-2xl font-semibold text-slate-600">
+                Recent places for rent
+              </h2>
+              <Link
+                className="text-sm text-blue-800 hover:underline"
+                to={"/search?type=rent"}
+              >
+                Show more places for rent
+              </Link>
               <div className="flex flex-wrap gap-4">
                 {rentListings.map((listing) => (
                   <ListingItem listing={listing} key={listing._id} />
                 ))}
               </div>
             </div>
-          ) : (
-            <div className="text-center text-slate-500">
-              <p>No rental properties available at the moment.</p>
-            </div>
           )}
 
-          <Count />
-
           {/* Sale Section */}
-          {saleListings && saleListings.length > 0 ? (
-            <div>
-              <div className="my-3">
-                <h2 className="text-2xl font-semibold text-slate-600">
-                  Recent places for sale
-                </h2>
-                <Link
-                  className="text-sm text-blue-800 hover:underline"
-                  to={"/search?type=sale"}
-                >
-                  Show more places for sale
-                </Link>
-              </div>
+          {saleListings.length > 0 && (
+            <div id="saleSection">
+              <h2 className="text-2xl font-semibold text-slate-600">
+                Recent places for sale
+              </h2>
+              <Link
+                className="text-sm text-blue-800 hover:underline"
+                to={"/search?type=sale"}
+              >
+                Show more places for sale
+              </Link>
               <div className="flex flex-wrap gap-4">
                 {saleListings.map((listing) => (
                   <ListingItem listing={listing} key={listing._id} />
                 ))}
               </div>
-            </div>
-          ) : (
-            <div className="text-center text-slate-500">
-              <p>No properties for sale at the moment.</p>
             </div>
           )}
         </div>

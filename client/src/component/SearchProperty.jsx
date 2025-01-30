@@ -1,9 +1,16 @@
 import React from "react";
 
 const SearchProperty = () => {
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className="px-2">
-      <form className="bg-white py-4 px-2 rounded-md max-w-5xl mx-auto sm:px-10 sm:w-full w-[330px]">
+    <div className="">
+      <form className="bg-white py-4 px-2 rounded-md max-w-5xl mx-auto sm:px-10 sm:w-full w-[350px]">
         <div className="flex md:flex-row flex-col md:gap-0 gap-3 items-center justify-between mb-5">
           <input
             type="text"
@@ -19,10 +26,18 @@ const SearchProperty = () => {
 
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
-            <button className=" hover:bg-red-800 bg-red-600 text-white w-[60px] py-[3px] px-2 rounded-sm">
+            <button
+              type="button"
+              onClick={() => scrollToSection("saleSection")}
+              className="hover:bg-red-800 bg-red-600 text-white w-[60px] py-[3px] px-2 rounded-sm"
+            >
               Buy
             </button>
-            <button className="bg-gray-200 w-[60px] py-[3px] px-2 rounded-sm">
+            <button
+              type="button"
+              onClick={() => scrollToSection("rentSection")}
+              className="bg-gray-200 w-[60px] py-[3px] px-2 rounded-sm"
+            >
               Rent
             </button>
           </div>

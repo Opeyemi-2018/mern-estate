@@ -7,6 +7,7 @@ import ListingItem from "../component/ListingItem";
 import { ClipLoader } from "react-spinners";
 import Hero from "../component/Hero";
 import Count from "../component/Count";
+import Design from "../component/Design";
 
 export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
@@ -94,7 +95,6 @@ export default function Home() {
             </div>
           )}
 
-          <Count />
           {/* Rent Section */}
           {rentListings.length > 0 && (
             <div id="rentSection">
@@ -136,6 +136,8 @@ export default function Home() {
           )}
         </div>
       )}
+      <Count />
+      <Design />
     </div>
   );
 }

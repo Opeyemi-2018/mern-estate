@@ -19,3 +19,8 @@ body{
     scrollbar-width: none;     /* Hides the scrollbar in Firefox */
   }
 
+  /* .img{
+    background-color: rgba(0, 0, 0, 0.7)url(img.jpg);
+    background-blend-mode: darken;
+  } */
+

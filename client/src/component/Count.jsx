@@ -1,4 +1,8 @@
 import { useEffect } from "react";
+import { PiUsersThree } from "react-icons/pi";
+import { MdSupportAgent } from "react-icons/md";
+import { BsHouse } from "react-icons/bs";
+import { FaHouseChimney } from "react-icons/fa6";
 
 const Count = () => {
   useEffect(() => {
@@ -41,43 +45,41 @@ const Count = () => {
     };
   }, []);
   return (
-    <div className="bg-black text-white px-4 sm:my-6 my-4 py-4">
-      <div className="flex justify-between flex-wrap items-center max-w-6xl mx-auto">
+    <div className="bg-black text-white  sm:mt-6 mt-4 py-4">
+      <div className="grid md:grid-cols-4 grid-cols-2 md:gap-0 gap-12 items-center max-w-6xl mx-auto">
         <div className="flex flex-col items-center">
-          <span
-            className="counter sm:text-2xl text-1xl font-semibold"
-            data-target="300"
-          >
+          <span className="counter text-2xl  font-semibold" data-target="300">
             0
           </span>
-          <span className="text-gray-400">satisfied clients</span>
+          <PiUsersThree size={25} className="text-white" />
+          <span className="text-[18px]">satisfied clients</span>
         </div>
         <div className="flex flex-col items-center">
           <span
-            className="counter sm:text-2xl text-1xl font-semibold"
+            className="counter text-2xl text-1xl font-semibold"
             data-target="300"
           >
             0
           </span>
-          <span className="text-gray-400">Houses for sell</span>
+          <BsHouse size={25} />
+          <span className="text-[18px]">Houses for sell</span>
         </div>
         <div className="flex flex-col items-center">
           <span
-            className="counter sm:text-2xl text-1xl font-semibold"
+            className="counter text-2xl text-1xl font-semibold"
             data-target="300"
           >
             0
           </span>
-          <span className="text-gray-400">Houses for rent</span>
+          <FaHouseChimney size={25} />
+          <span className="text-[18px]">Houses for rent</span>
         </div>
         <div className="flex flex-col items-center">
-          <span
-            className="counter sm:text-2xl text-1xl font-semibold"
-            data-target="300"
-          >
+          <span className="counter text-2xl  font-semibold" data-target="300">
             0
           </span>
-          <span className="text-gray-400">Agents</span>
+          <MdSupportAgent size={25} />
+          <span className="text-[18px]">Agents</span>
         </div>
       </div>
     </div>

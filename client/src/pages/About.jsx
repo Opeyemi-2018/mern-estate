@@ -88,7 +88,7 @@ export default function About() {
             <span>
               <HiOutlineLocationMarker
                 size={30}
-                className="text-[#DBB65D] bg-gray-100 p-2 rounded-full"
+                className="text-red-600 bg-gray-100 p-2 rounded-full"
               />
             </span>
             <div>
@@ -102,7 +102,7 @@ export default function About() {
             <span>
               <FaRegEnvelope
                 size={30}
-                className="text-[#DBB65D] bg-gray-100 p-2 rounded-full"
+                className="text-red-600 bg-gray-100 p-2 rounded-full"
               />
             </span>
             <div>
@@ -116,7 +116,7 @@ export default function About() {
             <span>
               <MdOutlineLocalPhone
                 size={30}
-                className="text-[#DBB65D] bg-gray-100 p-2 rounded-full"
+                className="text-red-600 bg-gray-100 p-2 rounded-full"
               />
             </span>
             <div>
@@ -152,7 +152,7 @@ export default function About() {
               placeholder="your message"
               className="outline-none px-2"
             ></textarea>
-            <button className="p-2 my-2 flex items-center font-semibold justify-center capitalize gap-4 rounded-md bg-[#DBB65D]">
+            <button className="p-3 text-white flex items-center font-semibold justify-center capitalize gap-4 rounded-md hover:bg-red-800 bg-red-600">
               {" "}
               send message <BsFillSendFill size={20} />
             </button>

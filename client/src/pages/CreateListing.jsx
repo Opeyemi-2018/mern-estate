@@ -223,47 +223,52 @@ export default function CreateListing() {
             <input
               type="text"
               placeholder="Name"
-              className="border p-3 rounded-lg"
+              className="border p-3 rounded-lg outline-none"
               id="name"
               maxLength="62"
               minLength="10"
               required
+              autoComplete="off"
               onChange={handleChange}
               value={formData.name}
             />
             <textarea
               type="text"
               placeholder="Description"
-              className="border p-3 rounded-lg"
+              className="border p-3 rounded-lg outline-none"
               id="description"
               required
+              autoComplete="off"
               onChange={handleChange}
               value={formData.description}
             />
             <input
               type="text"
               placeholder="Address"
-              className="border p-3 rounded-lg"
+              className="border p-3 rounded-lg outline-none"
               id="address"
               required
+              autoComplete="off"
               onChange={handleChange}
               value={formData.address}
             />
             <input
               type="text"
               placeholder="state"
-              className="border p-3 rounded-lg"
+              className="border p-3 rounded-lg outline-none"
               id="address"
               required
+              autoComplete="off"
               onChange={handleChange}
               value={formData.state}
             />
             <input
               type="text"
               placeholder="apartmentType"
-              className="border p-3 rounded-lg"
+              className="border p-3 rounded-lg outline-none"
               id="address"
               required
+              autoComplete="off"
               onChange={handleChange}
               value={formData.apartmentType}
             />

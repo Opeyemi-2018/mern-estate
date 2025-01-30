@@ -1,20 +1,22 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-import designOne from "../assets/images/design-1.jpg";
-import designTwo from "../assets/images/design-2.jpg";
+import imgOne from "../assets/images/img-1.jpg";
+import imgTwo from "../assets/images/img-2.jpg";
 import HeroImage from "../assets/images/hero-image.jpeg";
+import HeroImageOne from "../assets/images/hero-image1.png";
+import HeroImageTwo from "../assets/images/hero-image2.png";
 import SearchProperty from "./SearchProperty";
 
 const HeroContent = [
   {
-    image: designOne,
+    image: imgOne,
     title: "Find your next place with ease",
     description:
       "Finder is the best place to find your next perfect place to live.",
   },
   {
-    image: designTwo,
+    image: imgTwo,
     title: "A new phase of sustainable living",
     description:
       "Elevate your living experience, your dream home has a new address.",
@@ -40,11 +42,12 @@ const Hero = () => {
 
   return (
     <div
-      className="relative w-full h-[460px] flex items-center flex-col gap-10 justify-center transition-all duration-1000 ease-in-out"
+      className={`relative w-full h-[460px] flex items-center flex-col gap-10 justify-center 
+                bg-black/80 bg-blend-darken transition-all duration-1000 ease-in-out`}
       style={{
-        background: `linear-gradient(to bottom, rgba(20, 45, 75, 1) 0%, rgba(18, 50, 80, 0.8) 60%, rgba(15, 55, 85, 0.3) 90%), 
-                 url(${HeroContent[index].image}) center/cover no-repeat`,
-        backdropFilter: "blur(5px)",
+        backgroundImage: `url(${HeroContent[index].image})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
       {/* <div className="flex items-center justify-center py-28 px-3"> */}

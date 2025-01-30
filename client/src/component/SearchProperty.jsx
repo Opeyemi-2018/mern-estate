@@ -19,7 +19,7 @@ const SearchProperty = () => {
 
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
-            <button className="bg-[#DBB65D] w-[60px] py-[3px] px-2 rounded-sm">
+            <button className=" hover:bg-red-800 bg-red-600 text-white w-[60px] py-[3px] px-2 rounded-sm">
               Buy
             </button>
             <button className="bg-gray-200 w-[60px] py-[3px] px-2 rounded-sm">

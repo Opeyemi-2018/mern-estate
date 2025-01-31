@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { IoSearch } from "react-icons/io5";
 
 import imgOne from "../assets/images/img-1.jpg";
 import imgTwo from "../assets/images/img-2.jpg";
@@ -7,6 +8,7 @@ import HeroImage from "../assets/images/hero-image.jpeg";
 import HeroImageOne from "../assets/images/hero-image1.png";
 import HeroImageTwo from "../assets/images/hero-image2.png";
 import SearchProperty from "./SearchProperty";
+import { useNavigate } from "react-router-dom";
 
 const HeroContent = [
   {
@@ -31,6 +33,8 @@ const HeroContent = [
 
 const Hero = () => {
   const [index, setIndex] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -40,9 +44,25 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
+
   return (
     <div
-      className={`relative w-full h-[460px] flex items-center flex-col gap-10 justify-center 
+      className={`relative px-3 w-full h-[460px] flex items-center flex-col gap-10 justify-center 
                 bg-black/80 bg-blend-darken transition-all duration-1000 ease-in-out`}
       style={{
         backgroundImage: `url(${HeroContent[index].image})`,
@@ -64,9 +84,25 @@ const Hero = () => {
         </h1>
         <p className="text-lg mt-4">{HeroContent[index].description}</p>
       </motion.div>
-      <div>
+
+      <form
+        onSubmit={handleSubmit}
+        className="bg-[rgb(241,245,241)] px-3 py-2 w-full mx-auto max-w-3xl rounded-full justify-between  flex items-center"
+      >
+        <input
+          type="text"
+          placeholder="Search..."
+          className="bg-[rgb(241,245,241)] focus:outline-none border-none p-2 w-full "
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button className="bg-black p-3 text-white rounded-full">
+          <IoSearch size={25} className="" />
+        </button>
+      </form>
+      {/* <div>
         <SearchProperty />
-      </div>
+      </div> */}
     </div>
   );
 };

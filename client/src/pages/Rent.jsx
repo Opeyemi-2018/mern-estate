@@ -68,17 +68,21 @@ const Rent = () => {
                 bedrooms,
               } = rent;
               return (
-                <Link to={`/listing/${_id}`} className="shadow-md ">
+                <Link to={`/listing/${_id}`} className="shadow-md relative">
+                  <MdOutlineFavoriteBorder
+                    size={35}
+                    className=" text-gray-500 absolute right-3 md:bottom-16 bottom-20 z-20 bg-white p-2 rounded-full"
+                  />
                   <img
                     src={imageUrls}
                     className="h-[200px] w-full object-cover sm:rounded-md"
                     alt=""
                   />
 
-                  <div className="rounded-md p-2">
+                  <div className="rounded-md md:p-1 p-2 ">
                     <div className="flex items-center justify-between mt-3">
                       <h1 className=" text-gray-700">{name.slice(0, 20)}</h1>
-                      <h1 className=" text-gray-700">{regularPrice}</h1>
+                      <h1 className=" text-gray-700">${regularPrice}</h1>
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="text-slate-700 flex items-center gap-4">
@@ -94,10 +98,6 @@ const Rent = () => {
                             : `${bathrooms} xxxxxxxxxxxx bath `}
                         </div>
                       </div>
-                      <MdOutlineFavoriteBorder
-                        size={25}
-                        className=" text-gray-500"
-                      />
                     </div>
                   </div>
                 </Link>

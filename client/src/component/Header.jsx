@@ -34,24 +34,24 @@ export default function Header({ setShowNav, showNav }) {
   }, []);
 
   const { currentUser } = useSelector((state) => state.user);
-  const [searchTerm, setSearchTerm] = useState("");
-  const navigate = useNavigate();
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set("searchTerm", searchTerm);
-    const searchQuery = urlParams.toString();
-    navigate(`/search?${searchQuery}`);
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   urlParams.set("searchTerm", searchTerm);
+  //   const searchQuery = urlParams.toString();
+  //   navigate(`/search?${searchQuery}`);
+  // };
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get("searchTerm");
-    if (searchTermFromUrl) {
-      setSearchTerm(searchTermFromUrl);
-    }
-  }, [location.search]);
+  // useEffect(() => {
+  //   const urlParams = new URLSearchParams(location.search);
+  //   const searchTermFromUrl = urlParams.get("searchTerm");
+  //   if (searchTermFromUrl) {
+  //     setSearchTerm(searchTermFromUrl);
+  //   }
+  // }, [location.search]);
 
   const handleSignOut = async () => {
     try {
@@ -73,14 +73,14 @@ export default function Header({ setShowNav, showNav }) {
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to="/">
           <h1 className="font-bold lg:text-2xl md:text-[18px] flex flex-wrap gap-1 items-center">
-            <span className="text-[#1E2128]">Finder</span>
-            <MdOutlineRealEstateAgent className="text-[#1E2128] lg:inline hidden" />
+            <span className="text-[#1E2128] text-2xl">Finder</span>
+            <MdOutlineRealEstateAgent size={25} className="text-[#1E2128] " />
           </h1>
         </Link>
 
-        <form
+        {/* <form
           onSubmit={handleSubmit}
-          className="bg-[rgb(241,245,241)] px-3 py-2  rounded-lg flex items-center"
+          className="bg-[rgb(241,245,241)] px-3 py-2   rounded-lg flex items-center"
         >
           <input
             type="text"
@@ -92,9 +92,9 @@ export default function Header({ setShowNav, showNav }) {
           <button>
             <FaSearch className="text-slate-600" />
           </button>
-        </form>
+        </form> */}
 
-        <ul className="flex items-center gap-4">
+        <ul className="flex items-center gap-4 font-semibold">
           <Link to="/sell">
             <li className="hidden lg:inline text-slate-700 hover:underline">
               sell

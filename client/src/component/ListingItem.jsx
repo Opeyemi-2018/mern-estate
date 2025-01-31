@@ -53,7 +53,10 @@ export default function ListingItem({ listing }) {
                   : `${listing.bathrooms} xxxxxxxxxxxx bath `}
               </div>
             </div>
-            <MdOutlineFavoriteBorder size={25} className=" text-gray-500" />
+            <MdOutlineFavoriteBorder
+              size={25}
+              className=" z-10 text-gray-500"
+            />
           </div>
         </div>
       </Link>

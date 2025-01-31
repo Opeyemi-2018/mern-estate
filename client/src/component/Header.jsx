@@ -85,7 +85,7 @@ export default function Header({ setShowNav, showNav }) {
           <input
             type="text"
             placeholder="Search..."
-            className="bg-[rgb(241,245,241)] focus:outline-none border-none md:w-64  w-40 "
+            className="bg-[rgb(241,245,241)] focus:outline-none border-none md:w-64  w-32 "
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -123,9 +123,9 @@ export default function Header({ setShowNav, showNav }) {
           {currentUser && (
             <Link
               to={"/dashboard?tab=messaging"}
-              className=" flex  text-slate-700  items-center gap-1"
+              className=" hidden md:flex  text-slate-700  items-center gap-1"
             >
-              <p className="hidden md:flex">Messaging</p>
+              <p className="">Messaging</p>
               <LuMessageCircleMore size={25} />
             </Link>
           )}
@@ -204,6 +204,17 @@ export default function Header({ setShowNav, showNav }) {
           <Link to="/about">
             <li className="text-slate-700 hover:underline">About</li>
           </Link>
+
+          {currentUser && (
+            <Link
+              to={"/dashboard?tab=messaging"}
+              className="flex  text-slate-700  items-center justify-between"
+            >
+              <p className="">Messaging</p>
+              <LuMessageCircleMore size={25} />
+            </Link>
+          )}
+
           {currentUser && (currentUser.isAdmin || currentUser.isAgent) && (
             <Link
               to={"/dashboard?tab=create-listing"}

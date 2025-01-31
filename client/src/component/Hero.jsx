@@ -63,7 +63,7 @@ const Hero = () => {
   return (
     <div
       className={`relative px-3 w-full h-[460px] flex items-center flex-col gap-10 justify-center 
-                bg-black/80 bg-blend-darken transition-all duration-1000 ease-in-out`}
+                bg-black/70 bg-blend-darken transition-all duration-1000 ease-in-out`}
       style={{
         backgroundImage: `url(${HeroContent[index].image})`,
         backgroundSize: "cover",
@@ -87,7 +87,7 @@ const Hero = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="bg-[rgb(241,245,241)] px-3 py-2 w-full mx-auto max-w-3xl rounded-full justify-between  flex items-center"
+        className="bg-[rgb(241,245,241)] px-3 py-1 w-full mx-auto max-w-3xl rounded-full justify-between  flex items-center"
       >
         <input
           type="text"

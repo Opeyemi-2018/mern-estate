@@ -44,7 +44,7 @@ const ListingsLandLordInfo = ({
         onClick={() => {
           handleShowMessage(), setCancelInfo(false);
         }}
-        className="absolute right-4 top-3 text-2xl text-white bg-red-700 p-1 rounded-full"
+        className="absolute right-4 top-3 text-2xl text-white hover:bg-red-700 bg-red-600 p-1 rounded-full"
       />
 
       {landlord ? (

@@ -164,7 +164,7 @@ export default function Listing() {
                   <span className="font-semibold text-black">
                     Description -{" "}
                   </span>
-                  {listing.description}
+                  {listing.description} loacted in {listing.state}
                 </p>
                 <ul className="text-green-900 font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6">
                   <li className="flex items-center gap-1 whitespace-nowrap">
@@ -194,7 +194,7 @@ export default function Listing() {
                     !userInfo && (
                       <button
                         onClick={() => setUserInfo(true)}
-                        className="hover:bg-red-800 bg-red-600 text-white rounded-lg uppercase hover:opacity-95 p-3"
+                        className="hover:bg-red-700 bg-red-600 text-white rounded-lg uppercase hover:opacity-95 p-3"
                       >
                         Contact landlord
                       </button>

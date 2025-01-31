@@ -13,6 +13,8 @@ import Footer from "./component/Footer";
 import Dashboard from "./pages/Dashboard";
 import OnlyAdminAndAgentRoute from "./component/OnlyAdminAndAgentRoute";
 import CreateListing from "./pages/CreateListing";
+import Sell from "./pages/Sell";
+import Rent from "./pages/Rent";
 
 const AppContent = () => {
   const location = useLocation();
@@ -39,6 +41,8 @@ const AppContent = () => {
         <Route path="/sign-in" element={<Signin />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/about" element={<About />} />
+        <Route path="/sell" element={<Sell />} />
+        <Route path="/rent" element={<Rent />} />
         <Route path="/search" element={<Search />} />
         <Route path="/listing/:listingId" element={<Listing />} />
 

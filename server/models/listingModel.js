@@ -19,7 +19,6 @@ const listingSchema = new mongoose.Schema(
       required: true,
     },
     apartmentType: { type: String, required: true },
-    country: { type: String, required: true },
     state: { type: String, required: true },
     regularPrice: {
       type: Number,

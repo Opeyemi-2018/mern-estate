@@ -11,8 +11,11 @@ import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from "react-spinners";
+
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
+  const [states, setStates] = useState([]);
+
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
     imageUrls: [],
@@ -31,24 +34,25 @@ export default function CreateListing() {
     furnished: false,
   });
 
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
   useEffect(() => {
-    const fetchCountry = async () => {
-      const res = await fetch("https://restcountries.com/v3.1/all");
-      const data = await res.json();
-      const countryList = data.map((country) => ({
-        name: country.name.common,
-        code: country.cca2,
-      }));
-      setCountries(countryList);
-    };
-    fetchCountry();
-  }, []);
+    const fetchStates = async () => {
+      try {
+        const response = await fetch(
+          "https://countriesnow.space/api/v0.1/countries/states"
+        );
+        const data = await response.json();
 
-  const handleStateChange = (e) => {
-    setFormData({ ...formData, state: e.target.value });
-  };
+        const nigeria = data.data.find((country) => country.name === "Nigeria");
+        if (nigeria) {
+          setStates(nigeria.states);
+        }
+      } catch (error) {
+        console.error("Error fetching states:", error);
+      }
+    };
+
+    fetchStates();
+  }, []);
 
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -113,33 +117,23 @@ export default function CreateListing() {
   };
 
   const handleChange = (e) => {
-    if (e.target.id === "sale" || e.target.id === "rent") {
-      setFormData({
-        ...formData,
-        type: e.target.id,
-      });
-    }
+    const { id, value, type, checked } = e.target;
 
-    if (
-      e.target.id === "parking" ||
-      e.target.id === "furnished" ||
-      e.target.id === "offer"
-    ) {
-      setFormData({
-        ...formData,
-        [e.target.id]: e.target.checked,
-      });
-    }
-
-    if (
-      e.target.type === "number" ||
-      e.target.type === "text" ||
-      e.target.type === "textarea"
-    ) {
-      setFormData({
-        ...formData,
-        [e.target.id]: e.target.value,
-      });
+    if (id === "sale" || id === "rent") {
+      setFormData((prev) => ({
+        ...prev,
+        type: id,
+      }));
+    } else if (id === "parking" || id === "furnished" || id === "offer") {
+      setFormData((prev) => ({
+        ...prev,
+        [id]: checked,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [id]: value,
+      }));
     }
   };
 
@@ -185,7 +179,6 @@ export default function CreateListing() {
         description: "",
         address: "",
         state: "",
-        country: "",
         apartmentType: "",
         type: "rent",
         bedrooms: 1,
@@ -252,56 +245,41 @@ export default function CreateListing() {
               onChange={handleChange}
               value={formData.address}
             />
-            <input
-              type="text"
-              placeholder="state"
-              className="border p-3 rounded-lg outline-none"
-              id="address"
-              required
-              autoComplete="off"
+
+            <select
+              id="state"
+              className=" p-3 w-full border border-gray-300 outline-none rounded-md"
               onChange={handleChange}
               value={formData.state}
-            />
-            <input
-              type="text"
-              placeholder="apartmentType"
-              className="border p-3 rounded-lg outline-none"
-              id="address"
-              required
-              autoComplete="off"
+            >
+              <option value="" disabled>
+                -- Choose a state --
+              </option>
+              {states.map((state, index) => (
+                <option key={index} value={state.name}>
+                  {state.name}
+                </option>
+              ))}
+            </select>
+
+            <select
+              id="apartmentType"
               onChange={handleChange}
               value={formData.apartmentType}
-            />
-
-            <div className="flex items-center justify-between gap-4">
-              <select
-                // onChange={handleCountryChange}
-                className="py-1 px-3 rounded-md w-full border"
-              >
-                <option value="" disabled selected>
-                  Select Country
-                </option>
-                {countries.map((country) => (
-                  <option key={country.code} value={country.code}>
-                    {country.name}
-                  </option>
-                ))}
-              </select>
-              <select
-                onChange={handleStateChange}
-                className="py-1 px-3 rounded-md w-full border"
-                disabled={!states.length}
-              >
-                <option value="" disabled selected>
-                  Select State
-                </option>
-                {states.map((state, idx) => (
-                  <option key={idx} value={state}>
-                    {state}
-                  </option>
-                ))}
-              </select>
-            </div>
+              className="p-3 w-full border border-gray-300 outline-none rounded-md"
+            >
+              <option value="" disabled>
+                Select Apartment Type
+              </option>
+              <option value="Bungalow">Bungalow</option>
+              <option value="Duplex">Duplex</option>
+              <option value="Mansion">Mansion</option>
+              <option value="Semi-Detached House">Semi-Detached House</option>
+              <option value="Story Building">Story Building</option>
+              <option value="Detached House">Detached House</option>
+              <option value="Cottage">Cottage</option>
+              <option value="Terraced House">Terraced House</option>
+            </select>
 
             <div className="flex gap-6 flex-wrap">
               <div className="flex gap-2">

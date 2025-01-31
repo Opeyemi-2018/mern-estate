@@ -10,7 +10,7 @@ const SearchProperty = () => {
 
   return (
     <div className="">
-      <form className="bg-white py-4 px-2 rounded-md max-w-5xl mx-auto sm:px-10 sm:w-full w-[350px]">
+      <form className="bg-white py-4 px-2 rounded-md max-w-5xl shadow-md mx-auto sm:px-10 sm:w-full w-[350px]">
         <div className="flex md:flex-row flex-col md:gap-0 gap-3 items-center justify-between mb-5">
           <input
             type="text"
@@ -29,7 +29,7 @@ const SearchProperty = () => {
             <button
               type="button"
               onClick={() => scrollToSection("saleSection")}
-              className="hover:bg-red-800 bg-red-600 text-white w-[60px] py-[4px] px-3 rounded-sm"
+              className="hover:bg-red-700 bg-red-600 text-white w-[60px] py-[4px] px-3 rounded-sm"
             >
               Buy
             </button>

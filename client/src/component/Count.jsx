@@ -45,13 +45,13 @@ const Count = () => {
     };
   }, []);
   return (
-    <div className="bg-black text-white  sm:mt-6 mt-4 py-4">
+    <div className=" text-black  sm:my-6 my-4 py-4">
       <div className="grid md:grid-cols-4 grid-cols-2 md:gap-0 gap-12 items-center max-w-6xl mx-auto">
         <div className="flex flex-col items-center">
           <span className="counter text-2xl  font-semibold" data-target="300">
             0
           </span>
-          <PiUsersThree size={25} className="text-white" />
+          <PiUsersThree size={25} className="" />
           <span className="text-[18px]">satisfied clients</span>
         </div>
         <div className="flex flex-col items-center">

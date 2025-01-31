@@ -11,7 +11,7 @@ export default function About() {
     <div className="  min-h-screen">
       <div className="sm:py-20 py-10 ">
         <div className="px-4 max-w-6xl mx-auto">
-          <h1 className="text-3xl font-bold mb-4  text-[#001030]">
+          <h1 className="text-3xl font-bold mb-4  text-[#1E2128]">
             About Finder
           </h1>
           <p className="mb-4  text-slate-700">

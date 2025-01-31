@@ -72,9 +72,9 @@ export default function Header({ setShowNav, showNav }) {
     <header className="bg-white shadow-lg z-30 w-full">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to="/">
-          <h1 className="font-bold md:text-2xl text-[20px] flex flex-wrap gap-1 items-center">
+          <h1 className="font-bold lg:text-2xl md:text-[18px] flex flex-wrap gap-1 items-center">
             <span className="text-[#1E2128]">Finder</span>
-            <MdOutlineRealEstateAgent className="text-[#1E2128] md:inline hidden" />
+            <MdOutlineRealEstateAgent className="text-[#1E2128] lg:inline hidden" />
           </h1>
         </Link>
 
@@ -85,7 +85,7 @@ export default function Header({ setShowNav, showNav }) {
           <input
             type="text"
             placeholder="Search..."
-            className="bg-[rgb(241,245,241)] focus:outline-none border-none w-24 sm:w-64"
+            className="bg-[rgb(241,245,241)] focus:outline-none border-none md:w-64  w-40 "
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -95,13 +95,18 @@ export default function Header({ setShowNav, showNav }) {
         </form>
 
         <ul className="flex items-center gap-4">
-          <Link to="/">
-            <li className="hidden sm:inline text-slate-700 hover:underline">
-              Home
+          <Link to="/sell">
+            <li className="hidden lg:inline text-slate-700 hover:underline">
+              sell
+            </li>
+          </Link>
+          <Link to="/rent">
+            <li className="hidden lg:inline text-slate-700 hover:underline">
+              rent
             </li>
           </Link>
           <Link to="/about">
-            <li className="hidden sm:inline text-slate-700 hover:underline">
+            <li className="hidden lg:inline text-slate-700 hover:underline">
               About
             </li>
           </Link>
@@ -109,7 +114,7 @@ export default function Header({ setShowNav, showNav }) {
           {currentUser && (currentUser.isAdmin || currentUser.isAgent) && (
             <Link
               to={"/dashboard?tab=create-listing"}
-              className="bg-[#1E2128] hidden sm:inline text-white rounded-md sm:px-3 px-2 py-2 sm:text-[13px] text-[11px] text-nowrap uppercase"
+              className="bg-[#1E2128] hidden lg:inline text-white rounded-md sm:px-3 px-2 py-2 sm:text-[13px] text-[11px] text-nowrap uppercase"
             >
               create listing
             </Link>
@@ -118,10 +123,10 @@ export default function Header({ setShowNav, showNav }) {
           {currentUser && (
             <Link
               to={"/dashboard?tab=messaging"}
-              className=" hidden sm:flex  text-slate-700  items-center gap-1"
+              className=" flex  text-slate-700  items-center gap-1"
             >
-              <p>Messaging</p>
-              <LuMessageCircleMore />
+              <p className="hidden md:flex">Messaging</p>
+              <LuMessageCircleMore size={25} />
             </Link>
           )}
 
@@ -189,6 +194,12 @@ export default function Header({ setShowNav, showNav }) {
         <ul className="flex flex-col gap-2 p-3">
           <Link to="/">
             <li className="text-slate-700 hover:underline ">Home</li>
+          </Link>
+          <Link to="/sell">
+            <li className="text-slate-700 hover:underline">Sell</li>
+          </Link>
+          <Link to="/rent">
+            <li className="text-slate-700 hover:underline">Rent</li>
           </Link>
           <Link to="/about">
             <li className="text-slate-700 hover:underline">About</li>

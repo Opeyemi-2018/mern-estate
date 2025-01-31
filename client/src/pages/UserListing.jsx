@@ -1,23 +1,22 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { RiErrorWarningLine } from "react-icons/ri";
 import { MdOutlineDone } from "react-icons/md";
 import { IoLocationOutline } from "react-icons/io5";
 import { PiBuildingApartment } from "react-icons/pi";
 import { CiEdit } from "react-icons/ci";
 import { RiDeleteBin5Line } from "react-icons/ri";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ClipLoader } from "react-spinners";
+
 const UserListing = () => {
   let { currentUser } = useSelector((state) => state.user);
-  const [error, setError] = useState(null);
   const [userListings, setUserListings] = useState([]);
   let [deleteId, setDeleteId] = useState(null);
   let [deleteName, setDeleteName] = useState("");
   let [showModal, setShowModal] = useState(false);
-  let [deleteSuccess, setDeleteSuccess] = useState(null);
-  // const [error, setError] = useState(null)
-  console.log(deleteName);
 
   useEffect(() => {
     const handleShowListings = async () => {
@@ -25,16 +24,20 @@ const UserListing = () => {
         const res = await fetch(`/api/user/listing/${currentUser._id}`);
         const data = await res.json();
         if (data.success === false) {
-          setError("unable to get");
+          toast.error("unable to get", {
+            pauseOnHover: false,
+            draggable: true,
+          });
           return;
         }
 
         setUserListings(data);
-        setError(null);
       } catch (error) {
-        setError(error.message);
+        toast.error(error.message, {
+          pauseOnHover: false,
+          draggable: true,
+        });
       } finally {
-        setDeleteId(null);
         setDeleteName("");
         setShowModal(false);
       }
@@ -49,15 +52,20 @@ const UserListing = () => {
       });
       const data = await res.json();
       if (data.success === false) {
-        console.log(data.message);
+        toast.error("unable to delete", {
+          pauseOnHover: false,
+          draggable: true,
+        });
         return;
       }
 
       setUserListings((prev) =>
         prev.filter((listing) => listing._id !== deleteId)
       );
-      setDeleteSuccess("listing successfully deleted");
-      setTimeout(() => setDeleteSuccess(null), 3000);
+      toast.success("property successfully deleted", {
+        pauseOnHover: false,
+        draggable: true,
+      });
     } catch (error) {
       console.log(error.message);
     } finally {
@@ -91,14 +99,16 @@ const UserListing = () => {
     );
   }
 
-  if (error) {
-    return <div className="flex items-center justify-center">{error}</div>;
-  }
   return (
     <div className="flex flex-col">
+      <div className="absolute left-1/2 top-8 transform -translate-y-1/2 -translate-x-1/2">
+        <ToastContainer position="top-center" autoClose={5000} />
+      </div>{" "}
       <div className=" shadow-sm px-4 py-3 flex flex-col gap-2">
         <div className="flex items-center gap-4 ">
-          <button className="bg-[#DBB65D]  px-3 py-1 rounded-md">buy</button>
+          <button className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded-md">
+            buy
+          </button>
           <button className="bg-white px-3 py-1 rounded-md">rent</button>
         </div>
 
@@ -189,17 +199,6 @@ const UserListing = () => {
             </div>
           </div>
         )}
-
-        <div className="fixed top-[10%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          {deleteSuccess && (
-            <p className="flex text-nowrap items-center justify-between gap-3 text-white bg-green-500 rounded-md px-2 py-1">
-              <span>
-                <MdOutlineDone className="bg-white rounded-full p-1 text-3xl text-green-600" />
-              </span>{" "}
-              <span>{deleteSuccess}</span>
-            </p>
-          )}
-        </div>
 
         {showModal && (
           <div className="fixed inset-0  sm:px-0 px-2 bg-gray-800 bg-opacity-30 flex justify-center items-center z-30">

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
+
 import SwiperCore from "swiper";
 import { useSelector } from "react-redux";
 import { Navigation } from "swiper/modules";
@@ -188,6 +189,20 @@ export default function Listing() {
                     {listing.furnished ? "Furnished" : "Unfurnished"}
                   </li>
                 </ul>
+                {!currentUser && listing.userRef !== currentUser && (
+                  <div>
+                    <p>
+                      Kindly{" "}
+                      <span>
+                        <Link to="/sign-in" className="text-blue-500 underline">
+                          sign in here
+                        </Link>
+                      </span>{" "}
+                      to access the chat with this property owner.
+                    </p>
+                  </div>
+                )}
+
                 <div className="xl:flex flex-col hidden mt-4">
                   {currentUser &&
                     listing.userRef !== currentUser._id &&
@@ -232,11 +247,11 @@ export default function Listing() {
               )}
             </div>
             {/* button for mobile screen */}
-            <div className="xl:hidden flex flex-col mt-4">
+            <div className="xl:hidden inline  ">
               {currentUser && listing.userRef !== currentUser._id && !userInfo && (
                 <button
                   onClick={() => setUserInfo(true)}
-                  className="bg-[#001030] text-white rounded-lg uppercase hover:opacity-95 p-3"
+                  className="bg-red-600 hover:bg-red-700 mt-4 text-white rounded-lg uppercase hover:opacity-95 p-3"
                 >
                   Contact landlord
                 </button>

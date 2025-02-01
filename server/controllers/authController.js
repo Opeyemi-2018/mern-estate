@@ -52,11 +52,11 @@ export let signIn = async (req, res, next) => {
         httpOnly: true,
         secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
-      }) // Expires after 7 days
-      .status(200) // Set the response status code to 200
+      })
+      .status(200)
       .json(rest); // Send the user data (excluding password) in the response
   } catch (error) {
-    next(error); // Pass any error to the next middleware (error handler)
+    next(error);
   }
 };
 

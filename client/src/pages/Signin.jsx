@@ -53,6 +53,7 @@ const Signin = () => {
         });
         return;
       }
+      localStorage.setItem("access_token", data.token); // Assuming the token is in the 'token' field
       dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {

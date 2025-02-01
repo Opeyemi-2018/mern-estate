@@ -1,9 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import userRouter from "./routes/userRoute.js";
-import authRouter from "./routes/authRoute.js";
-import listingRouter from "./routes/listingRoute.js";
+import userRoute from "./routes/userRoute.js";
+import authRoute from "./routes/authRoute.js";
+import listingRoute from "./routes/listingRoute.js";
+import favoriteRoute from "./routes/favoriteListingRoute.js";
 import messageRoute from "./routes/messageRoute.js";
 import cookieParser from "cookie-parser";
 import path from "path";
@@ -39,9 +40,10 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use("/api/user", userRouter);
-app.use("/api/auth", authRouter);
-app.use("/api/listing", listingRouter);
+app.use("/api/user", userRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/listing", listingRoute);
+app.use("/api/favorite", favoriteRoute);
 app.use("/api/message", messageRoute);
 
 app.use(express.static(path.join(__dirname, "/client/dist")));

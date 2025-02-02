@@ -54,7 +54,7 @@ export let signIn = async (req, res, next) => {
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
       .status(200)
-      .json(rest); // Send the user data (excluding password) in the response
+      .json({ token, user: rest });
   } catch (error) {
     next(error);
   }

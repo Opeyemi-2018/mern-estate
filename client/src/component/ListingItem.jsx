@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { MdLocationOn } from "react-icons/md";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from "react-spinners";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { MdFavorite } from "react-icons/md";
+import useFavorite from "../customhook";
 
 /**
  * ListingItem component displays individual listing information.
@@ -14,53 +14,17 @@ import { useSelector } from "react-redux";
  * @returns JSX element for rendering a listing item.
  */
 export default function ListingItem({ listing }) {
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const { currentUser } = useSelector((state) => state.user);
-
-  const addToFavorite = async () => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem("access_token");
-      const res = await fetch("/api/favorite/favorites", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ listingId: listing._id }),
-        credentials: "include",
-      });
-      if (!res.ok) {
-        const errorData = await res.json();
-        toast.error(errorData.message || "something went wrong", {
-          pauseOnHover: false,
-          draggable: true,
-        });
-        setLoading(false);
-        return;
-      }
-      toast.success("successfully added to favorite", {
-        pauseOnHover: false,
-        draggable: true,
-      });
-      setIsFavorite(true);
-      setLoading(false);
-    } catch (error) {
-      toast.error(error.message || "An unexpected error occurred", {
-        pauseOnHover: false,
-        draggable: true,
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { isFavorite, loading, addToFavorite, deleteFavorite } = useFavorite(
+    listing._id
+  ); // Use the custom hook
 
   return (
     <div className="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-md w-full sm:w-[330px]">
-      <div className="absolute left-1/2 top-1/2 transform -translate-y-1/2 -translate-x-1/2">
-        <ToastContainer position="top-center" autoClose={5000} />
-      </div>{" "}
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        toastClassName="w-[250px] text-center"
+      />
       <Link to={`/listing/${listing._id}`}>
         <img
           src={
@@ -85,7 +49,7 @@ export default function ListingItem({ listing }) {
           {listing.description}
         </p>
         <p className="text-slate-500 mt-2 font-semibold ">
-          $
+          ${" "}
           {listing.offer
             ? listing.discountPrice.toLocaleString("en-US")
             : listing.regularPrice.toLocaleString("en-US")}
@@ -98,7 +62,6 @@ export default function ListingItem({ listing }) {
                 ? `${listing.bedrooms} beds `
                 : `${listing.bedrooms} bed `}
             </div>
-
             <div className="font-bold text-xs">
               {listing.bathrooms > 1
                 ? `${listing.bathrooms} baths `
@@ -107,15 +70,25 @@ export default function ListingItem({ listing }) {
           </div>
           <div>
             {loading ? (
-              <div className="spinner  flex items-center justify-center">
+              <div className="spinner flex items-center justify-center">
                 <ClipLoader color="blue" size={25} loading={loading} />
               </div>
             ) : (
-              <MdOutlineFavoriteBorder
-                onClick={addToFavorite}
-                size={25}
-                className=" z-10 text-gray-500"
-              />
+              <div>
+                {isFavorite ? (
+                  <MdFavorite
+                    size={25}
+                    onClick={deleteFavorite}
+                    className="z-10 text-pink-600 cursor-pointer"
+                  />
+                ) : (
+                  <MdOutlineFavoriteBorder
+                    onClick={addToFavorite}
+                    size={25}
+                    className="z-10 text-gray-500 cursor-pointer"
+                  />
+                )}
+              </div>
             )}
           </div>
         </div>

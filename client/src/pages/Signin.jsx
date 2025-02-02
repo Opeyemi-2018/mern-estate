@@ -45,15 +45,20 @@ const Signin = () => {
         credentials: "include",
       });
       let data = await res.json();
-      if (data.success === false) {
-        dispatch(signInFailure(data.message));
-        toast.error(data.message, {
+      console.log("API Response:", data);
+
+      if (!res.ok) {
+        dispatch(signInFailure(data.message || "Sign-in failed"));
+        toast.error(data.message || "Sign-in failed", {
           pauseOnHover: false,
           draggable: true,
         });
         return;
       }
-      localStorage.setItem("access_token", data.token); // Assuming the token is in the 'token' field
+      localStorage.setItem("user", JSON.stringify(data));
+      if (data.token) {
+        localStorage.setItem("access_token", data.token);
+      }
       dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {

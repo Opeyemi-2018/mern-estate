@@ -87,12 +87,12 @@ const Hero = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="bg-[rgb(241,245,241)] px-3 py-1 w-full mx-auto max-w-3xl rounded-full justify-between  flex items-center"
+        className="bg-[rgb(241,245,241)] px-2 py-1 w-full mx-auto max-w-3xl rounded-full justify-between  flex items-center"
       >
         <input
           type="text"
           placeholder="Search..."
-          className="bg-[rgb(241,245,241)] focus:outline-none border-none p-2 w-full "
+          className="bg-[rgb(241,245,241)] focus:outline-none border-none py-2 px-3 w-full "
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

@@ -5,7 +5,7 @@ import { Listing } from "../models/listingModel.js";
 export const createFavorite = async (req, res, next) => {
   try {
     const { listingId } = req.body;
-    const userId = req.user.userId;
+    const userId = req.user.id;
 
     if (!userId) {
       return res.status(400).json({ message: "User not authenticated" });
@@ -33,7 +33,7 @@ export const createFavorite = async (req, res, next) => {
 
 export const DeleteFavorite = async (req, res, next) => {
   const { listingId } = req.params;
-  const userId = req.user._id;
+  const userId = req.user.id;
 
   try {
     const deletedFavorite = await Favorite.findOneAndDelete({

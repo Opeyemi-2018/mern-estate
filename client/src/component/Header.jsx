@@ -7,7 +7,8 @@ import { LiaTimesSolid } from "react-icons/lia";
 import { useDispatch } from "react-redux";
 import { MdOutlineRealEstateAgent } from "react-icons/md";
 import { LuMessageCircleMore } from "react-icons/lu";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   signOutUserStart,
   deleteUserFailure,
@@ -34,24 +35,6 @@ export default function Header({ setShowNav, showNav }) {
   }, []);
 
   const { currentUser } = useSelector((state) => state.user);
-  // const [searchTerm, setSearchTerm] = useState("");
-  // const navigate = useNavigate();
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const urlParams = new URLSearchParams(window.location.search);
-  //   urlParams.set("searchTerm", searchTerm);
-  //   const searchQuery = urlParams.toString();
-  //   navigate(`/search?${searchQuery}`);
-  // };
-
-  // useEffect(() => {
-  //   const urlParams = new URLSearchParams(location.search);
-  //   const searchTermFromUrl = urlParams.get("searchTerm");
-  //   if (searchTermFromUrl) {
-  //     setSearchTerm(searchTermFromUrl);
-  //   }
-  // }, [location.search]);
 
   const handleSignOut = async () => {
     try {
@@ -64,12 +47,21 @@ export default function Header({ setShowNav, showNav }) {
       }
       dispatch(deleteUserSuccess(data));
     } catch (error) {
-      dispatch(deleteUserFailure(data.message));
+      // dispatch(deleteUserFailure(data.message));
+      toast.error(error.message, {
+        pauseOnHover: false,
+        draggable: true,
+      });
     }
   };
 
   return (
     <header className="bg-white shadow-lg z-30 w-full">
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        toastClassName="w-[250px] text-center"
+      />
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to="/">
           <h1 className="font-bold lg:text-2xl md:text-[18px] flex flex-wrap gap-1 items-center">

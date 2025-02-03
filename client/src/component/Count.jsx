@@ -57,7 +57,7 @@ const Count = () => {
         <div className="flex flex-col items-center">
           <span
             className="counter text-2xl text-1xl font-semibold"
-            data-target="300"
+            data-target="600"
           >
             0
           </span>
@@ -75,7 +75,7 @@ const Count = () => {
           <span className="text-[18px]">Houses for rent</span>
         </div>
         <div className="flex flex-col items-center">
-          <span className="counter text-2xl  font-semibold" data-target="300">
+          <span className="counter text-2xl  font-semibold" data-target="100">
             0
           </span>
           <MdSupportAgent size={25} />

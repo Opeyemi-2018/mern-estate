@@ -43,7 +43,7 @@ const useFavorite = (listingId) => {
       // Persist the favorite status in localStorage
       localStorage.setItem(listingId, "true");
 
-      toast.success("Successfully added to favorites", {
+      toast.success("added to favorites", {
         pauseOnHover: false,
         draggable: true,
       });
@@ -84,7 +84,7 @@ const useFavorite = (listingId) => {
       // Remove the favorite status from localStorage
       localStorage.removeItem(listingId);
 
-      toast.success("Successfully removed from favorites", {
+      toast.success("removed from favorite", {
         pauseOnHover: false,
         draggable: true,
       });

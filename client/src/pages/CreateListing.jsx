@@ -136,21 +136,23 @@ export default function CreateListing() {
       }));
     }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (formData.imageUrls.length < 1)
-        return toast.error("you must upload atleast one image", {
+        return toast.error("You must upload at least one image", {
           pauseOnHover: false,
           draggable: true,
         });
+
       if (+formData.regularPrice < +formData.discountPrice)
-        return toast.error("discount price must be lower than regular price", {
+        return toast.error("Discount price must be lower than regular price", {
           pauseOnHover: false,
           draggable: true,
         });
+
       setLoading(true);
+
       const res = await fetch("/api/listing/create", {
         method: "POST",
         headers: {
@@ -161,18 +163,36 @@ export default function CreateListing() {
           userRef: currentUser._id,
         }),
       });
+
+      if (!res.ok) {
+        // Check if the response is JSON, otherwise show a generic error
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error(
+            "Unexpected server response. Please try again later."
+          );
+        }
+
+        const errorData = await res.json();
+        throw new Error(errorData.message || `Server error: ${res.status}`);
+      }
+
+      // Parse JSON safely
       const data = await res.json();
       setLoading(false);
+
       if (data.success === false) {
-        toast.error(data.message, {
+        return toast.error(data.message, {
           pauseOnHover: false,
           draggable: true,
         });
       }
-      toast.success("listing successfully created!", {
+
+      toast.success("Listing successfully created!", {
         pauseOnHover: false,
         draggable: true,
       });
+
       setFormData({
         imageUrls: [],
         name: "",
@@ -189,21 +209,39 @@ export default function CreateListing() {
         parking: false,
         furnished: false,
       });
+
       setFiles([]);
       // navigate(`/listing/${data._id}`);
     } catch (error) {
-      toast.error(error.message, {
-        pauseOnHover: false,
-        draggable: true,
-      });
       setLoading(false);
+
+      if (
+        error.message.includes("Failed to fetch") ||
+        error.message.includes("NetworkError")
+      ) {
+        toast.error("Network error. Please check your internet connection.", {
+          pauseOnHover: false,
+          draggable: true,
+        });
+      } else {
+        toast.error(
+          error.message || "Something went wrong. Please try again.",
+          {
+            pauseOnHover: false,
+            draggable: true,
+          }
+        );
+      }
     }
   };
+
   return (
     <main className="mt-20">
-      <div className="absolute left-1/2 top-5 transform -translate-y-1/2 -translate-x-1/2">
-        <ToastContainer position="top-center" autoClose={5000} />
-      </div>{" "}
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        toastClassName="w-[250px] text-center"
+      />
       <h1 className="text-3xl font-semibold text-center my-7">
         Create a Listing
       </h1>

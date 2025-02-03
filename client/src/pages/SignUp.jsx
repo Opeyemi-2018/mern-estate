@@ -63,9 +63,33 @@ const SignUp = () => {
       });
       return;
     }
+
+    // Validate Email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Please enter a valid email address", {
+        pauseOnHover: false,
+        draggable: true,
+      });
+      return;
+    }
+
+    // Validate Password (at least 8 characters, one uppercase, one number, one special character)
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(formData.password)) {
+      toast.error(
+        "Password must be at least 8 characters long, with at least one uppercase letter, one number, and one special character",
+        {
+          pauseOnHover: false,
+          draggable: true,
+        }
+      );
+      return;
+    }
+
     // Check if either "Agent" or "Client" is selected
     if (!formData.isAgent && !formData.isClient) {
-      toast.error("please select agent or client", {
+      toast.error("Please select agent or client", {
         pauseOnHover: false,
         draggable: true,
       });

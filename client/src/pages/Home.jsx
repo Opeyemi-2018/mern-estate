@@ -30,7 +30,7 @@ export default function Home() {
       ]);
 
       if (!offerRes.ok || !rentRes.ok || !saleRes.ok) {
-        throw new Error("Failed to fetch listings");
+        throw new Error("Bad network, Failed to fetch listings");
       }
 
       const [offerData, rentData, saleData] = await Promise.all([
@@ -43,7 +43,7 @@ export default function Home() {
       setRentListings(rentData);
       setSaleListings(saleData);
     } catch (err) {
-      setError("Failed to load listings.");
+      setError("Bad network, Failed to load listings.");
     } finally {
       setLoading(false);
     }

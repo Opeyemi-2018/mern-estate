@@ -31,6 +31,23 @@ export const createFavorite = async (req, res, next) => {
   }
 };
 
+export const getUserFavorites = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+
+    if (!userId) {
+      return next(errorHandler(404, "user must signed in"));
+    }
+
+    const favorites = await Favorite.find({ user: userId }).populate("listing");
+
+    res.status(200).json(favorites);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
 export const DeleteFavorite = async (req, res, next) => {
   const { listingId } = req.params;
   const userId = req.user.id;

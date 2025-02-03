@@ -26,8 +26,8 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 mongoose
   .connect(process.env.MONGO)
   .then(() => {
-    app.listen(3000, () => {
-      console.log("Server is running on port 3000!");
+    app.listen(4000, () => {
+      console.log("Server is running on port 4000!");
     });
   })
   .catch((err) => {

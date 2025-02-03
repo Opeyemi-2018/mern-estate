@@ -72,9 +72,11 @@ const Signin = () => {
 
   return (
     <div className="sm:px-28 px-3 py-5   min-h-screen">
-      <div className="absolute left-1/2 top-16 transform -translate-y-1/2 -translate-x-1/2">
-        <ToastContainer position="top-center" autoClose={5000} />
-      </div>{" "}
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        toastClassName="w-[250px] text-center"
+      />
       <div className="flex gap-10 justify-between">
         {/* <div className=""> */}
         <img

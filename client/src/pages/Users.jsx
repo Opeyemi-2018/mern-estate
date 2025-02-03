@@ -113,7 +113,7 @@ const Users = () => {
         <p>No users found</p>
       ) : (
         users.map((user) => {
-          const { username, email, avatar, isAdmin, isAgent } = user;
+          const { username, email, image, isAdmin, isAgent } = user;
           return (
             <div key={user._id} className="relative">
               {/* deleted message popup */}
@@ -160,7 +160,7 @@ const Users = () => {
                       className="absolute top-2 right-2 hover:text-red-600 text-black"
                     />
                     <img
-                      src={selectedUser.avatar}
+                      src={selectedUser.image}
                       alt="user image"
                       className="rounded-full w-20 h-20 mx-auto mb-1"
                     />

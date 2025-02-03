@@ -45,7 +45,7 @@ const Signin = () => {
         credentials: "include",
       });
       let data = await res.json();
-      console.log("API Response:", data);
+      // console.log("API Response:", data);
 
       if (!res.ok) {
         dispatch(signInFailure(data.message || "Sign-in failed"));
@@ -59,7 +59,7 @@ const Signin = () => {
       if (data.token) {
         localStorage.setItem("access_token", data.token);
       }
-      dispatch(signInSuccess(data));
+      dispatch(signInSuccess(data.user));
       navigate("/");
     } catch (error) {
       dispatch(signInFailure(error.message));

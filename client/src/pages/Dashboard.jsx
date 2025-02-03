@@ -29,10 +29,13 @@ import CreateListing from "./CreateListing";
 import UpdateListing from "./UpdateListing";
 import DashboardOverview from "./DashboardOverview";
 
-const Dashboard = ({ showNav }) => {
+const Dashboard = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
+  useEffect(() => {
+    console.log(currentUser);
+  }, [currentUser]);
   const [tab, setTab] = useState("");
   let [showSideBar, setShowSideBar] = useState(false);
 
@@ -145,8 +148,6 @@ const Dashboard = ({ showNav }) => {
               className={`flex items-center gap-2 rounded-md p-1 text-[#2c2f36] hover:text-white hover:bg-[#2c2f36]
             }`}
             >
-              {/* <FaUser size={20} className="" />
-            <p className="">Profile</p> */}
               <div className="flex items-center gap-1">
                 <img
                   src={currentUser.image}
@@ -154,7 +155,7 @@ const Dashboard = ({ showNav }) => {
                   alt=""
                 />
                 <div className="p-2">
-                  <p>{currentUser.username.slice(0, 5)}</p>
+                  {/* <p>{currentUser.username.slice(0, 5)}</p> */}
                 </div>
               </div>
             </Link>
@@ -311,7 +312,7 @@ const Dashboard = ({ showNav }) => {
         {tab === "users" && <Users />}
         {tab === "messaging" && <Messaging />}
         {tab === "create-listing" && <CreateListing />}
-        {tab === `listing/:listingId` && <UpdateListing />}
+        {/* {tab === `listing/:listingId` && <UpdateListing />} */}
       </div>
     </main>
   );

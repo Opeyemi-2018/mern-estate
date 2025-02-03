@@ -8,8 +8,11 @@ import { ClipLoader } from "react-spinners";
 import Hero from "../component/Hero";
 import Count from "../component/Count";
 import Design from "../component/Design";
+import { useSelector } from "react-redux";
 
 export default function Home() {
+  let { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser);
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);

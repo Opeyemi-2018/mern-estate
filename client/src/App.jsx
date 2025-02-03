@@ -15,6 +15,7 @@ import OnlyAdminAndAgentRoute from "./component/OnlyAdminAndAgentRoute";
 import CreateListing from "./pages/CreateListing";
 import Sell from "./pages/Sell";
 import Rent from "./pages/Rent";
+import UpdateListing from "./pages/UpdateListing";
 
 const AppContent = () => {
   const location = useLocation();
@@ -45,11 +46,11 @@ const AppContent = () => {
         <Route path="/rent" element={<Rent />} />
         <Route path="/search" element={<Search />} />
         <Route path="/listing/:listingId" element={<Listing />} />
-
+        <Route path="/update-listing/:listingId" element={<UpdateListing />} />
         {/* Private Routes */}
-        <Route element={<PrivateRoute />}>
-          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-        </Route>
+        {/* <Route element={<PrivateRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route> */}
         <Route element={<OnlyAdminAndAgentRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
           {/* <Route path="/create-listing" element={<CreateListing />} />

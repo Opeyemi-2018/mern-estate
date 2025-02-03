@@ -392,11 +392,11 @@ const UpdateListing = () => {
             ))}
           <button
             disabled={loading || uploading}
-            className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+            className="p-3 bg:black text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
           >
             {loading ? (
               <div className="spinner  flex items-center justify-center">
-                <ClipLoader color="blue" size={50} loading={loading} />
+                <ClipLoader color="blue" size={30} loading={loading} />
               </div>
             ) : (
               "Edit Listing"

@@ -62,7 +62,7 @@ const UserListing = () => {
       setUserListings((prev) =>
         prev.filter((listing) => listing._id !== deleteId)
       );
-      toast.success("property successfully deleted", {
+      toast.success("property deleted", {
         pauseOnHover: false,
         draggable: true,
       });
@@ -88,11 +88,14 @@ const UserListing = () => {
 
   if (userListings.length === 0) {
     return (
-      <div className="flex items-left flex-col gap-2  mt-20 ">
+      <div className="flex items-center justify-center flex-col gap-2  mt-20 ">
         <h1 className="md:text-2xl text-1xl uppercase">
           sorry you do not have any listing !!
         </h1>
-        <Link to={"/create-listing"} className="md:text-2xl text-1xl underline">
+        <Link
+          to={"/dashboard?tab=create-listing"}
+          className="md:text-2xl text-1xl underline text-blue-400"
+        >
           create listing
         </Link>
       </div>
@@ -101,9 +104,11 @@ const UserListing = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="absolute left-1/2 top-8 transform -translate-y-1/2 -translate-x-1/2">
-        <ToastContainer position="top-center" autoClose={5000} />
-      </div>{" "}
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        toastClassName="w-[250px] text-center"
+      />
       <div className=" shadow-sm px-4 py-3 flex flex-col gap-2">
         <div className="flex items-center gap-4 ">
           <button className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded-md">

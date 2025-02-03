@@ -77,14 +77,14 @@ export default function ListingItem({ listing }) {
               <div>
                 {isFavorite ? (
                   <MdFavorite
-                    size={25}
+                    size={30}
                     onClick={deleteFavorite}
-                    className="z-10 text-pink-600 cursor-pointer"
+                    className="z-10 text-red-500 animate-bounce cursor-pointer"
                   />
                 ) : (
                   <MdOutlineFavoriteBorder
                     onClick={addToFavorite}
-                    size={25}
+                    size={30}
                     className="z-10 text-gray-500 cursor-pointer"
                   />
                 )}

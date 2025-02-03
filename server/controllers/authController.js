@@ -3,44 +3,9 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { errorHandler } from "../utils/error.js";
 
-import Joi from "joi";
-
+// Sign-up controller function
 export let signUp = async (req, res, next) => {
   let { username, email, password, isAgent, isClient, image } = req.body;
-
-  // Joi Schema for validation
-  const schema = Joi.object({
-    username: Joi.string().min(3).max(30).required(),
-    email: Joi.string().email().required(),
-    password: Joi.string()
-      .pattern(
-        new RegExp(
-          "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
-        )
-      )
-      .required()
-      .messages({
-        "string.pattern.base":
-          "Password must be at least 8 characters long, with at least one uppercase letter, one number, and one special character.",
-      }),
-    isAgent: Joi.boolean(),
-    isClient: Joi.boolean(),
-    image: Joi.string().required(),
-  });
-
-  const { error } = schema.validate({
-    username,
-    email,
-    password,
-    isAgent,
-    isClient,
-    image,
-  });
-  if (error)
-    return res
-      .status(400)
-      .json({ success: false, message: error.details[0].message });
-
   let hashPassword = bcryptjs.hashSync(password, 10);
   let newUser = new User({
     username,
@@ -52,12 +17,10 @@ export let signUp = async (req, res, next) => {
   });
 
   try {
-    await newUser.save();
-    res
-      .status(201)
-      .json({ success: true, message: "User created successfully" });
+    await newUser.save(); // Attempt to save the new user to the database
+    res.status(201).json("User created successfully"); // Send a success response with status code 201
   } catch (error) {
-    next(error);
+    next(error); // Pass any error to the next middleware (error handler)
   }
 };
 

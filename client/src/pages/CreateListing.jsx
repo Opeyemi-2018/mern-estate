@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { MdOutlineDone } from "react-icons/md";
 import {
   getDownloadURL,
   getStorage,
@@ -42,9 +41,14 @@ export default function CreateListing() {
         );
         const data = await response.json();
 
-        const nigeria = data.data.find((country) => country.name === "Nigeria");
-        if (nigeria) {
-          setStates(nigeria.states);
+        // Check for the United States using 'United States' or 'usa'
+        const usa = data.data.find(
+          (country) =>
+            country.name.toLowerCase() === "united states" ||
+            country.name.toLowerCase() === "usa"
+        );
+        if (usa) {
+          setStates(usa.states);
         }
       } catch (error) {
         console.error("Error fetching states:", error);
@@ -188,7 +192,7 @@ export default function CreateListing() {
         });
       }
 
-      toast.success("Listing successfully created!", {
+      toast.success("Listing created!", {
         pauseOnHover: false,
         draggable: true,
       });
@@ -495,7 +499,7 @@ export default function CreateListing() {
               ))}
             <button
               disabled={loading || uploading}
-              className="p-3 bg-[#001030] text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+              className="p-3 bg-[#2c2f36] text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
             >
               {loading ? (
                 <div className="spinner  flex items-center justify-center">

@@ -30,10 +30,10 @@ export default function Profile() {
     let fetchUsers = async () => {
       try {
         let res = await fetch(`api/user/${currentUser._id}`);
-        let date = await res.json();
+        let data = await res.json();
         if (res.ok) {
           setUser(date.user);
-          setUserListingCount(date.listingCount);
+          setUserListingCount(data.listingCount);
         } else {
           throw new Error(data.error || "error fetching user data");
         }
@@ -87,7 +87,7 @@ export default function Profile() {
             </h1>
             <div className="flex items-center gap-6 md:flex-row flex-col">
               <img
-                src={user?.avatar}
+                src={user?.image}
                 alt="profile image"
                 className="rounded-md object-cover border-gray-300 sm:border-4  w-24 h-24 sm:w-32 sm:h-32"
               />

@@ -70,35 +70,19 @@ export default function Header({ setShowNav, showNav }) {
           </h1>
         </Link>
 
-        {/* <form
-          onSubmit={handleSubmit}
-          className="bg-[rgb(241,245,241)] px-3 py-2   rounded-lg flex items-center"
-        >
-          <input
-            type="text"
-            placeholder="Search..."
-            className="bg-[rgb(241,245,241)] focus:outline-none border-none md:w-64  w-32 "
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button>
-            <FaSearch className="text-slate-600" />
-          </button>
-        </form> */}
-
-        <ul className="flex items-center gap-4 font-semibold">
+        <ul className="flex  items-center gap-4 font-semibold">
           <Link to="/sell">
-            <li className="hidden lg:inline text-slate-700 hover:underline">
+            <li className="md:inline hidden  text-slate-700 hover:underline">
               sell
             </li>
           </Link>
           <Link to="/rent">
-            <li className="hidden lg:inline text-slate-700 hover:underline">
+            <li className=" md:inline hidden text-slate-700 hover:underline">
               rent
             </li>
           </Link>
           <Link to="/about">
-            <li className="hidden lg:inline text-slate-700 hover:underline">
+            <li className="md:inline hidden  text-slate-700 hover:underline">
               About
             </li>
           </Link>
@@ -106,7 +90,7 @@ export default function Header({ setShowNav, showNav }) {
           {currentUser && (currentUser.isAdmin || currentUser.isAgent) && (
             <Link
               to={"/dashboard?tab=create-listing"}
-              className="bg-[#1E2128] hidden lg:inline text-white rounded-md sm:px-3 px-2 py-2 sm:text-[13px] text-[11px] text-nowrap uppercase"
+              className="bg-[#1E2128] hidden md:inline text-white rounded-md sm:px-3 px-2 py-2 sm:text-[13px] text-[11px] text-nowrap uppercase"
             >
               create listing
             </Link>
@@ -169,7 +153,7 @@ export default function Header({ setShowNav, showNav }) {
           )}
 
           <button
-            className="sm:hidden inline"
+            className="md:hidden inline"
             onClick={() => setShowNav(!showNav)}
           >
             {showNav ? <LiaTimesSolid size={25} /> : <FaBars size={25} />}
@@ -179,7 +163,7 @@ export default function Header({ setShowNav, showNav }) {
 
       {/* nav for mobile screen */}
       <div
-        className={` text-[20px] sm:hidden overflow-hidden transition-all duration-300 ${
+        className={` text-[20px] md:hidden overflow-hidden transition-all duration-300 ${
           showNav ? "block max-h-screen" : "max-h-0"
         }`}
       >

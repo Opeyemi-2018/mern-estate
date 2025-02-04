@@ -63,7 +63,7 @@ const Dashboard = () => {
   };
 
   return (
-    <main className="relative bg-gray-100 min-h-screen lg:p-4 p-0">
+    <main className="relative bg-[#2c2f36] min-h-screen lg:p-4 p-0">
       {/* Fixed Sidebar */}
       <div
         className={` z-20 fixed lg:inline hidden bg-[#2c2f36] rounded-md  p-4  top-3 bottom-3  left-3 w-60  `}
@@ -302,7 +302,7 @@ const Dashboard = () => {
 
       {/* Content Area with padding to account for the fixed sidebar */}
       <div
-        className={`lg:ml-64 ml-10 h-[580px] overflow-y-auto no-scrollbar py-4  bg-white rounded-lg  transition-all duration-300 
+        className={`lg:ml-64 ml-10 md:h-[580px] h-[630px] overflow-y-auto no-scrollbar   bg-white rounded-lg  transition-all duration-300 
           `}
       >
         {/* Render content based on active tab */}

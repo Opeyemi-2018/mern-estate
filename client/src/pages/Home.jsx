@@ -106,7 +106,7 @@ export default function Home() {
               </h2>
               <Link
                 className="text-sm text-blue-800 hover:underline"
-                to={"/search?type=rent"}
+                to={"/rent"}
               >
                 Show more places for rent
               </Link>
@@ -126,7 +126,7 @@ export default function Home() {
               </h2>
               <Link
                 className="text-sm text-blue-800 hover:underline"
-                to={"/search?type=sale"}
+                to={"/sell"}
               >
                 Show more places for sale
               </Link>

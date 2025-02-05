@@ -77,15 +77,15 @@ export default function Home() {
           </button>
         </div>
       ) : (
-        <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10 min-h-screen">
+        <div className="max-w-6xl mx-auto  flex flex-col gap-8 my-10 min-h-screen">
           {/* Offers Section */}
           {offerListings.length > 0 && (
             <div>
-              <h2 className="text-2xl font-semibold text-slate-600">
+              <h2 className="text-2xl px-3 font-semibold text-slate-600">
                 Recent offers
               </h2>
               <Link
-                className="text-sm text-blue-800 hover:underline"
+                className="text-sm px-3 text-blue-800 hover:underline"
                 to={"/search?offer=true"}
               >
                 Show more offers
@@ -101,11 +101,11 @@ export default function Home() {
           {/* Rent Section */}
           {rentListings.length > 0 && (
             <div id="rentSection">
-              <h2 className="text-2xl font-semibold text-slate-600">
+              <h2 className="text-2xl px-3 font-semibold text-slate-600">
                 Recent places for rent
               </h2>
               <Link
-                className="text-sm text-blue-800 hover:underline"
+                className="text-sm px-3 text-blue-800 hover:underline"
                 to={"/rent"}
               >
                 Show more places for rent
@@ -121,11 +121,11 @@ export default function Home() {
           {/* Sale Section */}
           {saleListings.length > 0 && (
             <div id="saleSection">
-              <h2 className="text-2xl font-semibold text-slate-600">
+              <h2 className="text-2xl px-3 font-semibold text-slate-600">
                 Recent places for sale
               </h2>
               <Link
-                className="text-sm text-blue-800 hover:underline"
+                className="text-sm px-3 text-blue-800 hover:underline"
                 to={"/sell"}
               >
                 Show more places for sale

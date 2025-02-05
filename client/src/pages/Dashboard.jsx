@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { BsHouse } from "react-icons/bs";
 import { FaBars } from "react-icons/fa";
-
+import { MdOutlineFavoriteBorder, MdFavorite } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { FaSignOutAlt } from "react-icons/fa";
@@ -28,6 +28,7 @@ import Messaging from "./Messaging";
 import CreateListing from "./CreateListing";
 import UpdateListing from "./UpdateListing";
 import DashboardOverview from "./DashboardOverview";
+import SavedListing from "../component/SavedListing";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -138,6 +139,16 @@ const Dashboard = () => {
                 <LuMessageCircleMore size={20} className="text-white" />
                 <p className="text-white">Messaging</p>
               </Link>
+
+              <Link
+                to={"/dashboard?tab=saved-listing"}
+                className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
+                  tab === "messaging" ? "bg-[#2c2f36]" : ""
+                }`}
+              >
+                <MdOutlineFavoriteBorder size={20} className="text-white" />
+                <p className="text-white">My saved</p>
+              </Link>
             </div>
           </div>
 
@@ -155,7 +166,7 @@ const Dashboard = () => {
                   alt=""
                 />
                 <div className="p-2">
-                  {/* <p>{currentUser.username.slice(0, 5)}</p> */}
+                  <p>{currentUser.username}</p>
                 </div>
               </div>
             </Link>
@@ -286,6 +297,17 @@ const Dashboard = () => {
             </span>
           </Link>
 
+          <Link
+            onClick={() => setShowSideBar(false)}
+            to={"/dashboard?tab=saved-listing"}
+            className={`text-white p-1 rounded-sm  flex items-center gap-2`}
+          >
+            <MdOutlineFavoriteBorder size={25} />
+            <span className={`${showSideBar ? "inline" : "hidden"}`}>
+              My Saved
+            </span>
+          </Link>
+
           <div>
             <button
               onClick={handleSignOut}
@@ -312,6 +334,7 @@ const Dashboard = () => {
         {tab === "users" && <Users />}
         {tab === "messaging" && <Messaging />}
         {tab === "create-listing" && <CreateListing />}
+        {tab === "saved-listing" && <SavedListing />}
         {/* {tab === `listing/:listingId` && <UpdateListing />} */}
       </div>
     </main>

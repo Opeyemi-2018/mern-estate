@@ -4,7 +4,6 @@ import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from "react-spinners";
-import { useState } from "react";
 import { MdFavorite } from "react-icons/md";
 import useFavorite from "../customhook";
 
@@ -16,10 +15,10 @@ import useFavorite from "../customhook";
 export default function ListingItem({ listing }) {
   const { isFavorite, loading, addToFavorite, deleteFavorite } = useFavorite(
     listing._id
-  ); // Use the custom hook
+  );
 
   return (
-    <div className="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-md w-full sm:w-[330px]">
+    <div className="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden sm:rounded-md w-full sm:w-[330px]">
       <ToastContainer
         position="top-center"
         autoClose={3000}

@@ -8,12 +8,21 @@ const useFavorite = (listingId) => {
   const { currentUser } = useSelector((state) => state.user);
   const token = currentUser?.token;
 
-  // Check if the listing is already a favorite on initial load
+  // Sync favorite status with localStorage
   useEffect(() => {
-    const savedFavorite = localStorage.getItem(listingId);
-    if (savedFavorite) {
-      setIsFavorite(true);
-    }
+    const checkFavorite = () => {
+      const savedFavorite = localStorage.getItem(listingId);
+      setIsFavorite(!!savedFavorite);
+    };
+
+    checkFavorite();
+
+    // Listen for updates from other components
+    window.addEventListener("favorite-updated", checkFavorite);
+
+    return () => {
+      window.removeEventListener("favorite-updated", checkFavorite);
+    };
   }, [listingId]);
 
   // Function to add listing to favorites
@@ -32,27 +41,19 @@ const useFavorite = (listingId) => {
 
       if (!res.ok) {
         const errorData = await res.json();
-        toast.error(errorData.message || "Something went wrong", {
-          pauseOnHover: false,
-          draggable: true,
-        });
+        toast.error(errorData.message || "Something went wrong");
         setLoading(false);
         return;
       }
 
-      // Persist the favorite status in localStorage
       localStorage.setItem(listingId, "true");
-
-      toast.success("added to favorites", {
-        pauseOnHover: false,
-        draggable: true,
-      });
+      toast.success("Added to favorites");
       setIsFavorite(true);
+
+      // Notify other components that favorite status has changed
+      window.dispatchEvent(new Event("favorite-updated"));
     } catch (error) {
-      toast.error(error.message || "An unexpected error occurred", {
-        pauseOnHover: false,
-        draggable: true,
-      });
+      toast.error(error.message || "An unexpected error occurred");
     } finally {
       setLoading(false);
     }
@@ -73,27 +74,19 @@ const useFavorite = (listingId) => {
 
       if (!res.ok) {
         const errorData = await res.json();
-        toast.error(errorData.message || "Something went wrong", {
-          pauseOnHover: false,
-          draggable: true,
-        });
+        toast.error(errorData.message || "Something went wrong");
         setLoading(false);
         return;
       }
 
-      // Remove the favorite status from localStorage
       localStorage.removeItem(listingId);
-
-      toast.success("removed from favorite", {
-        pauseOnHover: false,
-        draggable: true,
-      });
+      toast.success("Removed from favorite");
       setIsFavorite(false);
+
+      // Notify other components that favorite status has changed
+      window.dispatchEvent(new Event("favorite-updated"));
     } catch (error) {
-      toast.error(error.message || "An unexpected error occurred", {
-        pauseOnHover: false,
-        draggable: true,
-      });
+      toast.error(error.message || "An unexpected error occurred");
     } finally {
       setLoading(false);
     }

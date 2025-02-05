@@ -41,7 +41,6 @@ export default function CreateListing() {
         );
         const data = await response.json();
 
-        // Check for the United States using 'United States' or 'usa'
         const usa = data.data.find(
           (country) =>
             country.name.toLowerCase() === "united states" ||

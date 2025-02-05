@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-
-import SwiperCore from "swiper";
 import { useSelector } from "react-redux";
-import { Navigation } from "swiper/modules";
-import "swiper/css/bundle";
-
 import {
   FaBath,
   FaBed,
@@ -35,20 +29,18 @@ const fetchCoordinates = async (address) => {
 };
 
 export default function Listing() {
-  SwiperCore.use([Navigation]);
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
   const [userInfo, setUserInfo] = useState(false);
   const [cancelInfo, setCancelInfo] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null); // To store the selected image
   const [coordinates, setCoordinates] = useState(null);
   const { listingId } = useParams();
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
-    console.log("Fetching listing...", listingId);
-
     const fetchListing = async () => {
       try {
         setLoading(true);
@@ -60,11 +52,11 @@ export default function Listing() {
           return;
         }
         setListing(data);
-        // Fetch coordinates after listing data is loaded
         const coords = await fetchCoordinates(data.address);
         setCoordinates(coords);
         setLoading(false);
         setError(false);
+        setSelectedImage(data.imageUrls[0]);
       } catch (error) {
         setError(true);
         setLoading(false);
@@ -106,20 +98,38 @@ export default function Listing() {
         </div>
       )}
       {listing && !loading && !error && (
-        <div className="flex-grow">
-          <Swiper navigation>
-            {listing.imageUrls.map((url) => (
-              <SwiperSlide key={url}>
+        <div className="">
+          <div className="flex items-center lg:flex-row flex-col gap-4 md:pt-3 max-w-6xl md:px-3 px-0 mx-auto">
+            <div className="flex-1">
+              <img
+                src={selectedImage}
+                alt=""
+                className="w-full lg:h-[500px] h-[400px] object-cover" // Setting width and height with object-cover
+              />
+            </div>
+
+            {/* Thumbnail Images */}
+            <div className="flex flex-row lg:flex-col md:gap-4 gap-2">
+              {listing.imageUrls.map((url, index) => (
                 <div
-                  className="h-[550px]"
-                  style={{
-                    background: `url(${url}) center no-repeat`,
-                    backgroundSize: "cover",
-                  }}
-                ></div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+                  key={index}
+                  onClick={() => setSelectedImage(url)}
+                  className={`lg:w-40 md:w-32 w-16 h-20 cursor-pointer  `}
+                >
+                  <img
+                    src={url}
+                    alt=""
+                    className={` lg:w-full w-[340px] h-full object-cover rounded-md ${
+                      selectedImage === url
+                        ? "border-gray-700  border-2"
+                        : "border-none"
+                    }`} // Ensuring thumbnails also have consistent size
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="fixed top-[13%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer">
             <FaShare
               className="text-slate-500"
@@ -137,17 +147,17 @@ export default function Listing() {
               Link copied!
             </p>
           )}
-          <div className="max-w-6xl mx-auto p-3 my-7">
+          <div className="max-w-6xl mx-auto px-3 my-4">
             <div className="flex xl:flex-row flex-col gap-4">
               <div className="flex flex-col gap-4 md:mb-0 mb-4">
-                <p className="text-2xl font-semibold">
+                <p className="md:text-2xl text-nowrap text-[18px] font-semibold">
                   {listing.name} - ${" "}
                   {listing.offer
                     ? listing.discountPrice.toLocaleString("en-US")
                     : listing.regularPrice.toLocaleString("en-US")}
                   {listing.type === "rent" && " / month"}
                 </p>
-                <p className="flex items-center mt-6 gap-2 text-slate-600 text-sm">
+                <p className="flex items-center md:mt-6 mt-3 gap-2 text-slate-600 text-sm">
                   <FaMapMarkerAlt className="text-green-700" />
                   {listing.address}
                 </p>

@@ -14,7 +14,7 @@ const Rent = () => {
   const [selectedState, setSelectedState] = useState("");
   const [selectedApartmentType, setSelectedApartmentType] = useState("");
   const [filteredListings, setFilteredListings] = useState([]);
-
+  const [error, setError] = useState(null);
   const [favorites, setFavorites] = useState(() => {
     const savedFavorites = JSON.parse(localStorage.getItem("favorites"));
     return savedFavorites || {};
@@ -32,6 +32,7 @@ const Rent = () => {
         setRent(data);
         setFilteredListings(data); // Set all listings as default
       } catch (error) {
+        setError("bad network");
         console.log(error);
       } finally {
         setIsLoading(false);
@@ -115,7 +116,7 @@ const Rent = () => {
       >
         <div className="bg-white p-4 mx-2 rounded-md">
           <div className="flex items-center gap-3">
-            <p>Filter by</p>
+            <p className="md:inline hidden">Filter by</p>
 
             <div className="flex items-center">
               <select
@@ -164,6 +165,16 @@ const Rent = () => {
       {isLoading ? (
         <div className="spinner mt-20 flex items-center justify-center">
           <ClipLoader color="blue" size={50} loading={isLoading} />
+        </div>
+      ) : error ? (
+        <div className="text-center text-red-600 my-10">
+          <p>{error}</p>
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+            onClick={() => window.location.reload()}
+          >
+            Refresh Page
+          </button>
         </div>
       ) : (
         <div className="max-w-6xl mx-auto my-6">

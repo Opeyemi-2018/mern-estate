@@ -111,7 +111,7 @@ export default function UserUpdate({ showUpdate, setShowUpdate }) {
         />
         <img
           onClick={() => fileRef.current.click()}
-          src={formData.avatar || currentUser.avatar}
+          src={currentUser.image}
           alt="profile"
           className="rounded-full h-24 w-24 object-cover cursor-pointer self-center "
         />
@@ -153,7 +153,7 @@ export default function UserUpdate({ showUpdate, setShowUpdate }) {
         />
         <button
           disabled={loading}
-          className="bg-[#001030] text-white rounded-lg p-2 uppercase hover:opacity-95 disabled:opacity-80"
+          className="bg-[#2c2f36] text-white rounded-lg p-2 uppercase hover:opacity-95 disabled:opacity-80"
         >
           {loading ? "Loading..." : "Update"}
         </button>

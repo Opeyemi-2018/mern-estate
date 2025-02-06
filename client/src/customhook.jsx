@@ -8,22 +8,33 @@ const useFavorite = (listingId) => {
   const { currentUser } = useSelector((state) => state.user);
   const token = currentUser?.token;
 
-  // Sync favorite status with localStorage
+  // Function to fetch user's favorite listings
   useEffect(() => {
-    const checkFavorite = () => {
-      const savedFavorite = localStorage.getItem(listingId);
-      setIsFavorite(!!savedFavorite);
+    const fetchFavorites = async () => {
+      if (!token) return; // Ensure user is authenticated before making the request
+
+      try {
+        const res = await fetch("/api/favorite/user-favorites", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: "include",
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch favorites");
+        }
+
+        const favorites = await res.json();
+        setIsFavorite(favorites.some((fav) => fav.listing._id === listingId));
+      } catch (error) {
+        toast.error(error.message || "An error occurred");
+      }
     };
 
-    checkFavorite();
-
-    // Listen for updates from other components
-    window.addEventListener("favorite-updated", checkFavorite);
-
-    return () => {
-      window.removeEventListener("favorite-updated", checkFavorite);
-    };
-  }, [listingId]);
+    fetchFavorites();
+  }, [listingId, token]);
 
   // Function to add listing to favorites
   const addToFavorite = async () => {

@@ -12,8 +12,10 @@ import UserUpdate from "../component/UserUpdate";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from "react-spinners";
-
+import { IoIosArrowDown } from "react-icons/io";
 import { RiErrorWarningLine } from "react-icons/ri";
+import ProfileUserListings from "../component/ProfileUserListings";
+import { IoIosArrowUp } from "react-icons/io";
 
 export default function Profile() {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -23,9 +25,10 @@ export default function Profile() {
   let [showUpdate, setShowUpdate] = useState(false);
   let [openModal, setOpenModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showListings, setShowListings] = useState(false);
 
   useEffect(() => {
-    let fetchUsers = async () => {
+    let fetchUser = async () => {
       try {
         setIsLoading(true);
         let res = await fetch(`api/user/${currentUser._id}`);
@@ -45,7 +48,7 @@ export default function Profile() {
         });
       }
     };
-    fetchUsers();
+    fetchUser();
   }, [currentUser._id]);
 
   const handleDeleteUser = async () => {
@@ -91,63 +94,88 @@ export default function Profile() {
 
   return (
     <>
-      <div className="">
+      <div className="py-3 px-3 ">
+        <h1 className="font-semibold sm:text-2xl text-[19px] ">Profile</h1>
+
         {isLoading ? (
           <div className="spinner min-h-screen flex items-center justify-center">
             <ClipLoader color="blue" size={50} isLoading={isLoading} />
           </div>
         ) : users ? (
-          <div className="py-3 px-3 ">
-            <h1 className="font-semibold sm:text-2xl text-[19px] ">Profile</h1>
+          <div className="">
             {!showUpdate ? (
-              <div className="flex md:items-center pt-6 gap-6 md:flex-row flex-col">
-                <img
-                  src={users.image}
-                  alt="profile image"
-                  className="rounded-md object-cover border-gray-300 sm:border-4  w-48 h-48"
-                />
+              <div className=" flex md:flex-row flex-col gap-4 ">
+                <div className="flex  md:border-r-2 pt-4 gap-3 pr-2 flex-col">
+                  <div className="flex md:justify-start justify-center">
+                    <img
+                      src={users.image}
+                      alt="profile image"
+                      className="md:rounded-md object-cover md:border-gray-300 border-black border-2 sm:border-4  md:w-48 w-52 rounded-full h-48"
+                    />
+                  </div>
 
-                <div className="flex flex-col gap-4">
-                  <span className="flex  sm:flex-row flex-col gap-4">
-                    <p className="text-gray-500 text-[18px]  ">
-                      name: {users.username}
+                  <div className="flex flex-col gap-4">
+                    <span className="flex  sm:flex-row flex-col gap-4">
+                      <p className="text-gray-500 text-[20px]  ">
+                        name: {users.username}
+                      </p>
+                    </span>
+                    <span className="flex items-center gap-4">
+                      <p className="text-gray-500 text-[20px] ">
+                        email: {users.email}
+                      </p>
+                    </span>
+                    <p className="flex items-center gap-2">
+                      <h1 className="text-gray-500 text-[20px]">
+                        no of listing:{" "}
+                        <span className="font-bold text-black">
+                          {userListingCount}
+                        </span>
+                      </h1>
+                      <BsHouse size={25} />
                     </p>
-                  </span>
-                  <span className="flex items-center gap-4">
-                    <p className="text-gray-500 text-[18px] ">
-                      email: {users.email}
-                    </p>
-                  </span>
-                  <p className="flex items-center gap-2">
-                    <h1 className="text-gray-500">
-                      no of listing:{" "}
-                      <span className="font-bold text-black">
-                        {userListingCount}
-                      </span>
-                    </h1>
-                    <BsHouse size={25} />
-                  </p>
-                </div>
+                  </div>
 
-                <div className="flex items-center flex-row md:flex-col md:justify-between md:gap-3 gap-4">
-                  <span
-                    onClick={() => setShowUpdate(!showUpdate)}
-                    className=" text-green-600 font-semibold"
-                  >
-                    Update
-                  </span>
-                  <span
-                    onClick={handleSignOut}
-                    className=" text-red-600 font-semibold"
-                  >
-                    Sign out
-                  </span>
-                  <span
+                  <div className="flex  gap-4">
+                    <button
+                      onClick={() => setShowUpdate(!showUpdate)}
+                      className=" text-green-600 font-semibold"
+                    >
+                      Update
+                    </button>
+                    <button
+                      onClick={handleSignOut}
+                      className=" text-red-600 font-semibold"
+                    >
+                      Sign out
+                    </button>
+                  </div>
+                  <button
                     onClick={() => setOpenModal(!openModal)}
-                    className="border w-32 text-center text-white bg-red-600 rounded-md px-[4px] md:py-[1px] py-2"
+                    className="border md:w-48 w-full text-center text-white bg-red-600 rounded-md px-[4px] md:py-[1px] py-2"
                   >
                     Delete
-                  </span>
+                  </button>
+                  <button
+                    onClick={() => setShowListings(!showListings)}
+                    className="font-semibold  inline md:hidden text-2xl"
+                  >
+                    {showListings ? (
+                      <p className="flex justify-between">
+                        hide listings <IoIosArrowDown />
+                      </p>
+                    ) : (
+                      <p className="flex justify-between">
+                        hide listing <IoIosArrowUp />{" "}
+                      </p>
+                    )}
+                  </button>
+                </div>
+
+                <div
+                  className={`md:inline ${showListings ? "inline" : "hidden"} `}
+                >
+                  <ProfileUserListings />
                 </div>
               </div>
             ) : (

@@ -36,7 +36,7 @@ export const getUserFavorites = async (req, res, next) => {
     const userId = req.user.id;
 
     if (!userId) {
-      return next(errorHandler(404, "user must signed in"));
+      return next(errorHandler(401, "user must signed in"));
     }
 
     const favorites = await Favorite.find({ user: userId }).populate("listing");

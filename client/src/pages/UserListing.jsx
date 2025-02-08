@@ -67,7 +67,7 @@ const UserListing = () => {
         </div>
       ) : (
         <div>
-          <div className="shadow-sm px-4 py-3 flex flex-col gap-2 sticky z-40 ">
+          <div className="shadow-sm px-4 py-3 flex flex-col gap-2 sticky z-20 ">
             {/* Buttons for filtering */}
             <div className="flex items-center gap-4">
               <button
@@ -96,7 +96,7 @@ const UserListing = () => {
               </button>
             </div>
 
-            <div className="flex md:flex-row flex-col md:gap-3 gap-2 justify-between ">
+            <div className="md:flex hidden md:flex-row flex-col md:gap-3 gap-2 justify-between ">
               <select className="p-3 w-full border border-gray-300 outline-none rounded-md">
                 <option value="" disabled>
                   Select Location

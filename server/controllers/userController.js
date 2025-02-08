@@ -47,7 +47,6 @@ export let updateUser = async (req, res, next) => {
 };
 
 export let deleteUser = async (req, res, next) => {
-  // Check if the user is trying to delete their own account
   if (!req.user.isAdmin && req.user.id !== req.params.id) {
     return next(errorHandler(401, "You can only delete your own account"));
   }
@@ -55,67 +54,53 @@ export let deleteUser = async (req, res, next) => {
   let { id } = req.params;
 
   try {
-    // Attempt to find and delete the user by ID
     await User.findByIdAndDelete(id);
 
-    // Clear the access token cookie
     res.clearCookie("access_token");
 
-    // Send a success response
     res.status(200).json("User has been deleted");
   } catch (error) {
-    // Pass any errors to the error handler
     next(error);
   }
 };
 
 export const getUserListings = async (req, res, next) => {
   try {
-    // Check if the logged-in user is an admin or if the user ID matches the request parameter ID
     if (req.user.isAdmin) {
-      // If the user is an admin, fetch all listings
       const listings = await Listing.find({});
       return res.status(200).json(listings);
     } else if (req.user.id === req.params.id) {
-      // If the user is not an admin, check if the user ID matches the request parameter ID
       const listings = await Listing.find({ userRef: req.params.id });
       return res.status(200).json(listings);
     } else {
-      // If the user is neither an admin nor the owner of the listings, return a 401 Unauthorized error
       return res
         .status(401)
         .json({ message: "You can only view your own listings!" });
     }
   } catch (error) {
-    // Pass any errors to the next middleware
     next(error);
   }
 };
 
 export const getUser = async (req, res, next) => {
   try {
-    // Find the user by ID from the request parameters
     const user = await User.findById(req.params.id);
 
-    // If the user is not found, pass an error to the next middleware
     if (!user) return next(errorHandler(404, "User not found!"));
 
     let listingCount = await Listing.countDocuments({ userRef: user._id });
 
-    // Destructure the user document to exclude the password field
     const { password: pass, ...rest } = user._doc;
 
-    // Send a JSON response wit h the user data (excluding the password)
     res.status(200).json({ user: rest, listingCount });
   } catch (error) {
-    // If an error occurs, pass it to the next middleware
     next(error);
   }
 };
 
 export let getUsers = async (req, res, next) => {
   if (!req.user.isAdmin) {
-    return next(errorHandler(404, "You are not allow to see user"));
+    return next(errorHandler(404, "You are not allowed to see users"));
   }
 
   try {
@@ -126,6 +111,22 @@ export let getUsers = async (req, res, next) => {
       return rest;
     });
 
-    res.status(200).json({ users: usersWithoutPassword });
-  } catch (error) {}
+    // Count agents and clients correctly
+    let agentCount = await User.countDocuments({ isAgent: true });
+    let clientCount = await User.countDocuments({ isAgent: false }); // Assuming isClient is missing
+    let totalUsers = await User.countDocuments(); // Count all users
+
+    console.log("Users:", users.length);
+    console.log("Agent count:", agentCount);
+    console.log("Client count:", clientCount);
+
+    res.status(200).json({
+      users: usersWithoutPassword,
+      totalUsers,
+      agentCount,
+      clientCount,
+    });
+  } catch (error) {
+    next(error);
+  }
 };

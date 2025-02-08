@@ -95,7 +95,9 @@ export default function Profile() {
   return (
     <>
       <div className="py-3 px-3 ">
-        <h1 className="font-semibold sm:text-2xl text-[19px] ">Profile</h1>
+        <h1 className=" flex justify-center sm:text-2xl text-[19px] ">
+          {isLoading ? "please wait while we load your data" : "Profile"}
+        </h1>
 
         {isLoading ? (
           <div className="spinner min-h-screen flex items-center justify-center">
@@ -116,17 +118,17 @@ export default function Profile() {
 
                   <div className="flex flex-col gap-4">
                     <span className="flex  sm:flex-row flex-col gap-4">
-                      <p className="text-gray-500 text-[20px]  ">
+                      <p className="text-gray-500 text-[17px]">
                         name: {users.username}
                       </p>
                     </span>
                     <span className="flex items-center gap-4">
-                      <p className="text-gray-500 text-[20px] ">
+                      <p className="text-gray-500 text-[17px] ">
                         email: {users.email}
                       </p>
                     </span>
                     <p className="flex items-center gap-2">
-                      <h1 className="text-gray-500 text-[20px]">
+                      <h1 className="text-gray-500 text-[17px]">
                         no of listing:{" "}
                         <span className="font-bold text-black">
                           {userListingCount}
@@ -156,20 +158,22 @@ export default function Profile() {
                   >
                     Delete
                   </button>
-                  <button
-                    onClick={() => setShowListings(!showListings)}
-                    className="font-semibold  inline md:hidden text-2xl"
-                  >
-                    {showListings ? (
-                      <p className="flex justify-between">
-                        hide listings <IoIosArrowDown />
-                      </p>
-                    ) : (
-                      <p className="flex justify-between">
-                        hide listing <IoIosArrowUp />{" "}
-                      </p>
-                    )}
-                  </button>
+                  {!currentUser.isClient && (
+                    <button
+                      onClick={() => setShowListings(!showListings)}
+                      className="font-semibold  inline md:hidden text-2xl"
+                    >
+                      {showListings ? (
+                        <p className="flex justify-between">
+                          hide listings <IoIosArrowDown />
+                        </p>
+                      ) : (
+                        <p className="flex justify-between">
+                          hide listing <IoIosArrowUp />{" "}
+                        </p>
+                      )}
+                    </button>
+                  )}
                 </div>
 
                 <div

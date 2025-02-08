@@ -38,7 +38,7 @@ const ProfileUserListings = () => {
   return (
     <div>
       <div>
-        {userListings.length === 0 ? (
+        {userListings.length === 0 && !currentUser.isClient ? (
           <div className="md:text-2xl text-[20px] font-semibold flex items-start flex-col gap-4 justify-center">
             <p>No listing</p>
             <Link
@@ -49,7 +49,9 @@ const ProfileUserListings = () => {
             </Link>
           </div>
         ) : (
-          <p className="md:text-2xl font-semibold text-[20px]">my listing</p>
+          <p className="md:text-2xl font-semibold text-[20px]">
+            {!currentUser.isClient && <p>my listing</p>}
+          </p>
         )}
       </div>
       {isLoading ? (

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { FaUserCheck } from "react-icons/fa6";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { RiErrorWarningLine } from "react-icons/ri";
 import { MdSupportAgent } from "react-icons/md";
 import { MdOutlineManageAccounts } from "react-icons/md";
@@ -79,7 +78,6 @@ const Users = () => {
     setShowModal(true); // Show the delete confirmation modal
   };
 
-  // Function to close the modal without deleting the user
   const closeModal = () => {
     setShowModal(false); // Close the modal
     setUserToDelete(null); // Reset the userToDelete state
@@ -99,8 +97,8 @@ const Users = () => {
   }
 
   return (
-    <div className="">
-      <h1 className="font-semibold sm:text-3xl text-1xl underline mb-1">
+    <div className="p-4">
+      <h1 className="font-semibold sm:text-3xl  text-1xl underline mb-1">
         Current Users
       </h1>
       <div className="flex items-center justify-between p-3 sm:font-semibold font-normal text-[20px] capitalize">
@@ -129,7 +127,7 @@ const Users = () => {
               </div>
               <div
                 onClick={() => showUserDetails(user)}
-                className="flex items-center cursor-pointer bg-white rounded-md hover:bg-gray-300 shadow-lg p-3 justify-between mb-2"
+                className="flex items-center cursor-pointer bg-white rounded-md border-b-2 border-gray-400 p-3 justify-between mb-2"
               >
                 <p className="flex-1">{username}</p>
                 <p className="flex-1 md:inline hidden">{email}</p>

@@ -3,16 +3,16 @@ import { Link, useLocation } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { BsHouse } from "react-icons/bs";
 import { FaBars } from "react-icons/fa";
-import { MdOutlineFavoriteBorder, MdFavorite } from "react-icons/md";
+import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { FaSignOutAlt } from "react-icons/fa";
 import Profile from "./Profile";
+import Overview from "../component/Overview";
 import { LuMessageCircleMore } from "react-icons/lu";
 import { MdOutlineRealEstateAgent } from "react-icons/md";
 
 import { LiaTimesSolid } from "react-icons/lia";
-import { IoIosArrowForward } from "react-icons/io";
 import { useState, useEffect } from "react";
 import { IoHomeOutline } from "react-icons/io5";
 
@@ -27,16 +27,13 @@ import Users from "./Users";
 import Messaging from "./Messaging";
 import CreateListing from "./CreateListing";
 import UpdateListing from "./UpdateListing";
-import DashboardOverview from "./DashboardOverview";
 import SavedListing from "../component/SavedListing";
 
 const Dashboard = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
-  useEffect(() => {
-    console.log(currentUser);
-  }, [currentUser]);
+  useEffect(() => {}, [currentUser]);
   const [tab, setTab] = useState("");
   let [showSideBar, setShowSideBar] = useState(false);
 
@@ -64,126 +61,126 @@ const Dashboard = () => {
   };
 
   return (
-    <main className="relative bg-[#2c2f36] min-h-screen lg:p-4 p-0">
+    <main className="relative bg-gray-100 min-h-screen lg:p-4 p-0">
       {/* Fixed Sidebar */}
       <div
-        className={` z-20 fixed lg:inline hidden bg-[#2c2f36] rounded-md  p-4  top-3 bottom-3  left-3 w-60  `}
+        className={`lg:flex flex-col justify-between z-20 fixed  hidden bg-[#2c2f36] rounded-md  p-4  top-3 bottom-3   left-3 w-60  `}
       >
-        <div className="flex flex-col justify-between gap-36">
-          <div className="flex flex-col gap-6 ">
-            <div>
-              <Link to={"/"} className="text-white flex gap-2 p-2 ">
-                {" "}
-                <IoHomeOutline size={25} /> Finder
-              </Link>
-              <div className="bg-red-500 w-full h-[1px]"> </div>
-            </div>
-
-            <div className="flex flex-col gap-2 ">
-              {currentUser && currentUser.isAdmin && (
-                <Link
-                  to={"/dashboard?tab=overview"}
-                  className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
-                    tab === "users" ? "bg-[#2c2f36]" : ""
-                  }`}
-                >
-                  <MdOutlineSpaceDashboard size={20} className="text-white" />
-                  <p className="text-white">Overview</p>
-                </Link>
-              )}
-
-              {currentUser && currentUser.isAdmin && (
-                <Link
-                  to={"/dashboard?tab=users"}
-                  className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
-                    tab === "users" ? "bg-[#2c2f36]" : ""
-                  }`}
-                >
-                  <FaUsers size={20} className="text-white" />
-                  <p className="text-white">Users</p>
-                </Link>
-              )}
-
-              {currentUser && (currentUser.isAdmin || currentUser.isAgent) && (
-                <Link
-                  to={"/dashboard?tab=create-listing"}
-                  className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
-                    tab === "create-listing" ? "bg-[#2c2f36]" : ""
-                  }`}
-                >
-                  <IoMdCreate size={20} className="text-white" />
-                  <p className="text-white">Create listing</p>
-                </Link>
-              )}
-
-              {!currentUser.isClient && (
-                <Link
-                  to={"/dashboard?tab=user-listing"}
-                  className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
-                    tab === "user-listing" ? "bg-[#2c2f36]" : ""
-                  }`}
-                >
-                  <BsHouse size={20} className="text-white" />
-                  <p className="text-white">
-                    {currentUser.isAdmin ? "Available listings" : "My listing"}
-                  </p>
-                </Link>
-              )}
-
-              <Link
-                to={"/dashboard?tab=messaging"}
-                className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
-                  tab === "messaging" ? "bg-[#2c2f36]" : ""
-                }`}
-              >
-                <LuMessageCircleMore size={20} className="text-white" />
-                <p className="text-white">Messaging</p>
-              </Link>
-
-              <Link
-                to={"/dashboard?tab=saved-listing"}
-                className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
-                  tab === "messaging" ? "bg-[#2c2f36]" : ""
-                }`}
-              >
-                <MdOutlineFavoriteBorder size={20} className="text-white" />
-                <p className="text-white">My saved</p>
-              </Link>
-            </div>
+        {/* <div className=" "> */}
+        <div className="flex flex-col gap-6 ">
+          <div>
+            <Link to={"/"} className="text-white flex gap-2 p-2 ">
+              {" "}
+              <IoHomeOutline size={25} /> Finder
+            </Link>
+            <div className="bg-red-500 w-full h-[1px]"> </div>
           </div>
 
-          {/* bottom div  */}
-          <div className="bg-white rounded-md text-[#1e2128] p-2">
+          <div className="flex flex-col gap-2 ">
+            {currentUser && currentUser.isAdmin && (
+              <Link
+                to={"/dashboard?tab=overview"}
+                className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
+                  tab === "users" ? "bg-[#2c2f36]" : ""
+                }`}
+              >
+                <MdOutlineSpaceDashboard size={20} className="text-white" />
+                <p className="text-white">Overview</p>
+              </Link>
+            )}
+
+            {currentUser && currentUser.isAdmin && (
+              <Link
+                to={"/dashboard?tab=users"}
+                className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
+                  tab === "users" ? "bg-[#2c2f36]" : ""
+                }`}
+              >
+                <FaUsers size={20} className="text-white" />
+                <p className="text-white">Users</p>
+              </Link>
+            )}
+
+            {currentUser && (currentUser.isAdmin || currentUser.isAgent) && (
+              <Link
+                to={"/dashboard?tab=create-listing"}
+                className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
+                  tab === "create-listing" ? "bg-[#2c2f36]" : ""
+                }`}
+              >
+                <IoMdCreate size={20} className="text-white" />
+                <p className="text-white">Create listing</p>
+              </Link>
+            )}
+
+            {!currentUser.isClient && (
+              <Link
+                to={"/dashboard?tab=user-listing"}
+                className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
+                  tab === "user-listing" ? "bg-[#2c2f36]" : ""
+                }`}
+              >
+                <BsHouse size={20} className="text-white" />
+                <p className="text-white">
+                  {currentUser.isAdmin ? "Available listings" : "My listing"}
+                </p>
+              </Link>
+            )}
+
             <Link
-              to={"/dashboard?tab=profile"}
-              className={`flex items-center gap-2 rounded-md p-1 text-[#2c2f36] hover:text-white hover:bg-[#2c2f36]
-            }`}
+              to={"/dashboard?tab=messaging"}
+              className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
+                tab === "messaging" ? "bg-[#2c2f36]" : ""
+              }`}
             >
-              <div className="flex items-center gap-1">
-                <img
-                  src={currentUser.image}
-                  className="w-9 h-9 object-cover rounded-full border-2 hover:border-white border-[#2c2f36] "
-                  alt=""
-                />
-                <div className="p-2">
-                  <p>{currentUser.username}</p>
-                </div>
-              </div>
+              <LuMessageCircleMore size={20} className="text-white" />
+              <p className="text-white">Messaging</p>
             </Link>
-            <button
-              onClick={handleSignOut}
-              className="flex items-center gap-2 rounded-md p-2 w-full hover:bg-[#2c2f36] hover:text-white"
+
+            <Link
+              to={"/dashboard?tab=saved-listing"}
+              className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
+                tab === "messaging" ? "bg-[#2c2f36]" : ""
+              }`}
             >
-              <FaSignOutAlt size={20} className="" />
-              <p className="">Sign out</p>
-            </button>
+              <MdOutlineFavoriteBorder size={20} className="text-white" />
+              <p className="text-white">My saved</p>
+            </Link>
           </div>
         </div>
+
+        {/* bottom div  */}
+        <div className="bg-white rounded-md text-[#1e2128] p-2">
+          <Link
+            to={"/dashboard?tab=profile"}
+            className={`flex items-center gap-2 rounded-md p-1 text-[#2c2f36] hover:text-white hover:bg-[#2c2f36]
+            }`}
+          >
+            <div className="flex items-center gap-1">
+              <img
+                src={currentUser.image}
+                className="w-9 h-9 object-cover rounded-full border-2 hover:border-white border-[#2c2f36] "
+                alt=""
+              />
+              <div className="p-2">
+                <p>{currentUser.username}</p>
+              </div>
+            </div>
+          </Link>
+          <button
+            onClick={handleSignOut}
+            className="flex items-center gap-2 rounded-md p-2 w-full hover:bg-[#2c2f36] hover:text-white"
+          >
+            <FaSignOutAlt size={20} className="" />
+            <p className="">Sign out</p>
+          </button>
+        </div>
+        {/* </div> */}
       </div>
 
       {/* sidebar for mobile screen  */}
       <div
-        className={`bg-[#2c2f36] z-20  top-0 bottom-0 inline lg:hidden fixed 
+        className={`bg-[#2c2f36] z-40  top-0 bottom-0 inline lg:hidden fixed 
          transition-all duration-500`}
         style={{ width: showSideBar ? "250px" : "40px" }}
       >
@@ -220,16 +217,30 @@ const Dashboard = () => {
 
           <Link
             onClick={() => setShowSideBar(false)}
-            to={"/dashboard?tab=profile"}
+            to={"/dashboard?tab=overview"}
             className={`font-semibold  text-white  py-1  rounded-sm flex items-center justify-between 
             `}
           >
             <p className="flex items-center gap-2 ">
+              <MdOutlineSpaceDashboard size={25} />{" "}
+              <h1 className={`${showSideBar ? "inline" : "hidden"}`}>
+                Overview
+              </h1>
+            </p>
+          </Link>
+
+          <Link
+            onClick={() => setShowSideBar(false)}
+            to={"/dashboard?tab=profile"}
+            className={`font-semibold  text-white  py-1  rounded-sm flex items-center justify-between 
+            `}
+          >
+            <div className="flex items-center gap-2 ">
               <FaUser size={25} />{" "}
               <h1 className={`${showSideBar ? "inline" : "hidden"}`}>
                 Profile
               </h1>
-            </p>
+            </div>
             <span
               className={`text-sm font-normal bg-white px-[6px] text-[#1E2128] hover:bg-[#1E2128] border border-gray-950 hover:text-white rounded-md ${
                 showSideBar ? "inline" : "hidden"
@@ -328,7 +339,7 @@ const Dashboard = () => {
           `}
       >
         {/* Render content based on active tab */}
-        {tab === "overview" && <DashboardOverview />}
+        {tab === "overview" && <Overview />}
         {tab === "profile" && <Profile />}
         {tab === "user-listing" && <UserListing />}
         {tab === "users" && <Users />}

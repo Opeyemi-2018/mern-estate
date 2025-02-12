@@ -82,7 +82,7 @@ const Signin = () => {
         <img
           src={signInImage}
           alt=""
-          className="sm:inline hidden rounded-lg flex-1 w-40 h-[500px] cover/center"
+          className="md:inline hidden rounded-lg flex-1 w-40 h-[500px] cover/center"
         />
         {/* </div> */}
         <div className="flex-1">

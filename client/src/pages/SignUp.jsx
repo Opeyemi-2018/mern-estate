@@ -142,7 +142,7 @@ const SignUp = () => {
         <img
           src={signUpImage}
           alt="Sign Up"
-          className="flex-1 sm:inline hidden rounded-lg w-40 h-[500px] cover/center"
+          className="flex-1 md:inline hidden rounded-lg w-40 h-[500px] cover/center"
         />
         <div className="flex-1">
           <h1 className="text-3xl text-[#1E2128] font-semibold mb-3">

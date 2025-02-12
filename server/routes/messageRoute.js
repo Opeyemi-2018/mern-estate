@@ -9,7 +9,7 @@ import {
 const router = express.Router();
 
 router.post("/send-message/:id", verifyToken, sendMessage);
-router.get("/get-message/:id", verifyToken, getMessage);
+router.get("/get-message/:myId/:id", verifyToken, getMessage);
 router.get("/users", verifyToken, getUser);
 
 export default router;

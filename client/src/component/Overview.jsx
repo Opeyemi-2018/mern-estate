@@ -57,9 +57,10 @@ const Overview = () => {
         const data = await response.json();
         console.log("Fetched data:", data);
 
-        setTotalUsers(data.totalUsers || 0);
-        setAgentsCount(data.agentCount || 0);
-        setClientsCount(data.clientCount || 0);
+        setTotalUsers(data.totalUsers);
+        setAgentsCount(data.agentCount);
+        setClientsCount(data.clientCount);
+        setLoading(false);
       } catch (error) {
         console.error("Failed to fetch user counts:", error);
         setError("Failed to fetch user counts. Please try again later.");
@@ -73,16 +74,18 @@ const Overview = () => {
 
   return (
     <div className="px-4 ">
-      {" "}
-      <div className="absolute top-1/2 left-1/2 transform -tranlate-x-1/2 -tranlate-y-1/2">
-        <ClipLoader color="blue" size={50} loading={loading} />
-      </div>{" "}
-      <h1 className="text-2xl">Dashboard Overview</h1>
-      <div className="flex items-center sm:gap-8 gap-4 justify-between md:flex-row flex-col">
+      <h1 className="text-2xl font-semibold text-gray-600 my-3">
+        Dashboard Overview
+      </h1>
+      <div className="flex my-4 items-center sm:gap-8 gap-4 justify-between md:flex-row flex-col">
         <div className="px-5  sm:py-7 py-5 items-center rounded-md shadow-md flex justify-between w-full">
           <div className="text-gray-600">
-            <p>Total Users</p>{" "}
-            <span className="font-semibold text-2xl">{totalUsers}</span>{" "}
+            <p>{loading ? "Please wait" : "Total Users"}</p>{" "}
+            {loading ? (
+              <ClipLoader color="blue" size={30} loading={loading} />
+            ) : (
+              <span className="font-semibold text-2xl">{totalUsers}</span>
+            )}
           </div>
           <PiUsersThree
             size={50}
@@ -92,8 +95,12 @@ const Overview = () => {
 
         <div className="px-5  sm:py-7 py-5 items-center rounded-md shadow-md flex justify-between w-full">
           <div className="text-gray-600">
-            <p>Total Agents</p>{" "}
-            <span className="font-semibold text-2xl">{agentsCount}</span>{" "}
+            <p>{loading ? "Please wait" : "Total Agents"}</p>{" "}
+            {loading ? (
+              <ClipLoader color="blue" size={30} loading={loading} />
+            ) : (
+              <span className="font-semibold text-2xl">{agentsCount}</span>
+            )}
           </div>
           <MdSupportAgent
             size={50}
@@ -103,8 +110,12 @@ const Overview = () => {
 
         <div className="px-5  sm:py-7 py-5 items-center rounded-md shadow-md flex justify-between w-full">
           <div className="text-gray-600">
-            <p>Total Clients</p>{" "}
-            <span className="font-semibold text-2xl">{clientsCount}</span>{" "}
+            <p>{loading ? "Please wait" : "Total Clients"}</p>{" "}
+            {loading ? (
+              <ClipLoader color="blue" size={30} loading={loading} />
+            ) : (
+              <span className="font-semibold text-2xl">{clientsCount}</span>
+            )}
           </div>
           <PiUsersThree
             size={50}

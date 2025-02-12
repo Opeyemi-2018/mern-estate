@@ -17,23 +17,21 @@ export let signUp = async (req, res, next) => {
   });
 
   try {
-    await newUser.save(); // Attempt to save the new user to the database
-    res.status(201).json("User created successfully"); // Send a success response with status code 201
+    await newUser.save();
+    res.status(201).json("User created successfully");
   } catch (error) {
-    next(error); // Pass any error to the next middleware (error handler)
+    next(error);
   }
 };
 
-// Sign-in controller function
 export let signIn = async (req, res, next) => {
-  let { email, password } = req.body; // Destructure email and password from the request body
+  let { email, password } = req.body;
 
   try {
-    let validUser = await User.findOne({ email }); // Find a user by email in the database
-    if (!validUser) return next(errorHandler(404, "User not found")); // If user is not found, pass an error to the next middleware
-
-    let validPassword = bcryptjs.compareSync(password, validUser.password); // Compare the provided password with the stored hashed password
-    if (!validPassword) return next(errorHandler(401, "Wrong credentials")); // If the password is incorrect, pass an error to the next middleware
+    let validUser = await User.findOne({ email });
+    if (!validUser) return next(errorHandler(404, "User not found"));
+    let validPassword = bcryptjs.compareSync(password, validUser.password);
+    if (!validPassword) return next(errorHandler(401, "Wrong credentials"));
 
     let token = jwt.sign(
       {
@@ -44,9 +42,8 @@ export let signIn = async (req, res, next) => {
       },
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
-    ); // Generate a JWT token with the user's ID and secret key from environment variables
-    let { password: pass, ...rest } = validUser._doc; // Exclude the password from the user object to be sent in the response
-
+    );
+    let { password: pass, ...rest } = validUser._doc;
     res
       .cookie("access_token", token, {
         httpOnly: true,

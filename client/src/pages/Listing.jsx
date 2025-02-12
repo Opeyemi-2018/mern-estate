@@ -12,6 +12,7 @@ import {
 import { ClipLoader } from "react-spinners";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import ListingsLandLordInfo from "../component/ListingsLandlordInfo";
+import { MdOutlinePermContactCalendar } from "react-icons/md";
 
 // Function to fetch coordinates from the address using Nominatim API
 const fetchCoordinates = async (address) => {
@@ -81,7 +82,7 @@ export default function Listing() {
     <main className="min-h-screen flex flex-col justify-between">
       {loading && (
         <div className="spinner min-h-screen flex items-center justify-center">
-          <ClipLoader color="blue" size={50} loading={loading} />
+          <ClipLoader color="blue" size={100} loading={loading} />
         </div>
       )}
       {error && (
@@ -104,7 +105,7 @@ export default function Listing() {
               <img
                 src={selectedImage}
                 alt=""
-                className="w-full lg:h-[500px] h-[400px] object-cover" // Setting width and height with object-cover
+                className="w-full lg:h-[460px] h-[400px] lg:rounded-md object-cover" // Setting width and height with object-cover
               />
             </div>
 
@@ -121,7 +122,7 @@ export default function Listing() {
                     alt=""
                     className={` lg:w-full w-[340px] h-full object-cover rounded-md ${
                       selectedImage === url
-                        ? "border-gray-700  border-2"
+                        ? "border-gray-400  border-2"
                         : "border-none"
                     }`} // Ensuring thumbnails also have consistent size
                   />
@@ -213,15 +214,16 @@ export default function Listing() {
                   </div>
                 )}
 
-                <div className="xl:flex flex-col hidden mt-4">
+                <div className="xl:flex  hidden mt-4">
                   {currentUser &&
                     listing.userRef !== currentUser._id &&
                     !userInfo && (
                       <button
                         onClick={() => setUserInfo(true)}
-                        className="hover:bg-red-700 bg-red-600 text-white rounded-lg uppercase hover:opacity-95 p-3"
+                        className="text-black underline flex items-center gap-3 font-semibold my-4 uppercase"
                       >
-                        Contact landlord
+                        Contact landlord{" "}
+                        <MdOutlinePermContactCalendar size={20} />
                       </button>
                     )}
                   {userInfo && !cancelInfo && (
@@ -261,9 +263,9 @@ export default function Listing() {
               {currentUser && listing.userRef !== currentUser._id && !userInfo && (
                 <button
                   onClick={() => setUserInfo(true)}
-                  className="bg-red-600 hover:bg-red-700 mt-4 text-white rounded-lg uppercase hover:opacity-95 p-3"
+                  className="text-black underline flex items-center gap-3 font-semibold my-4 uppercase"
                 >
-                  Contact landlord
+                  Contact landlord <MdOutlinePermContactCalendar size={20} />
                 </button>
               )}
               {userInfo && !cancelInfo && (

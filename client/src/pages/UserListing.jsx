@@ -133,6 +133,7 @@ const UserListing = () => {
                         </Link>
                       </div>
                       <button
+                        type="button"
                         onClick={() => {
                           setDeleteId(listing._id);
                           setDeleteName(listing.name);

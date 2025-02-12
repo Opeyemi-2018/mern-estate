@@ -11,7 +11,6 @@ import Profile from "./Profile";
 import Overview from "../component/Overview";
 import { LuMessageCircleMore } from "react-icons/lu";
 import { MdOutlineRealEstateAgent } from "react-icons/md";
-
 import { LiaTimesSolid } from "react-icons/lia";
 import { useState, useEffect } from "react";
 import { IoHomeOutline } from "react-icons/io5";
@@ -175,7 +174,6 @@ const Dashboard = () => {
             <p className="">Sign out</p>
           </button>
         </div>
-        {/* </div> */}
       </div>
 
       {/* sidebar for mobile screen  */}
@@ -325,9 +323,9 @@ const Dashboard = () => {
               className="pointer text-white   p-1 rounded-sm flex items-center gap-2 "
             >
               <FaSignOutAlt size={25} />{" "}
-              <h1 className={`${showSideBar ? "inline" : "hidden"}`}>
+              <span className={`${showSideBar ? "inline" : "hidden"}`}>
                 Sign out
-              </h1>
+              </span>
             </button>
           </div>
         </div>

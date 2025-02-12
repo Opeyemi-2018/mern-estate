@@ -169,7 +169,7 @@ export default function Profile() {
                         </p>
                       ) : (
                         <p className="flex justify-between">
-                          hide listing <IoIosArrowUp />{" "}
+                          show listing <IoIosArrowUp />{" "}
                         </p>
                       )}
                     </button>

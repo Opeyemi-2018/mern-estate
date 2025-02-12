@@ -65,7 +65,7 @@ export default function Header({ setShowNav, showNav }) {
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to="/">
           <h1 className="font-bold lg:text-2xl md:text-[18px] flex flex-wrap gap-1 items-center">
-            <span className="text-[#1E2128] text-2xl">Finder</span>
+            <span className="text-[#1E2128] text-2xl">HomyHub</span>
             <MdOutlineRealEstateAgent size={25} className="text-[#1E2128] " />
           </h1>
         </Link>

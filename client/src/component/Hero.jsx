@@ -15,7 +15,7 @@ const HeroContent = [
     image: imgOne,
     title: "Find your next place with ease",
     description:
-      "Finder is the best place to find your next perfect place to live.",
+      "HomyHub is the best place to find your next perfect place to live.",
   },
   {
     image: imgTwo,
@@ -39,7 +39,7 @@ const Hero = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % HeroContent.length);
-    }, 4000); // Change every 4 seconds
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);

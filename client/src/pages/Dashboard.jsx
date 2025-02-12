@@ -70,7 +70,7 @@ const Dashboard = () => {
           <div>
             <Link to={"/"} className="text-white flex gap-2 p-2 ">
               {" "}
-              <IoHomeOutline size={25} /> Finder
+              <IoHomeOutline size={25} /> HomyHub
             </Link>
             <div className="bg-red-500 w-full h-[1px]"> </div>
           </div>

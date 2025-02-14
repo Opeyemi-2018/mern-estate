@@ -3,13 +3,13 @@ import { verifyToken } from "../utils/verifyUser.js";
 import {
   sendMessage,
   getMessage,
-  getUser,
+  getUsersWithMessage,
 } from "../controllers/messageController.js";
 
 const router = express.Router();
 
 router.post("/send-message/:id", verifyToken, sendMessage);
-router.get("/get-message/:myId/:id", verifyToken, getMessage);
-router.get("/users", verifyToken, getUser);
+router.get("/get-message/:id", verifyToken, getMessage);
+router.get("/users-with-message", verifyToken, getUsersWithMessage);
 
 export default router;

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   messages: [],
-  users: [], // You might use this later for a list of users
+  users: [],
   selectedUser: null,
   loading: false,
   error: null,
@@ -14,16 +14,16 @@ const chatSlice = createSlice({
   reducers: {
     setSelectedUser: (state, action) => {
       state.selectedUser = action.payload;
-      state.messages = []; // Clear messages when selecting a new user
-      state.loading = false; // Reset loading state
-      state.error = null; // Reset error state
+      state.messages = [];
+      state.loading = false;
+      state.error = null;
     },
     fetchMessagesStart: (state) => {
       state.loading = true;
       state.error = null;
     },
     fetchMessagesSuccess: (state, action) => {
-      state.messages = action.payload; // No need for the Array.isArray check here
+      state.messages = action.payload;
       state.loading = false;
     },
     fetchMessagesFailure: (state, action) => {
@@ -31,15 +31,20 @@ const chatSlice = createSlice({
       state.loading = false;
     },
     addMessage: (state, action) => {
+      // Corrected reducer
       const newMessage = action.payload;
       if (!state.messages.find((msg) => msg._id === newMessage._id)) {
-        state.messages.push(newMessage);
+        return {
+          ...state,
+          messages: [...state.messages, newMessage],
+        };
+      } else {
+        return state;
       }
     },
     clearSelectedUser: (state) => {
-      // Add a reducer to clear the selected user
       state.selectedUser = null;
-      state.messages = []; // Optionally clear messages as well
+      state.messages = [];
     },
   },
 });
@@ -50,7 +55,7 @@ export const {
   fetchMessagesSuccess,
   fetchMessagesFailure,
   addMessage,
-  clearSelectedUser, // Export the new action
+  clearSelectedUser,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

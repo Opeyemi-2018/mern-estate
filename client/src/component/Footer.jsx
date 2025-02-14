@@ -10,7 +10,7 @@ const Footer = () => {
       <div className="flex flex-wrap items-center gap-4 justify-between">
         <h1 className="font-bold text-sm sm:text-xl flex flex-wrap gap-1 items-center">
           <Link to={"/"} className="text-white">
-            Finder
+            HomyHub
           </Link>
           <MdOutlineRealEstateAgent className="text-white" />
         </h1>

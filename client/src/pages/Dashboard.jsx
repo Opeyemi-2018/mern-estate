@@ -80,7 +80,7 @@ const Dashboard = () => {
               <Link
                 to={"/dashboard?tab=overview"}
                 className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
-                  tab === "users" ? "bg-[#2c2f36]" : ""
+                  tab === "overview" ? "bg-[#2c2f36]" : ""
                 }`}
               >
                 <MdOutlineSpaceDashboard size={20} className="text-white" />

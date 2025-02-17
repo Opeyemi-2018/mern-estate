@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signInStart, signInSuccess, signInFailure } from "../redux/userSlice";
@@ -7,25 +7,32 @@ import signInImage from "../assets/images/sign-in.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from "react-spinners";
+import { FaEyeSlash } from "react-icons/fa6";
+import { IoEyeSharp } from "react-icons/io5";
+
 const Signin = () => {
   let { loading, error } = useSelector((state) => state.user);
   let [formData, setFormData] = useState({});
   let navigate = useNavigate();
   let dispatch = useDispatch();
-
+  const toastShownRef = useRef(false);
+  const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
-    if (error) {
+    dispatch(signInFailure(null));
+    if (error && !toastShownRef.current) {
       toast.error(error, {
         pauseOnHover: false,
+        autoClose: 3000,
         draggable: true,
       });
+      toastShownRef.current = true; // Prevent multiple toasts
     }
-  }, [error]);
+  }, [error, dispatch]);
 
   let handleChange = (e) => {
     const { id, value } = e.target;
     const formattedValue =
-      id === "email" || id === "name" ? value.toLowerCase() : value;
+      id === "email" || id === "text" ? value.toLowerCase() : value;
     setFormData({
       ...formData,
       [e.target.id]: formattedValue,
@@ -51,6 +58,7 @@ const Signin = () => {
         dispatch(signInFailure(data.message || "Sign-in failed"));
         toast.error(data.message || "Sign-in failed", {
           pauseOnHover: false,
+          autoClose: 3000,
           draggable: true,
         });
         return;
@@ -65,9 +73,14 @@ const Signin = () => {
       dispatch(signInFailure(error.message));
       toast.error(error.message, {
         pauseOnHover: false,
+        autoClose: 3000,
         draggable: true,
       });
     }
+  };
+
+  const handleShowPassword = () => {
+    setShowPassword((prev) => !prev);
   };
 
   return (
@@ -101,25 +114,32 @@ const Signin = () => {
               className="w-full border p-3 outline-none rounded-lg shadow-sm"
               onChange={handleChange}
             />
-            <input
-              autoComplete="off"
-              type="password"
-              id="password"
-              placeholder="password"
-              className="w-full border p-3 outline-none rounded-lg shadow-sm"
-              onChange={handleChange}
-            />
+            <div className="relative w-full">
+              <input
+                autoComplete="off"
+                type={showPassword ? "text" : "password"}
+                id="password"
+                placeholder="password"
+                className="w-full border p-3 outline-none rounded-lg shadow-sm"
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                onClick={handleShowPassword}
+                className="absolute right-3 top-4"
+              >
+                {showPassword ? (
+                  <IoEyeSharp size={25} />
+                ) : (
+                  <FaEyeSlash size={25} />
+                )}
+              </button>
+            </div>
             <button
               disabled={loading}
               className="w-full bg-[#1e2128] p-3 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
             >
-              {loading ? (
-                <div className="spinner  flex items-center justify-center">
-                  <ClipLoader color="blue" size={25} loading={loading} />
-                </div>
-              ) : (
-                "Sign in"
-              )}
+              Sign in
             </button>
             <OAuth />
           </form>
@@ -129,6 +149,15 @@ const Signin = () => {
               <span className="text-blue-700">Sign Up</span>
             </Link>
           </div>
+        </div>
+      </div>
+      <div
+        className={`fixed ${
+          loading ? "inset-0  bg-gray-800 bg-opacity-30" : ""
+        } flex justify-center items-center z-30`}
+      >
+        <div className="spinner  flex items-center justify-center">
+          <ClipLoader color="red" size={100} loading={loading} />
         </div>
       </div>
     </div>

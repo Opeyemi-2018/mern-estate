@@ -5,13 +5,14 @@ import signUpImage from "../assets/images/sign-up.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from "react-spinners";
+import { FaEyeSlash } from "react-icons/fa6";
+import { IoEyeSharp } from "react-icons/io5";
 
 const SignUp = () => {
   let [loading, setLoading] = useState(false);
   let [formData, setFormData] = useState({});
   const fileRef = useRef();
-  console.log(formData);
-
+  const [showPassword, setShowPassword] = useState(false);
   let navigate = useNavigate();
 
   const uploadImage = () => {
@@ -133,6 +134,10 @@ const SignUp = () => {
     }
   };
 
+  const handleShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   return (
     <div className="sm:px-28 px-3 py-5 min-h-screen">
       <div className="absolute left-1/2 top-16 z-10 transform -translate-y-1/2 -translate-x-1/2">
@@ -165,14 +170,27 @@ const SignUp = () => {
               className="w-full border p-3 outline-none rounded-lg shadow-sm"
               onChange={handleChange}
             />
-            <input
-              type="password"
-              id="password"
-              placeholder="Password"
-              autoComplete="off"
-              className="w-full border p-3 outline-none rounded-lg shadow-sm"
-              onChange={handleChange}
-            />
+            <div className="relative w-full">
+              <input
+                autoComplete="off"
+                type={showPassword ? "text" : "password"}
+                id="password"
+                placeholder="password"
+                className="w-full border p-3 outline-none rounded-lg shadow-sm"
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                onClick={handleShowPassword}
+                className="absolute right-3 top-4"
+              >
+                {showPassword ? (
+                  <IoEyeSharp size={25} />
+                ) : (
+                  <FaEyeSlash size={25} />
+                )}
+              </button>
+            </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-8">
                 <div className="flex items-center gap-2">
@@ -220,13 +238,7 @@ const SignUp = () => {
               disabled={loading}
               className="w-full bg-[#1e2128] p-3 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
             >
-              {loading ? (
-                <div className="spinner  flex items-center justify-center">
-                  <ClipLoader color="blue" size={25} loading={loading} />
-                </div>
-              ) : (
-                "Sign Up"
-              )}
+              Sign Up
             </button>
 
             <OAuth />
@@ -237,6 +249,15 @@ const SignUp = () => {
               <span className="text-blue-700">Sign in</span>
             </Link>
           </div>
+        </div>
+      </div>
+      <div
+        className={`fixed ${
+          loading ? "inset-0  bg-gray-800 bg-opacity-30" : ""
+        } flex justify-center items-center z-30`}
+      >
+        <div className="spinner  flex items-center justify-center">
+          <ClipLoader color="red" size={100} loading={loading} />
         </div>
       </div>
     </div>

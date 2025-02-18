@@ -163,8 +163,9 @@ const Rent = () => {
       </div>
 
       {isLoading ? (
-        <div className="spinner mt-20 flex items-center justify-center">
+        <div className="spinner my-40 flex flex-col gap-6 items-center justify-center">
           <ClipLoader color="blue" size={50} loading={isLoading} />
+          <p>please wait a minute</p>
         </div>
       ) : error ? (
         <div className="text-center text-red-600 my-10">

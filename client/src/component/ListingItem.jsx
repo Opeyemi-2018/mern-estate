@@ -22,6 +22,7 @@ export default function ListingItem({ listing }) {
       <ToastContainer
         position="top-center"
         autoClose={3000}
+        draggable={true}
         toastClassName="w-[250px] text-center"
       />
       <Link to={`/listing/${listing._id}`}>

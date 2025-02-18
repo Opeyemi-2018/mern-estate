@@ -81,8 +81,9 @@ export default function Listing() {
   return (
     <main className="min-h-screen flex flex-col justify-between">
       {loading && (
-        <div className="spinner min-h-screen flex items-center justify-center">
-          <ClipLoader color="blue" size={100} loading={loading} />
+        <div className="spinner my-40 flex flex-col gap-6 items-center justify-center">
+          <ClipLoader color="blue" size={50} loading={loading} />
+          <p>please wait a minute</p>
         </div>
       )}
       {error && (

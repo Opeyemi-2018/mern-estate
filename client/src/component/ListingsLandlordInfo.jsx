@@ -2,20 +2,20 @@ import { useEffect, useState } from "react";
 import { LiaTimesSolid } from "react-icons/lia";
 import { Link, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
-import { setSelectedUser } from "../redux/chatSlice";
+// import { setSelectedUser } from "../redux/chatSlice";
 import profile from "../assets/images/profile.png";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 
 const ListingsLandLordInfo = ({
   handleShowMessage,
   setCancelInfo,
   listing,
 }) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
   const [landlord, setLandlord] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { currentUser } = useSelector((state) => state.user);
+  // const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     const fetchLandlord = async () => {
@@ -40,15 +40,15 @@ const ListingsLandLordInfo = ({
     }
   }, [listing.userRef]);
 
-  const handleSendMessage = () => {
-    if (!landlord) return; // Guard clause: if landlord is not yet loaded
+  // const handleSendMessage = () => {
+  //   if (!landlord) return; // Guard clause: if landlord is not yet loaded
 
-    dispatch(setSelectedUser(landlord)); // Dispatch the action with landlord data
-    navigate("/dashboard?tab=messaging"); // Navigate to the messaging page
+  //   dispatch(setSelectedUser(landlord)); // Dispatch the action with landlord data
+  //   navigate("/dashboard?tab=messaging"); // Navigate to the messaging page
 
-    handleShowMessage(); // Close the modal
-    setCancelInfo(false); // Close the modal
-  };
+  //   handleShowMessage(); // Close the modal
+  //   setCancelInfo(false); // Close the modal
+  // };
 
   return (
     <div className="bg-white relative rounded-md w-[500px] md:h-44 h-60 shadow-lg p-6">
@@ -79,14 +79,14 @@ const ListingsLandLordInfo = ({
             , the agent representing{" "}
             <span className="font-semibold">{listing?.name}</span>. If you’re
             interested in the property, feel free to{" "}
-            <Link
+            {/* <Link
               onClick={handleSendMessage}
               to="/dashboard?tab=messaging"
               className="text-blue-600 rounded-sm"
             >
               send me a message
-            </Link>{" "}
-            or contact me via{" "}
+            </Link>{" "} */}
+            contact me via{" "}
             <Link
               to={`mailto:${landlord?.email}?subject=Regarding ${listing?.name}`}
               className="text-blue-600 hover:opacity-80"

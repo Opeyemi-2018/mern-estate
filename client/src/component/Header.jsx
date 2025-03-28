@@ -96,7 +96,7 @@ export default function Header({ setShowNav, showNav }) {
             </Link>
           )}
 
-          {currentUser && (
+          {/* {currentUser && (
             <Link
               to={"/dashboard?tab=messaging"}
               className=" hidden md:flex  text-slate-700  items-center gap-1"
@@ -104,7 +104,7 @@ export default function Header({ setShowNav, showNav }) {
               <p className="">Messaging</p>
               <LuMessageCircleMore size={25} />
             </Link>
-          )}
+          )} */}
 
           {currentUser ? (
             <div className="relative">

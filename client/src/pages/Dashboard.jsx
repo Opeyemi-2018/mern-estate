@@ -23,7 +23,7 @@ import {
 import UserListing from "./UserListing";
 import { IoMdCreate } from "react-icons/io";
 import Users from "./Users";
-import Messaging from "./Messaging";
+// import Messaging from "./Messaging";
 import CreateListing from "./CreateListing";
 import UpdateListing from "./UpdateListing";
 import SavedListing from "../component/SavedListing";
@@ -126,7 +126,7 @@ const Dashboard = () => {
               </Link>
             )}
 
-            <Link
+            {/* <Link
               to={"/dashboard?tab=messaging"}
               className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
                 tab === "messaging" ? "bg-[#2c2f36]" : ""
@@ -134,7 +134,7 @@ const Dashboard = () => {
             >
               <LuMessageCircleMore size={20} className="text-white" />
               <p className="text-white">Messaging</p>
-            </Link>
+            </Link> */}
 
             <Link
               to={"/dashboard?tab=saved-listing"}
@@ -295,7 +295,7 @@ const Dashboard = () => {
             )}
           </Link>
 
-          <Link
+          {/* <Link
             onClick={() => setShowSideBar(false)}
             to={"/dashboard?tab=messaging"}
             className={`text-white p-1 rounded-sm  flex items-center gap-2`}
@@ -304,7 +304,7 @@ const Dashboard = () => {
             <span className={`${showSideBar ? "inline" : "hidden"}`}>
               Messaging
             </span>
-          </Link>
+          </Link> */}
 
           <Link
             onClick={() => setShowSideBar(false)}
@@ -341,7 +341,7 @@ const Dashboard = () => {
         {tab === "profile" && <Profile />}
         {tab === "user-listing" && <UserListing />}
         {tab === "users" && <Users />}
-        {tab === "messaging" && <Messaging />}
+        {/* {tab === "messaging" && <Messaging />} */}
         {tab === "create-listing" && <CreateListing />}
         {tab === "saved-listing" && <SavedListing />}
         {/* {tab === `listing/:listingId` && <UpdateListing />} */}

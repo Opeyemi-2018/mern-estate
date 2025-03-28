@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react"; // Importing necessary hooks from React
-import { useNavigate } from "react-router-dom"; // Importing useNavigate from react-router-dom for navigation
-import ListingItem from "../component/ListingItem"; // Importing ListingItem component
+import { useEffect, useState } from "react"; 
+import { useNavigate } from "react-router-dom"; 
+import ListingItem from "../component/ListingItem"; 
+import { ClipLoader } from "react-spinners";
 
 export default function Search() {
-  const navigate = useNavigate(); // Initializing useNavigate hook for navigation
+  const navigate = useNavigate(); 
+  const [error, setError] = useState(false)
   const [sidebardata, setSidebardata] = useState({
-    // Initializing sidebardata state with default values
     searchTerm: "",
     type: "all",
     parking: false,
@@ -15,19 +16,19 @@ export default function Search() {
     order: "desc",
   });
 
-  const [loading, setLoading] = useState(false); // Initializing loading state
-  const [listings, setListings] = useState([]); // Initializing listings state
-  const [showMore, setShowMore] = useState(false); // Initializing showMore state
+  const [loading, setLoading] = useState(false);
+  const [listings, setListings] = useState([]); 
+  const [showMore, setShowMore] = useState(false); 
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(location.search); // Parsing URL search parameters
-    const searchTermFromUrl = urlParams.get("searchTerm"); // Getting searchTerm from URL
-    const typeFromUrl = urlParams.get("type"); // Getting type from URL
+    const urlParams = new URLSearchParams(location.search); 
+    const searchTermFromUrl = urlParams.get("searchTerm"); 
+    const typeFromUrl = urlParams.get("type"); 
     const parkingFromUrl = urlParams.get("parking"); // Getting parking from URL
-    const furnishedFromUrl = urlParams.get("furnished"); // Getting furnished from URL
-    const offerFromUrl = urlParams.get("offer"); // Getting offer from URL
-    const sortFromUrl = urlParams.get("sort"); // Getting sort from URL
-    const orderFromUrl = urlParams.get("order"); // Getting order from URL
+    const furnishedFromUrl = urlParams.get("furnished");
+    const offerFromUrl = urlParams.get("offer"); 
+    const sortFromUrl = urlParams.get("sort"); 
+    const orderFromUrl = urlParams.get("order"); 
 
     if (
       searchTermFromUrl ||
@@ -51,20 +52,29 @@ export default function Search() {
     }
 
     const fetchListings = async () => {
-      // Defining async function to fetch listings
-      setLoading(true); // Setting loading state to true
-      setShowMore(false); // Setting showMore state to false
-      const searchQuery = urlParams.toString(); // Converting URL parameters to string
-      const res = await fetch(`/api/listing/get?${searchQuery}`); // Fetching listings from API
-      const data = await res.json(); // Parsing response as JSON
-      if (data.length > 8) {
-        // Checking if more than 8 listings are returned
-        setShowMore(true); // Setting showMore state to true
-      } else {
-        setShowMore(false); // Setting showMore state to false
-      }
-      setListings(data); // Setting listings state with fetched data
-      setLoading(false); // Setting loading state to false
+   try {
+    setLoading(true); 
+    setShowMore(false); 
+    setError(false)
+    const searchQuery = urlParams.toString(); // Converting URL parameters to string
+    const res = await fetch(`/api/listing/get?${searchQuery}`); 
+    if(!res.ok){
+      const errorData = await res.json()
+      throw new Error(errorData.message || "something went wrong");
+    }
+    const data = await res.json(); 
+    if (data.length > 8) {
+      // Checking if more than 8 listings are returned
+      setShowMore(true); 
+    } else {
+      setShowMore(false); 
+    }
+    setListings(data); 
+     setError(false)
+    setLoading(false); 
+   } catch (error) {
+    setError(error.message)
+   }
     };
 
     fetchListings(); // Calling fetchListings function
@@ -146,14 +156,12 @@ export default function Search() {
               type="text"
               id="searchTerm"
               placeholder="Search..."
-              className="border rounded-lg p-3 w-full"
+              className="border rounded-lg p-3 w-full outline-none"
               value={sidebardata.searchTerm}
-              onChange={handleChange} // Input for search term with change handler
+              onChange={handleChange} 
             />
           </div>
-          {/* Container for type checkboxes */}
           <div className="flex gap-2 flex-wrap items-center">
-            {/* Label for type checkboxes */}
             <label className="font-semibold">Type:</label>
             <div className="flex gap-2">
               <input
@@ -161,7 +169,7 @@ export default function Search() {
                 id="all"
                 className="w-5"
                 onChange={handleChange}
-                checked={sidebardata.type === "all"} // Checkbox for 'all' type
+                checked={sidebardata.type === "all"} 
               />
               <span>Rent & Sale</span>
             </div>
@@ -171,7 +179,7 @@ export default function Search() {
                 id="rent"
                 className="w-5"
                 onChange={handleChange}
-                checked={sidebardata.type === "rent"} // Checkbox for 'rent' type
+                checked={sidebardata.type === "rent"} 
               />
               <span>Rent</span>
             </div>
@@ -181,7 +189,7 @@ export default function Search() {
                 id="sale"
                 className="w-5"
                 onChange={handleChange}
-                checked={sidebardata.type === "sale"} // Checkbox for 'sale' type
+                checked={sidebardata.type === "sale"} 
               />
               <span>Sale</span>
             </div>
@@ -214,7 +222,7 @@ export default function Search() {
                 id="furnished"
                 className="w-5"
                 onChange={handleChange}
-                checked={sidebardata.furnished} // Checkbox for 'furnished'
+                checked={sidebardata.furnished} 
               />
               <span>Furnished</span>
             </div>
@@ -226,7 +234,7 @@ export default function Search() {
               onChange={handleChange}
               defaultValue={"created_at_desc"}
               id="sort_order"
-              className="border rounded-lg p-3" // Dropdown for sorting options
+              className="border rounded-lg p-3" 
             >
               <option value="regularPrice_desc">Price high to low</option>
               <option value="regularPrice_asc">Price low to high</option>
@@ -252,8 +260,10 @@ export default function Search() {
               <p className="text-xl text-slate-700">No listing found!</p>
             )}
           {loading && ( // Loading indicator
-            <div className="h-8 w-8 rounded-full animate-ping  bg-blue-600 absolute top-1/2 -translate-x-1/2 -translate-y-1/2 left-1/2 "></div>
-          )}
+            <div className="spinner my-40 flex w-full flex-col gap-6 items-center justify-center">
+          <ClipLoader color="blue" size={50} />
+          <p>please wait a minute</p>
+        </div>          )}
 
           {!loading &&
             listings &&

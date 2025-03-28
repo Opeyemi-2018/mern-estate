@@ -68,7 +68,7 @@ export default function Home() {
           <p>please wait a minute</p>
         </div>
       ) : error ? (
-        <div className="text-center text-red-600 my-10">
+        <div className="text-center text-red-600 my-40">
           <p>{error}</p>
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded mt-4"

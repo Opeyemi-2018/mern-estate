@@ -1,5 +1,5 @@
 import { FaSearch } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react";
 import { FaBars } from "react-icons/fa";
@@ -19,6 +19,7 @@ export default function Header({ setShowNav, showNav }) {
   const [showPopUp, setShowPopUp] = useState(false);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
+  const location = useLocation(); // Hook to get the current location (URL)
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -47,13 +48,15 @@ export default function Header({ setShowNav, showNav }) {
       }
       dispatch(deleteUserSuccess(data));
     } catch (error) {
-      // dispatch(deleteUserFailure(data.message));
       toast.error(error.message, {
         pauseOnHover: false,
         draggable: true,
       });
     }
   };
+
+  // Helper function to check if a link is active
+  const isActive = (path) => location.pathname === path;
 
   return (
     <header className="bg-white shadow-lg z-30 w-full">
@@ -70,20 +73,28 @@ export default function Header({ setShowNav, showNav }) {
           </h1>
         </Link>
 
-        <ul className="flex  items-center gap-4 font-semibold">
-          <Link to="/sell">
-            <li className="md:inline hidden  text-slate-700 hover:underline">
-              sell
+        <ul className="flex items-center gap-4 font-semibold">
+          <Link to="/" className={isActive("/") ? "underline" : ""}>
+            <li className="md:inline hidden text-slate-700 hover:underline">
+              Home {isActive("/")}
             </li>
           </Link>
-          <Link to="/rent">
-            <li className=" md:inline hidden text-slate-700 hover:underline">
-              rent
+
+          <Link to="/sell" className={isActive("/sell") ? "underline" : ""}>
+            <li className="md:inline hidden text-slate-700 hover:underline">
+              Sell {isActive("/sell")}
             </li>
           </Link>
-          <Link to="/about">
-            <li className="md:inline hidden  text-slate-700 hover:underline">
-              About
+
+          <Link to="/rent" className={isActive("/rent") ? "underline" : ""}>
+            <li className="md:inline hidden text-slate-700 hover:underline">
+              Rent {isActive("/rent")}
+            </li>
+          </Link>
+
+          <Link to="/about" className={isActive("/about") ? "underline" : ""}>
+            <li className="md:inline hidden text-slate-700 hover:underline">
+              About {isActive("/about")}
             </li>
           </Link>
 
@@ -96,21 +107,11 @@ export default function Header({ setShowNav, showNav }) {
             </Link>
           )}
 
-          {/* {currentUser && (
-            <Link
-              to={"/dashboard?tab=messaging"}
-              className=" hidden md:flex  text-slate-700  items-center gap-1"
-            >
-              <p className="">Messaging</p>
-              <LuMessageCircleMore size={25} />
-            </Link>
-          )} */}
-
           {currentUser ? (
             <div className="relative">
               <img
                 onClick={() => setShowPopUp(!showPopUp)}
-                className="rounded-full h-7 w-7  object-cover border-[#001030]  border"
+                className="rounded-full h-7 w-7 object-cover border-[#001030] border"
                 src={currentUser.image}
                 alt="profile"
               />
@@ -120,7 +121,7 @@ export default function Header({ setShowNav, showNav }) {
                   className="absolute top-14 w-48 z-10 right-0 bg-white shadow-lg p-4 rounded-md"
                 >
                   <div className="flex flex-col mb-2 text-gray-800 items-center border border-x-0 border-t-0">
-                    <h1 className="flex items-center ">
+                    <h1 className="flex items-center">
                       Welcome {currentUser.username}
                     </h1>
                   </div>
@@ -163,40 +164,38 @@ export default function Header({ setShowNav, showNav }) {
         </ul>
       </div>
 
-      {/* nav for mobile screen */}
+      {/* Nav for mobile screen */}
       <div
-        className={` text-[20px] md:hidden overflow-hidden transition-all duration-300 ${
+        className={`text-[20px] md:hidden overflow-hidden transition-all duration-300 ${
           showNav ? "block max-h-screen" : "max-h-0"
         }`}
       >
         <ul className="flex flex-col gap-2 p-3">
-          <Link to="/">
-            <li className="text-slate-700 hover:underline ">Home</li>
+          <Link to="/" className={isActive("/") ? "underline" : ""}>
+            <li className="text-slate-700 hover:underline">
+              Home {isActive("/") && "✔"}
+            </li>
           </Link>
-          <Link to="/sell">
-            <li className="text-slate-700 hover:underline">Sell</li>
+          <Link to="/sell" className={isActive("/sell") ? "underline" : ""}>
+            <li className="text-slate-700 hover:underline">
+              Sell {isActive("/sell")}
+            </li>
           </Link>
-          <Link to="/rent">
-            <li className="text-slate-700 hover:underline">Rent</li>
+          <Link to="/rent" className={isActive("/rent") ? "underline" : ""}>
+            <li className="text-slate-700 hover:underline">
+              Rent {isActive("/rent")}
+            </li>
           </Link>
-          <Link to="/about">
-            <li className="text-slate-700 hover:underline">About</li>
+          <Link to="/about" className={isActive("/about") ? "underline" : ""}>
+            <li className="text-slate-700 hover:underline">
+              About {isActive("/about")}
+            </li>
           </Link>
-
-          {currentUser && (
-            <Link
-              to={"/dashboard?tab=messaging"}
-              className="flex  text-slate-700  items-center justify-between"
-            >
-              <p className="">Messaging</p>
-              <LuMessageCircleMore size={25} />
-            </Link>
-          )}
 
           {currentUser && (currentUser.isAdmin || currentUser.isAgent) && (
             <Link
               to={"/dashboard?tab=create-listing"}
-              className="bg-[#1E2128]  text-white rounded-md sm:px-3 px-2 py-2 text-[18px] text-nowrap uppercase"
+              className="bg-[#1E2128] text-white rounded-md sm:px-3 px-2 py-2 text-[18px] text-nowrap uppercase"
             >
               create listing
             </Link>

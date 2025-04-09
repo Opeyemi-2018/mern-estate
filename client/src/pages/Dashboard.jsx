@@ -27,6 +27,7 @@ import Users from "./Users";
 import CreateListing from "./CreateListing";
 import UpdateListing from "./UpdateListing";
 import SavedListing from "../component/SavedListing";
+import { Modal } from "antd";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -35,6 +36,7 @@ const Dashboard = () => {
   useEffect(() => {}, [currentUser]);
   const [tab, setTab] = useState("");
   let [showSideBar, setShowSideBar] = useState(false);
+  const [signOutModalVisible, setSignOutModalVisible] = useState(false);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -56,7 +58,17 @@ const Dashboard = () => {
       dispatch(deleteUserSuccess(data));
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
+    } finally {
+      setSignOutModalVisible(false);
     }
+  };
+
+  const showSignOutModal = () => {
+    setSignOutModalVisible(true);
+  };
+
+  const handleCancelSignOut = () => {
+    setSignOutModalVisible(false);
   };
 
   return (
@@ -167,7 +179,7 @@ const Dashboard = () => {
             </div>
           </Link>
           <button
-            onClick={handleSignOut}
+            onClick={showSignOutModal}
             className="flex items-center gap-2 rounded-md p-2 w-full hover:bg-[#2c2f36] hover:text-white"
           >
             <FaSignOutAlt size={20} className="" />
@@ -178,7 +190,7 @@ const Dashboard = () => {
 
       {/* sidebar for mobile screen  */}
       <div
-        className={`bg-[#2c2f36] z-40  top-0 bottom-0 inline lg:hidden fixed 
+        className={`bg-[#2c2f36] z-40  top-0 bottom-0 inline lg:hidden fixed
          transition-all duration-500`}
         style={{ width: showSideBar ? "250px" : "40px" }}
       >
@@ -204,7 +216,7 @@ const Dashboard = () => {
           <Link
             onClick={() => setShowSideBar(false)}
             to={"/"}
-            className={`font-semibold  text-white  py-1  rounded-sm flex items-center justify-between 
+            className={`font-semibold  text-white  py-1  rounded-sm flex items-center justify-between
             `}
           >
             <p className="flex items-center gap-2 ">
@@ -216,7 +228,7 @@ const Dashboard = () => {
           <Link
             onClick={() => setShowSideBar(false)}
             to={"/dashboard?tab=overview"}
-            className={`font-semibold  text-white  py-1  rounded-sm flex items-center justify-between 
+            className={`font-semibold  text-white  py-1  rounded-sm flex items-center justify-between
             `}
           >
             <p className="flex items-center gap-2 ">
@@ -230,7 +242,7 @@ const Dashboard = () => {
           <Link
             onClick={() => setShowSideBar(false)}
             to={"/dashboard?tab=profile"}
-            className={`font-semibold  text-white  py-1  rounded-sm flex items-center justify-between 
+            className={`font-semibold  text-white  py-1  rounded-sm flex items-center justify-between
             `}
           >
             <div className="flex items-center gap-2 ">
@@ -256,7 +268,7 @@ const Dashboard = () => {
             <Link
               onClick={() => setShowSideBar(false)}
               to={"/dashboard?tab=users"}
-              className={`text-white p-1 rounded-sm flex items-center gap-2 
+              className={`text-white p-1 rounded-sm flex items-center gap-2
               `}
             >
               <FaUsers size={25} />{" "}
@@ -268,7 +280,7 @@ const Dashboard = () => {
             <Link
               onClick={() => setShowSideBar(false)}
               to={"/dashboard?tab=create-listing"}
-              className={`text-white   p-2 rounded-md flex items-center gap-2 
+              className={`text-white   p-2 rounded-md flex items-center gap-2
               `}
             >
               <IoMdCreate size={25} />{" "}
@@ -319,7 +331,7 @@ const Dashboard = () => {
 
           <div>
             <button
-              onClick={handleSignOut}
+              onClick={showSignOutModal}
               className="pointer text-white   p-1 rounded-sm flex items-center gap-2 "
             >
               <FaSignOutAlt size={25} />{" "}
@@ -333,7 +345,7 @@ const Dashboard = () => {
 
       {/* Content Area with padding to account for the fixed sidebar */}
       <div
-        className={`lg:ml-64 ml-10 md:h-[580px] h-[630px] overflow-y-auto no-scrollbar   bg-white rounded-lg  transition-all duration-300 
+        className={`lg:ml-64 ml-10 md:h-[580px] h-[630px] overflow-y-auto no-scrollbar   bg-white rounded-lg  transition-all duration-300
           `}
       >
         {/* Render content based on active tab */}
@@ -346,6 +358,16 @@ const Dashboard = () => {
         {tab === "saved-listing" && <SavedListing />}
         {/* {tab === `listing/:listingId` && <UpdateListing />} */}
       </div>
+
+      {/* Ant Design Modal for Sign Out Confirmation */}
+      <Modal
+        title="Confirm Sign Out"
+        open={signOutModalVisible}
+        onOk={handleSignOut}
+        onCancel={handleCancelSignOut}
+      >
+        <p>Are you sure you want to sign out?</p>
+      </Modal>
     </main>
   );
 };

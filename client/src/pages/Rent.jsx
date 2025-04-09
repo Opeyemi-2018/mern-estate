@@ -121,7 +121,7 @@ const Rent = () => {
             <div className="flex items-center">
               <select
                 id="apartmentType"
-                className="w-full p-2 bg-gray-50 outline-none rounded-sm shadow-sm"
+                className="w-full p-2 bg-gray-100 outline-none rounded-sm shadow-sm "
                 value={selectedApartmentType}
                 onChange={(e) => setSelectedApartmentType(e.target.value)}
               >
@@ -136,11 +136,11 @@ const Rent = () => {
                 <option value="Terraced House">Terraced House</option>
               </select>
 
-              <p className="w-1 h-10 bg-gray-600"></p>
+              <p className="w-1 h-10 bg-gray-300"></p>
 
               <select
                 id="state"
-                className="p-2 w-full bg-gray-50 outline-none rounded-sm shadow-sm"
+                className="p-2 w-full bg-gray-100 outline-none rounded-sm shadow-sm"
                 value={selectedState}
                 onChange={(e) => setSelectedState(e.target.value)}
               >
@@ -154,7 +154,7 @@ const Rent = () => {
             </div>
           </div>
           <button
-            className="p-2 rounded-full float-end text-white mt-2 bg-black"
+            className="p-2 rounded-md w-full md:w-40 float-end text-white mt-3 bg-black"
             onClick={handleSearch}
           >
             Search
@@ -197,7 +197,7 @@ const Rent = () => {
                   <Link to={`/listing/${_id}`}>
                     <img
                       src={imageUrls[0] || "default-image-url.jpg"}
-                      className="h-[200px] w-full object-cover sm:rounded-md"
+                      className="h-[200px] w-full object-cover sm:rounded-tl-md sm:rounded-tr-md"
                       alt={name}
                     />
                   </Link>

@@ -56,7 +56,6 @@ const SignUp = () => {
 
   let handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!formData.username || !formData.email || !formData.password) {
       toast.error("All fields are required", {
         pauseOnHover: false,
@@ -65,7 +64,6 @@ const SignUp = () => {
       return;
     }
 
-    // Validate Email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       toast.error("Please enter a valid email address", {

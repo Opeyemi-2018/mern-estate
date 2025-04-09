@@ -3,17 +3,16 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { CiEdit } from "react-icons/ci";
 import { RiDeleteBin5Line } from "react-icons/ri";
-
+import { Modal, Button } from "antd"; // Importing Ant Design Modal and Button
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const UserListing = () => {
   let { currentUser } = useSelector((state) => state.user);
   const [userListings, setUserListings] = useState([]);
-  const [filterType, setFilterType] = useState("all"); // "buy" or "rent"
+  const [filterType, setFilterType] = useState("all"); // "sale" or "rent"
   let [deleteId, setDeleteId] = useState(null);
   let [deleteName, setDeleteName] = useState("");
-  let [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -28,18 +27,23 @@ const UserListing = () => {
         setUserListings(data);
       } catch (error) {
         setError(error.message);
-      } finally {
-        setDeleteName("");
-        setShowModal(false);
       }
     };
     handleShowListings();
   }, [currentUser._id]);
 
-  // Filter listings based on selection
   const filteredListings = userListings.filter((listing) =>
     filterType === "all" ? true : listing.type === filterType
   );
+
+  useEffect(() => {
+    if (
+      (filterType === "sale" || filterType === "rent") &&
+      filteredListings.length === 0
+    ) {
+      toast.error(`No ${filterType} listings available`);
+    }
+  }, [filteredListings, filterType]);
 
   if (error) {
     return (
@@ -49,11 +53,23 @@ const UserListing = () => {
     );
   }
 
+  const showDeleteModal = (id, name) => {
+    setDeleteId(id);
+    setDeleteName(name);
+  };
+
+  const handleDelete = () => {
+    setUserListings((prev) =>
+      prev.filter((listing) => listing._id !== deleteId)
+    );
+    toast.success("Property deleted");
+  };
+
   return (
     <div className="flex flex-col">
       <ToastContainer position="top-center" autoClose={3000} />
 
-      {filteredListings.length === 0 ? (
+      {filterType === "all" && filteredListings.length === 0 ? (
         <div className="flex items-center justify-center flex-col gap-2 mt-20">
           <h1 className="md:text-2xl text-1xl uppercase">
             No listings available!
@@ -96,6 +112,7 @@ const UserListing = () => {
               </button>
             </div>
 
+            {/* Additional filter options */}
             <div className="md:flex hidden md:flex-row flex-col md:gap-3 gap-2 justify-between ">
               <select className="p-3 w-full border border-gray-300 outline-none rounded-md">
                 <option value="" disabled>
@@ -134,11 +151,9 @@ const UserListing = () => {
                       </div>
                       <button
                         type="button"
-                        onClick={() => {
-                          setDeleteId(listing._id);
-                          setDeleteName(listing.name);
-                          setShowModal(true);
-                        }}
+                        onClick={() =>
+                          showDeleteModal(listing._id, listing.name)
+                        }
                         className="bg-red-600 z-10 text-white rounded-full p-1 absolute right-2 top-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
                       >
                         <RiDeleteBin5Line size={25} />
@@ -174,42 +189,28 @@ const UserListing = () => {
         </div>
       )}
 
-      {/* Delete Modal */}
-      {showModal && (
-        <div className="fixed inset-0 sm:px-0 px-2 bg-gray-800 bg-opacity-30 flex justify-center items-center z-30">
-          <div className="w-96 bg-white p-5 shadow-lg rounded-md">
-            <div className="flex flex-col gap-3">
-              <h1 className="text-lg font-semibold">Delete property?</h1>
-              <div className="text-gray-700">
-                This will delete{" "}
-                <span className="underline text-black font-semibold">
-                  {deleteName}
-                </span>
-              </div>
-            </div>
-            <div className="flex gap-5 justify-end mt-4 items-end">
-              <button
-                onClick={() => setShowModal(false)}
-                className="border border-gray-600 hover:bg-gray-200 rounded-full text-black py-2 px-3"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  setUserListings((prev) =>
-                    prev.filter((listing) => listing._id !== deleteId)
-                  );
-                  toast.success("Property deleted");
-                  setShowModal(false);
-                }}
-                className="bg-red-600 hover:bg-red-500 border-white rounded-full py-2 px-3 text-white"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Ant Design Delete Modal */}
+      <Modal
+        title="Delete property?"
+        visible={deleteId !== null}
+        onCancel={() => setDeleteId(null)} // Close the modal
+        footer={[
+          <Button key="cancel" onClick={() => setDeleteId(null)}>
+            Cancel
+          </Button>,
+          <Button key="delete" type="primary" danger onClick={handleDelete}>
+            Delete
+          </Button>,
+        ]}
+      >
+        <p>
+          Are you sure you want to delete{" "}
+          <span className="underline text-black font-semibold">
+            {deleteName}
+          </span>
+          ?
+        </p>
+      </Modal>
     </div>
   );
 };

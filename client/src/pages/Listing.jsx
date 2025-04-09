@@ -10,7 +10,7 @@ import {
   FaShare,
 } from "react-icons/fa";
 import { ClipLoader } from "react-spinners";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import ListingsLandLordInfo from "../component/ListingsLandlordInfo";
 import { MdOutlinePermContactCalendar } from "react-icons/md";
 
@@ -40,6 +40,9 @@ export default function Listing() {
   const [coordinates, setCoordinates] = useState(null);
   const { listingId } = useParams();
   const { currentUser } = useSelector((state) => state.user);
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+  });
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -125,7 +128,7 @@ export default function Listing() {
                       selectedImage === url
                         ? "border-gray-400  border-2"
                         : "border-none"
-                    }`} // Ensuring thumbnails also have consistent size
+                    }`}
                   />
                 </div>
               ))}
@@ -239,23 +242,17 @@ export default function Listing() {
                 </div>
               </div>
 
-              {/* Map Container */}
-              {coordinates && coordinates.lat && coordinates.lon && (
+              {isLoaded && coordinates && coordinates.lat && coordinates.lon && (
                 <div style={{ height: "400px", width: "100%" }}>
-                  <MapContainer
-                    center={[coordinates.lat, coordinates.lon]}
+                  <GoogleMap
+                    center={{ lat: coordinates.lat, lng: coordinates.lon }}
                     zoom={13}
-                    style={{ width: "100%", height: "100%" }}
-                    whenCreated={(map) => map.invalidateSize()}
+                    mapContainerStyle={{ height: "100%", width: "100%" }}
                   >
-                    <TileLayer
-                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    <Marker
+                      position={{ lat: coordinates.lat, lng: coordinates.lon }}
                     />
-                    <Marker position={[coordinates.lat, coordinates.lon]}>
-                      <Popup>{listing.address}</Popup>
-                    </Marker>
-                  </MapContainer>
+                  </GoogleMap>
                 </div>
               )}
             </div>

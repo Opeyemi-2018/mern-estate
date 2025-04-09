@@ -16,6 +16,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { RiErrorWarningLine } from "react-icons/ri";
 import ProfileUserListings from "../component/ProfileUserListings";
 import { IoIosArrowUp } from "react-icons/io";
+import { Modal, Button } from "antd";
 
 export default function Profile() {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -23,9 +24,10 @@ export default function Profile() {
   let [userListingCount, setUserListingCount] = useState(0);
   const dispatch = useDispatch();
   let [showUpdate, setShowUpdate] = useState(false);
-  let [openModal, setOpenModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showListings, setShowListings] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [signOutModalVisible, setSignOutModalVisible] = useState(false);
 
   useEffect(() => {
     let fetchUser = async () => {
@@ -63,7 +65,7 @@ export default function Profile() {
       }
       const data = await res.json();
       dispatch(deleteUserSuccess(data));
-      setOpenModal(false);
+      setDeleteModalVisible(false);
     } catch (error) {
       toast.error(error.message, {
         pauseOnHover: false,
@@ -83,6 +85,7 @@ export default function Profile() {
         return;
       }
       dispatch(deleteUserSuccess(data));
+      setSignOutModalVisible(false);
     } catch (error) {
       toast.error(error.message, {
         pauseOnHover: false,
@@ -90,6 +93,22 @@ export default function Profile() {
       });
       dispatch(deleteUserFailure(error.message));
     }
+  };
+
+  const showDeleteModal = () => {
+    setDeleteModalVisible(true);
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteModalVisible(false);
+  };
+
+  const showSignOutModal = () => {
+    setSignOutModalVisible(true);
+  };
+
+  const handleCancelSignOut = () => {
+    setSignOutModalVisible(false);
   };
 
   return (
@@ -146,14 +165,14 @@ export default function Profile() {
                       Update
                     </button>
                     <button
-                      onClick={handleSignOut}
+                      onClick={showSignOutModal}
                       className=" text-red-600 font-semibold"
                     >
                       Sign out
                     </button>
                   </div>
                   <button
-                    onClick={() => setOpenModal(!openModal)}
+                    onClick={showDeleteModal}
                     className="border md:w-48 w-full text-center text-white bg-red-600 rounded-md px-[4px] md:py-[1px] py-2"
                   >
                     Delete
@@ -196,34 +215,45 @@ export default function Profile() {
         )}
       </div>
 
-      {/* Modal for deletion */}
-      {openModal && (
-        <div className="fixed inset-0 sm:px-0 px-2 bg-gray-800 bg-opacity-30 flex justify-center items-center z-30">
-          <div className="w-96 h-60 bg-red-600 p-4 shadow-lg rounded-md">
-            <RiErrorWarningLine className="sm:h-14 sm:w-14 w-12 h-12 text-white mb-4 mx-auto" />
-            <div className="flex flex-col items-center text-white mb-4">
-              <h1 className="text-lg">
-                Did you really want to delete your account?
-              </h1>
-              <p>This action cannot be undone</p>
-            </div>
-            <div className="flex gap-8 justify-center mt-6">
-              <button
-                onClick={() => setOpenModal(false)}
-                className="bg-black capitalize text-white rounded-md sm:py-2 py-[7px] px-4"
-              >
-                No, cancel
-              </button>
-              <button
-                onClick={handleDeleteUser}
-                className="bg-white capitalize border-white rounded-md sm:py-2 py-[7px] px-4 text-black"
-              >
-                Yes, delete
-              </button>
-            </div>
-          </div>
+      {/* Ant Design Modal for Delete Confirmation */}
+      <Modal
+        title="Confirm Delete Account"
+        open={deleteModalVisible}
+        onCancel={handleCancelDelete}
+        footer={[
+          <Button key="cancel" onClick={handleCancelDelete}>
+            Cancel
+          </Button>,
+          <Button key="delete" type="primary" danger onClick={handleDeleteUser}>
+            Delete
+          </Button>,
+        ]}
+      >
+        <div className="flex items-center">
+          <RiErrorWarningLine className="text-red-500 mr-2 text-xl" />
+          <p>Are you sure you want to delete your account?</p>
         </div>
-      )}
+        <p className="mt-2 text-sm text-gray-600">
+          This action cannot be undone.
+        </p>
+      </Modal>
+
+      {/* Ant Design Modal for Sign Out */}
+      <Modal
+        title="Confirm Sign Out"
+        open={signOutModalVisible}
+        onCancel={handleCancelSignOut}
+        footer={[
+          <Button key="cancel" onClick={handleCancelSignOut}>
+            Cancel
+          </Button>,
+          <Button key="signout" type="primary" danger onClick={handleSignOut}>
+            Sign Out
+          </Button>,
+        ]}
+      >
+        <p>Are you sure you want to sign out?</p>
+      </Modal>
     </>
   );
 }

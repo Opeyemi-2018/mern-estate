@@ -19,8 +19,18 @@ body{
     scrollbar-width: none;     /* Hides the scrollbar in Firefox */
   }
 
-  /* .img{
-    background-color: rgba(0, 0, 0, 0.7)url(img.jpg);
-    background-blend-mode: darken;
-  } */
+  .custom-table .ant-table-thead > tr > th {
+    background-color: #2c2f36; /* Custom background color */
+    color: white; /* Change text color if needed */
+  }
+  /* Customizing the spinner color for the Ant Design table */
+.custom-table .ant-spin-dot {
+  border-color: #2c2f36 !important; /* Set the color of the spinner */
+}
+
+.custom-table .ant-spin-dot i {
+  background-color: #2c2f36 !important; /* Set the color of the spinner */
+}
+
+
 

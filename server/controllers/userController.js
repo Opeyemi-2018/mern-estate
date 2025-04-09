@@ -88,11 +88,15 @@ export const getUser = async (req, res, next) => {
 
     if (!user) return next(errorHandler(404, "User not found!"));
 
-    let listingCount = await Listing.countDocuments({ userRef: user._id });
+    // Fetch the user's listings
+    const listings = await Listing.find({ userRef: user._id });
 
     const { password: pass, ...rest } = user._doc;
 
-    res.status(200).json({ user: rest, listingCount });
+    // Send user info, listing count, and the listings array
+    res
+      .status(200)
+      .json({ user: rest, listingCount: listings.length, listings });
   } catch (error) {
     next(error);
   }

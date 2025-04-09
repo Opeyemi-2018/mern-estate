@@ -16,12 +16,12 @@ const ProfileUserListings = () => {
     const getUserListings = async () => {
       try {
         setIsLoading(true);
-        const res = await fetch(`/api/user/listing/${currentUser._id}`);
+        let res = await fetch(`api/user/${currentUser._id}`);
         if (!res.ok) {
           throw new Error("something went wrong");
         }
         const data = await res.json();
-        setUserListing(data);
+        setUserListing(data.listings);
         setIsLoading(false);
       } catch (error) {
         toast.error(error.message, {

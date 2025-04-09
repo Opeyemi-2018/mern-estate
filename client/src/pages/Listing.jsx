@@ -10,7 +10,7 @@ import {
   FaShare,
 } from "react-icons/fa";
 import { ClipLoader } from "react-spinners";
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import ListingsLandLordInfo from "../component/ListingsLandlordInfo";
 import { MdOutlinePermContactCalendar } from "react-icons/md";
 
@@ -40,9 +40,6 @@ export default function Listing() {
   const [coordinates, setCoordinates] = useState(null);
   const { listingId } = useParams();
   const { currentUser } = useSelector((state) => state.user);
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-  });
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -242,17 +239,23 @@ export default function Listing() {
                 </div>
               </div>
 
-              {isLoaded && coordinates && coordinates.lat && coordinates.lon && (
+              {/* Map Container */}
+              {coordinates && coordinates.lat && coordinates.lon && (
                 <div style={{ height: "400px", width: "100%" }}>
-                  <GoogleMap
-                    center={{ lat: coordinates.lat, lng: coordinates.lon }}
+                  <MapContainer
+                    center={[coordinates.lat, coordinates.lon]}
                     zoom={13}
-                    mapContainerStyle={{ height: "100%", width: "100%" }}
+                    style={{ width: "100%", height: "100%" }}
+                    whenCreated={(map) => map.invalidateSize()}
                   >
-                    <Marker
-                      position={{ lat: coordinates.lat, lng: coordinates.lon }}
+                    <TileLayer
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     />
-                  </GoogleMap>
+                    <Marker position={[coordinates.lat, coordinates.lon]}>
+                      <Popup>{listing.address}</Popup>
+                    </Marker>
+                  </MapContainer>
                 </div>
               )}
             </div>

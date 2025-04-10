@@ -66,7 +66,7 @@ const UserListing = () => {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col pl-3">
       <ToastContainer position="top-center" autoClose={3000} />
 
       {filterType === "all" && filteredListings.length === 0 ? (

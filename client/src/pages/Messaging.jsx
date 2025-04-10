@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 import { MessageBox } from "react-chat-elements";
 import "react-chat-elements/dist/main.css";
+import { LiaUserFriendsSolid } from "react-icons/lia";
+import { LiaTimesSolid } from "react-icons/lia";
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 
 const socket = io("http://localhost:5000", {
   withCredentials: true,
@@ -15,6 +18,7 @@ const Messaging = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const [showPeople, setShowPeople] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -90,9 +94,13 @@ const Messaging = () => {
   };
 
   return (
-    <div className="flex h-screen md:h-[550px]">
+    <div className="flex h-screen md:h-[550px] ">
       {/* Left sidebar: list of users */}
-      <div className="w-1/3 border-r overflow-y-auto p-4">
+      <div
+        className={`${
+          showPeople ? "block" : "hidden"
+        } md:inline hidden md:w-52  w-36  border-r overflow-y-auto p-4`}
+      >
         <h2 className="text-xl font-bold mb-4">Start Chat</h2>
         {users.map((user) => (
           <div
@@ -103,6 +111,21 @@ const Messaging = () => {
             <div className="font-medium">{user.username}</div>
           </div>
         ))}
+      </div>
+
+      {/* Toggle icon only visible on small screens */}
+      <div
+        className="md:hidden block mt-5  z-10"
+        onClick={() => setShowPeople(true)}
+      >
+        {showPeople ? (
+          <LiaTimesSolid />
+        ) : (
+          <LiaUserFriendsSolid
+            size={30}
+            className="bg-[#2c2f36] text-white p-2  cursor-pointer"
+          />
+        )}
       </div>
 
       {/* Right: chat window */}
@@ -147,7 +170,12 @@ const Messaging = () => {
             </div>
           </>
         ) : (
-          <p>Select a user to start chatting</p>
+          <div className="flex items-center justify-center h-screen flex-col gap-3">
+            <IoChatbubbleEllipsesOutline size={50} />
+            <p>Select a user to start chatting</p>
+
+            <p>this page is not mobile friendly for now but it would in some days</p>
+          </div>
         )}
       </div>
     </div>

@@ -190,7 +190,7 @@ const Dashboard = () => {
       </div>
 
       {/* sidebar for mobile screen  */}
-      {/* <div
+      <div
         className={`bg-[#2c2f36] z-40  top-0 bottom-0 inline lg:hidden fixed
          transition-all duration-500`}
         style={{ width: showSideBar ? "250px" : "40px" }}
@@ -341,7 +341,7 @@ const Dashboard = () => {
             </button>
           </div>
         </div>
-      </div> */}
+      </div>
 
       {/* Content Area with padding to account for the fixed sidebar */}
       <div

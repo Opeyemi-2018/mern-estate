@@ -172,9 +172,13 @@ const Messaging = () => {
         ) : (
           <div className="flex items-center justify-center h-screen flex-col gap-3">
             <IoChatbubbleEllipsesOutline size={50} />
+            <p>this page is under implementation</p>
             <p>Select a user to start chatting</p>
 
-            <p>this page is not mobile friendly for now but it would in some days</p>
+            <p>
+              this page is not mobile friendly at the moment but it would in
+              some days
+            </p>
           </div>
         )}
       </div>

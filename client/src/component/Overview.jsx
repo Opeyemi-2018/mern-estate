@@ -78,7 +78,7 @@ const Overview = () => {
         Dashboard Overview
       </h1>
       <div className="flex my-4 items-center sm:gap-8 gap-4 justify-between md:flex-row flex-col">
-        <div className="px-5  sm:py-7 py-5 items-center rounded-md shadow-md flex justify-between w-full">
+        <div className="px-5 bg-white  sm:py-7 py-5 items-center rounded-md shadow-md flex justify-between w-full">
           <div className="text-gray-600">
             <p>{loading ? "Please wait" : "Total Users"}</p>{" "}
             {loading ? (
@@ -93,7 +93,7 @@ const Overview = () => {
           />{" "}
         </div>
 
-        <div className="px-5  sm:py-7 py-5 items-center rounded-md shadow-md flex justify-between w-full">
+        <div className="px-5 bg-white   sm:py-7 py-5 items-center rounded-md shadow-md flex justify-between w-full">
           <div className="text-gray-600">
             <p>{loading ? "Please wait" : "Total Agents"}</p>{" "}
             {loading ? (
@@ -108,7 +108,7 @@ const Overview = () => {
           />{" "}
         </div>
 
-        <div className="px-5  sm:py-7 py-5 items-center rounded-md shadow-md flex justify-between w-full">
+        <div className="px-5 bg-white  sm:py-7 py-5 items-center rounded-md shadow-md flex justify-between w-full">
           <div className="text-gray-600">
             <p>{loading ? "Please wait" : "Total Clients"}</p>{" "}
             {loading ? (

@@ -5,7 +5,7 @@ import userRoute from "./routes/userRoute.js";
 import authRoute from "./routes/authRoute.js";
 import listingRoute from "./routes/listingRoute.js";
 import favoriteRoute from "./routes/favoriteListingRoute.js";
-// import messageRoute from "./routes/messageRoute.js";
+import messageRoute from "./routes/messageRoute.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import cors from "cors";
@@ -44,7 +44,7 @@ app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/listing", listingRoute);
 app.use("/api/favorite", favoriteRoute);
-// app.use("/api/message", messageRoute);
+app.use("/api/message", messageRoute);
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 

@@ -83,7 +83,10 @@ const UserListing = () => {
         </div>
       ) : (
         <div>
-          <div className="shadow-sm px-4 py-3 flex flex-col gap-2 sticky z-20 ">
+          <h1 className="my-2 text-2xl font-semibold">
+                {currentUser.isAdmin ? "All Listings" : "My Listings"}
+              </h1>
+          <div className="shadow-sm px-4 py-3 flex flex-col gap-2 sticky z-20 bg-white">
             {/* Buttons for filtering */}
             <div className="flex items-center gap-4">
               <button
@@ -132,16 +135,14 @@ const UserListing = () => {
             </div>
           </div>
 
-          <div className="py-3 sm:px-3 px-1 relative">
+          <div className="py-3 sm:px-3  relative">
             <div className="max-w-full mx-auto">
-              <h1 className="my-2 text-2xl font-semibold">
-                {currentUser.isAdmin ? "All Listings" : "My Listings"}
-              </h1>
+              
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                 {filteredListings.map((listing) => (
                   <div
                     key={listing._id}
-                    className="flex flex-col gap-1 relative group"
+                    className="flex flex-col gap-1 relative group px-2 shadow-md"
                   >
                     <div className="relative">
                       <div className="absolute z-10 bg-green-600 p-1 rounded-full text-white left-1 top-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
@@ -167,7 +168,7 @@ const UserListing = () => {
                       <img
                         src={listing.imageUrls[0]}
                         alt="listing cover"
-                        className="h-40 w-full rounded-lg object-cover"
+                        className="h-40 w-full  object-cover"
                       />
                       <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"></div>
                     </Link>

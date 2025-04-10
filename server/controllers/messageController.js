@@ -1,138 +1,133 @@
-// import { Conversation } from "../models/conversationModel.js";
-// import { Message } from "../models/messageModel.js";
+import { Conversation } from "../models/conversationModel.js";
+import { Message } from "../models/messageModel.js";
+import { Listing } from "../models/listingModel.js";
+import User from "../models/userModel.js";
 
-// export const sendMessage = async (req, res) => {
-//   try {
-//     console.log("Incoming request to sendMessage...");
+export const sendMessage = async (req, res) => {
+  try {
+    console.log("Incoming request to sendMessage...");
+    const { message } = req.body;
+    const { id: receiverId } = req.params;
 
-//     console.log("Request Body:", req.body);
-//     const { message } = req.body;
-//     let { id: receiverId } = req.params;
+    if (!req.user) {
+      return res.status(401).json({ error: "Unauthorized: User not found" });
+    }
 
-//     if (!req.user) {
-//       console.error("Error: req.user is undefined");
-//       return res.status(401).json({ error: "Unauthorized: User not found" });
-//     }
+    const senderId = req.user.id;
 
-//     const senderId = req.user.id;
+    if (receiverId === senderId) {
+      return res.status(400).json({ error: "Invalid receiver ID" });
+    }
 
-//     console.log("Sender ID:", senderId);
-//     console.log("Receiver ID before validation:", receiverId);
+    if (!senderId || !receiverId || !message) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
 
-//     // If receiverId is the same as senderId, correct it
-//     if (receiverId === senderId) {
-//       console.error("Error: Receiver ID is the same as sender ID");
-//       return res.status(400).json({ error: "Invalid receiver ID" });
-//     }
+    let conversation = await Conversation.findOne({
+      participants: { $all: [senderId, receiverId] },
+    });
 
-//     console.log("Validated Receiver ID:", receiverId);
+    if (!conversation) {
+      conversation = await Conversation.create({
+        participants: [senderId, receiverId],
+      });
+    }
 
-//     if (!senderId || !receiverId || !message) {
-//       console.error("Validation Error: Missing required fields");
-//       return res.status(400).json({ error: "All fields are required" });
-//     }
+    const newMessage = new Message({
+      senderId,
+      receiverId,
+      message,
+    });
 
-//     let conversation = await Conversation.findOne({
-//       participants: { $all: [senderId, receiverId] },
-//     });
+    conversation.messages.push(newMessage._id);
+    await Promise.all([conversation.save(), newMessage.save()]);
 
-//     console.log("Existing conversation found:", conversation ? "Yes" : "No");
+    res.status(201).json(newMessage);
+  } catch (error) {
+    console.error("Error in sendMessage:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 
-//     if (!conversation) {
-//       conversation = await Conversation.create({
-//         participants: [senderId, receiverId],
-//       });
-//       console.log("New conversation created:", conversation);
-//     }
+// Get messages between two users
+export const getMessage = async (req, res) => {
+  try {
+    const { id: userToChatId } = req.params;
+    const senderId = req.user.id;
 
-//     const newMessage = new Message({
-//       senderId,
-//       receiverId,
-//       message,
-//     });
+    const conversation = await Conversation.findOne({
+      participants: { $all: [senderId, userToChatId] },
+    }).populate({
+      path: "messages",
+      options: { sort: { createdAt: 1 } },
+      populate: {
+        path: "senderId",
+        select: "username image", // Include additional fields if needed
+      },
+    });
 
-//     console.log("New message created:", newMessage);
+    if (!conversation) {
+      return res.status(200).json([]);
+    }
 
-//     if (!newMessage) {
-//       console.error("Error: Message object was not created properly");
-//       return res.status(500).json({ error: "Failed to create message" });
-//     }
+    res.status(200).json(conversation.messages);
+  } catch (error) {
+    console.error("Error in getMessage:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 
-//     conversation.messages.push(newMessage._id);
-//     await Promise.all([conversation.save(), newMessage.save()]);
-//     console.log("Message and conversation saved successfully");
+// Get users the current user has had conversations with
+export const getUsersWithMessage = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: "Unauthorized: User not found" });
+    }
 
-//     res.status(201).json(newMessage);
-//   } catch (error) {
-//     console.error("Error in sendMessage controller:", error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// };
+    const currentUserId = req.user.id;
 
-// export const getMessage = async (req, res) => {
-//   try {
-//     const { id: userToChatId } = req.params;
-//     const senderId = req.user.id;
+    const conversations = await Conversation.find({
+      participants: { $in: [currentUserId] },
+    }).populate({
+      path: "participants",
+      match: { _id: { $ne: currentUserId } },
+      select: "username _id image",
+    });
 
-//     console.log(`Fetching messages between ${senderId} and ${userToChatId}`);
+    const users = [];
+    const userIds = new Set();
 
-//     const conversation = await Conversation.findOne({
-//       participants: { $all: [senderId, userToChatId] },
-//     }).populate({
-//       path: "messages",
-//       options: { sort: { createdAt: 1 } }, // Sort messages by creation time
-//     });
+    for (const conversation of conversations) {
+      if (conversation.participants.length > 0) {
+        const otherUser = conversation.participants[0];
+        if (otherUser && !userIds.has(otherUser._id.toString())) {
+          users.push(otherUser);
+          userIds.add(otherUser._id.toString());
+        }
+      }
+    }
 
-//     if (!conversation) {
-//       console.log("No conversation found between these users.");
-//       return res.status(200).json([]);
-//     }
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Error in getUsersWithMessage:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 
-//     console.log("Messages retrieved:", conversation.messages);
+export const GetUsersWithListings = async (req, res, next) => {
+  try {
+    // Step 1: Find all unique userRef IDs from the listings
+    const listings = await Listing.find().select("userRef");
 
-//     res.status(200).json(conversation.messages);
-//   } catch (error) {
-//     console.error("Error in getMessages controller:", error.message);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// };
+    const uniqueUserIds = [...new Set(listings.map((item) => item.userRef.toString()))];
 
-// export const getUsersWithMessage = async (req, res) => {
-//   try {
-//     if (!req.user) {
-//       return res.status(401).json({ error: "Unauthorized: User not found" });
-//     }
+    // Step 2: Fetch users who match those IDs
+    const users = await User.find({ _id: { $in: uniqueUserIds } }).select("-password");
 
-//     const currentUserId = req.user.id;
+    res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+};
 
-//     // Find conversations where the current user is a participant
-//     const conversations = await Conversation.find({
-//       participants: { $in: [currentUserId] }, // $in finds any of the values in the array
-//     }).populate({
-//       path: "participants",
-//       match: { _id: { $ne: currentUserId } }, // Exclude the current user from participants, only return the other user
-//       select: "username _id image", // Select the fields you need
-//     });
 
-//     // Extract the other users from the conversations (and remove duplicates)
-//     const users = [];
-//     const userIds = new Set(); // Use a Set to track user IDs and prevent duplicates
-
-//     for (const conversation of conversations) {
-//       if (conversation.participants.length > 0) {
-//         // Check if other participant exists (important!)
-//         const otherUser = conversation.participants[0];
-//         if (!userIds.has(otherUser._id.toString())) {
-//           // Check for duplicates using string conversion
-//           users.push(otherUser);
-//           userIds.add(otherUser._id.toString());
-//         }
-//       }
-//     }
-
-//     res.status(200).json(users);
-//   } catch (error) {
-//     console.error("Error in getUsersWithMessage controller:", error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// };

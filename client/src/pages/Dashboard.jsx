@@ -14,6 +14,7 @@ import { MdOutlineRealEstateAgent } from "react-icons/md";
 import { LiaTimesSolid } from "react-icons/lia";
 import { useState, useEffect } from "react";
 import { IoHomeOutline } from "react-icons/io5";
+import Messaging from "./Messaging";
 
 import {
   deleteUserFailure,
@@ -72,7 +73,7 @@ const Dashboard = () => {
   };
 
   return (
-    <main className="relative bg-gray-100 min-h-screen lg:p-4 p-0">
+    <main className="relative bg-gray-50 min-h-screen lg:p-4 p-0">
       {/* Fixed Sidebar */}
       <div
         className={`lg:flex flex-col justify-between z-20 fixed  hidden bg-[#2c2f36] rounded-md  p-4  top-3 bottom-3   left-3 w-60  `}
@@ -138,7 +139,7 @@ const Dashboard = () => {
               </Link>
             )}
 
-            {/* <Link
+            <Link
               to={"/dashboard?tab=messaging"}
               className={`flex items-center gap-2 rounded-md p-2 hover:bg-gray-700 ${
                 tab === "messaging" ? "bg-[#2c2f36]" : ""
@@ -146,7 +147,7 @@ const Dashboard = () => {
             >
               <LuMessageCircleMore size={20} className="text-white" />
               <p className="text-white">Messaging</p>
-            </Link> */}
+            </Link>
 
             <Link
               to={"/dashboard?tab=saved-listing"}
@@ -307,7 +308,7 @@ const Dashboard = () => {
             )}
           </Link>
 
-          {/* <Link
+          <Link
             onClick={() => setShowSideBar(false)}
             to={"/dashboard?tab=messaging"}
             className={`text-white p-1 rounded-sm  flex items-center gap-2`}
@@ -316,7 +317,7 @@ const Dashboard = () => {
             <span className={`${showSideBar ? "inline" : "hidden"}`}>
               Messaging
             </span>
-          </Link> */}
+          </Link>
 
           <Link
             onClick={() => setShowSideBar(false)}
@@ -345,7 +346,7 @@ const Dashboard = () => {
 
       {/* Content Area with padding to account for the fixed sidebar */}
       <div
-        className={`lg:ml-64 ml-10 md:h-[580px] h-[630px] overflow-y-auto no-scrollbar   bg-white rounded-lg  transition-all duration-300
+        className={`lg:ml-64 ml-10    
           `}
       >
         {/* Render content based on active tab */}
@@ -353,7 +354,7 @@ const Dashboard = () => {
         {tab === "profile" && <Profile />}
         {tab === "user-listing" && <UserListing />}
         {tab === "users" && <Users />}
-        {/* {tab === "messaging" && <Messaging />} */}
+        {tab === "messaging" && <Messaging />}
         {tab === "create-listing" && <CreateListing />}
         {tab === "saved-listing" && <SavedListing />}
         {/* {tab === `listing/:listingId` && <UpdateListing />} */}

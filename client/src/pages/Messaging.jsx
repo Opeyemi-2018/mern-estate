@@ -1,204 +1,157 @@
-// // import { useEffect, useState, useRef } from "react";
-// // import { io } from "socket.io-client";
-// // import { useDispatch, useSelector } from "react-redux";
-// // import {
-// //   fetchMessagesStart,
-// //   fetchMessagesSuccess,
-// //   fetchMessagesFailure,
-// //   addMessage,
-// // } from "../redux/chatSlice"; // Import your slice actions
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import io from "socket.io-client";
+import { MessageBox } from "react-chat-elements";
+import "react-chat-elements/dist/main.css";
 
-// // const Messaging = () => {
-// //   const dispatch = useDispatch();
-// //   const selectedUser = useSelector((state) => state.chat.selectedUser);
-// //   const { currentUser, loading: userLoading } = useSelector(
-// //     (state) => state.user
-// //   );
-// //   const messages = useSelector((state) => state.chat.messages);
-// //   const loading = useSelector((state) => state.chat.loading);
-// //   const error = useSelector((state) => state.chat.error);
-// //   const [text, setText] = useState("");
-// //   const socket = useRef(null); // Ref for the socket
+const socket = io("http://localhost:5000", {
+  withCredentials: true,
+});
 
-// //   useEffect(() => {
-// //     if (userLoading || !selectedUser?._id || !currentUser?._id) return; // Important: Check userLoading
+const Messaging = () => {
+  const { currentUser } = useSelector((state) => state.user);
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
-// //     console.log(
-// //       "Fetching messages for:",
-// //       selectedUser._id,
-// //       "and current user:",
-// //       currentUser._id
-// //     );
+  useEffect(() => {
+    if (currentUser) {
+      socket.emit("join", currentUser._id);
+    }
 
-// //     const fetchMessages = async () => {
-// //       dispatch(fetchMessagesStart());
-// //       try {
-// //         const res = await fetch(
-// //           `/api/message/get-message/${currentUser._id}/${selectedUser._id}`
-// //         );
-// //         if (!res.ok) {
-// //           const errorData = await res.json(); // Get error details from the server
-// //           console.error("HTTP Error:", res.status, errorData); // Log status and error data
-// //           throw new Error(
-// //             errorData.message || `HTTP error! status: ${res.status}`
-// //           );
-// //         }
-// //         const data = await res.json();
-// //         console.log("Fetched messages:", data);
-// //         dispatch(fetchMessagesSuccess(data));
-// //       } catch (err) {
-// //         console.error("Error fetching messages:", err); // Log the whole error object
-// //         dispatch(fetchMessagesFailure(err.message));
-// //       }
-// //     };
+    socket.on("receiveMessage", (data) => {
+      setMessages((prev) => [...prev, data]);
+    });
 
-// //     fetchMessages();
+    return () => socket.disconnect();
+  }, [currentUser]);
 
-// //     socket.current = io();
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch("/api/message/users-with-listings", {
+          credentials: "include",
+        });
+        const data = await res.json();
+        setUsers(data);
+      } catch (err) {
+        console.error("Failed to fetch users:", err);
+      }
+    };
 
-// //     const roomId =
-// //       currentUser._id > selectedUser._id
-// //         ? `${currentUser._id}-${selectedUser._id}`
-// //         : `${selectedUser._id}-${currentUser._id}`;
+    fetchUsers();
+  }, []);
 
-// //     socket.current.emit("joinRoom", { roomId });
+  const handleSelectUser = async (user) => {
+    setSelectedUser(user);
+    try {
+      const res = await fetch(`/api/message/get-message/${user._id}`, {
+        credentials: "include",
+      });
+      const data = await res.json();
+      setMessages(data);
+    } catch (err) {
+      console.error("Failed to fetch messages:", err);
+    }
+  };
 
-// //     socket.current.on("connect", () => {
-// //       console.log("Connected to socket.io");
-// //     });
+  const handleSendMessage = async () => {
+    if (!message.trim() || !selectedUser) return;
 
-// //     socket.current.on("newMessage", (message) => {
-// //       console.log("New message received:", message);
-// //       // Check if the message is relevant to the current chat
-// //       if (
-// //         (message.senderId === selectedUser._id &&
-// //           message.receiverId === currentUser._id) ||
-// //         (message.senderId === currentUser._id &&
-// //           message.receiverId === selectedUser._id)
-// //       ) {
-// //         dispatch(addMessage(message));
-// //       }
-// //     });
+    const res = await fetch(`/api/message/send-message/${selectedUser._id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ message }),
+    });
 
-// //     return () => {
-// //       if (socket.current) {
-// //         console.log("Disconnecting socket...");
-// //         socket.current.disconnect();
-// //         socket.current.off("newMessage");
-// //       }
-// //     };
-// //   }, [selectedUser, dispatch, currentUser, userLoading]); // Add userLoading to dependencies
+    const data = await res.json();
+    setMessages((prev) => [...prev, data]);
 
-// //   const sendMessage = async () => {
-// //     if (!text.trim() || !selectedUser?._id || !currentUser?._id) {
-// //       console.log("Missing data:", { text, selectedUser, currentUser });
-// //       return;
-// //     }
+    socket.emit("sendMessage", {
+      receiverId: selectedUser._id,
+      message: data.message,
+      senderId: currentUser._id,
+    });
 
-// //     const message = {
-// //       text,
-// //       receiverId: selectedUser._id,
-// //       senderId: currentUser._id,
-// //     };
+    setMessage("");
+  };
 
-// //     console.log("Sending message:", message);
+  const getSenderId = (msg) => {
+    if (typeof msg.senderId === "string") return msg.senderId;
+    if (typeof msg.senderId === "object" && msg.senderId !== null)
+      return msg.senderId._id;
+    return null;
+  };
 
-// //     try {
-// //       const url = `/api/message/send-message/${selectedUser._id}`;
-// //       console.log("Sending request to:", url);
+  return (
+    <div className="flex h-screen md:h-[550px]">
+      {/* Left sidebar: list of users */}
+      <div className="w-1/3 border-r overflow-y-auto p-4">
+        <h2 className="text-xl font-bold mb-4">Start Chat</h2>
+        {users.map((user) => (
+          <div
+            key={user._id}
+            className="p-2 border-b cursor-pointer hover:bg-gray-100"
+            onClick={() => handleSelectUser(user)}
+          >
+            <div className="font-medium">{user.username}</div>
+          </div>
+        ))}
+      </div>
 
-// //       const res = await fetch(url, {
-// //         method: "POST",
-// //         headers: { "Content-Type": "application/json" },
-// //         credentials: "include",
-// //         body: JSON.stringify(message),
-// //       });
+      {/* Right: chat window */}
+      <div className="flex-1 p-4 bg-white flex flex-col">
+        {selectedUser ? (
+          <>
+            <h3 className="text-lg font-semibold mb-2">
+              Chat with {selectedUser.username}
+            </h3>
+            <div className="flex-1 overflow-y-auto border p-2 rounded mb-2 space-y-2">
+              {messages.map((msg, idx) => (
+                <MessageBox
+                  key={idx}
+                  position={
+                    getSenderId(msg) === currentUser._id ? "right" : "left"
+                  }
+                  type="text"
+                  text={msg.message}
+                  date={new Date(msg.createdAt)}
+                  title={
+                    getSenderId(msg) === currentUser._id
+                      ? "You"
+                      : selectedUser.username
+                  }
+                />
+              ))}
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                className="border p-2 rounded flex-1"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Type a message..."
+              />
+              <button
+                className="bg-gray-700 text-white px-4 rounded"
+                onClick={handleSendMessage}
+              >
+                Send
+              </button>
+            </div>
+          </>
+        ) : (
+          <p>Select a user to start chatting</p>
+        )}
+      </div>
+    </div>
+  );
+};
 
-// //       if (!res.ok) {
-// //         const errorData = await res.json();
-// //         throw new Error(
-// //           errorData.message || `HTTP error! status: ${res.status}`
-// //         );
-// //       }
-
-// //       const newMessage = await res.json();
-// //       console.log("Message sent successfully:", newMessage);
-// //       dispatch(addMessage(newMessage));
-// //       setText("");
-
-// //       if (socket.current) {
-// //         socket.current.emit("sendMessage", newMessage);
-// //       }
-// //     } catch (error) {
-// //       console.error("Error sending message:", error);
-// //     }
-// //   };
-
-// //   if (loading) {
-// //     return <div>Loading messages...</div>;
-// //   }
-
-// //   if (error) {
-// //     return <div>Error: {error}</div>;
-// //   }
-
-// //   return (
-// //     <div className="chat-container">
-// //       <div className="chat-header">
-// //         Chat with{" "}
-// //         {selectedUser?.username ? selectedUser.username : "No user selected"}
-// //       </div>
-
-// //       <div className="chat-box">
-// //         {messages.length > 0 ? (
-// //           messages.map((msg) => {
-// //             console.log("Individual message:", msg);
-// //             {
-// //               /* Log each message object */
-// //             }
-// //             return (
-// //               <p
-// //                 key={msg._id}
-// //                 className={
-// //                   msg.senderId === currentUser._id ? "sent" : "received"
-// //                 }
-// //               >
-// //                 {msg.text}
-// //               </p>
-// //             );
-// //           })
-// //         ) : (
-// //           <p>No messages yet.</p>
-// //         )}
-// //       </div>
-
-// //       <div className="chat-input flex gap-2">
-// //         <input
-// //           type="text"
-// //           className="w-full border-gray-700 p-3 rounded-lg shadow-sm"
-// //           value={text}
-// //           onChange={(e) => setText(e.target.value)}
-// //           placeholder="Type a message..."
-// //         />
-// //         <button disabled={userLoading} onClick={sendMessage}>
-// //           Send
-// //         </button>
-// //       </div>
-// //     </div>
-// //   );
-// // };
-
-// // export default Messaging;
-
-// import React from "react";
-
-// const Messaging = () => {
-//   return (
-//     <div className="flex items-center  gap-3 flex-col justify-center h-screen text-2xl">
-//       <p>this feature is under implementation!!!</p>
-//       <p>check back later!!!</p>
-//     </div>
-//   );
-// };
-
-// export default Messaging;
+export default Messaging;

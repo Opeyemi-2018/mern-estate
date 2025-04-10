@@ -239,16 +239,16 @@ export default function CreateListing() {
   };
 
   return (
-    <main className="mt-20">
+    <main className="p-4">
       <ToastContainer
         position="top-center"
         autoClose={3000}
         toastClassName="w-[250px] text-center"
       />
-      <h1 className="text-3xl font-semibold text-center my-7">
+      <h1 className="text-3xl font-semibold  mb-4">
         Create a Listing
       </h1>
-      <div className="p-3 flex items-center justify-center">
+      <div className="p-6 flex items-center justify-center bg-white rounded-md">
         <form
           onSubmit={handleSubmit}
           className="flex flex-col sm:flex-row gap-4"

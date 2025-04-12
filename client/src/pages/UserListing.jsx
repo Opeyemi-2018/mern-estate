@@ -58,11 +58,27 @@ const UserListing = () => {
     setDeleteName(name);
   };
 
-  const handleDelete = () => {
-    setUserListings((prev) =>
-      prev.filter((listing) => listing._id !== deleteId)
-    );
-    toast.success("Property deleted");
+  const handleDelete = async () => {
+    try {
+      const res = await fetch(`/api/listing/delete/${deleteId}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.message || "Failed to delete listing");
+        return;
+      }
+
+      setUserListings((prev) =>
+        prev.filter((listing) => listing._id !== deleteId)
+      );
+      toast.success("Property deleted successfully");
+      setDeleteId(null);
+    } catch (error) {
+      toast.error("Something went wrong while deleting");
+    }
   };
 
   return (
@@ -84,8 +100,8 @@ const UserListing = () => {
       ) : (
         <div>
           <h1 className="my-2 text-2xl font-semibold">
-                {currentUser.isAdmin ? "All Listings" : "My Listings"}
-              </h1>
+            {currentUser.isAdmin ? "All Listings" : "My Listings"}
+          </h1>
           <div className="shadow-sm px-4 py-3 flex flex-col gap-2 sticky z-20 bg-white">
             {/* Buttons for filtering */}
             <div className="flex items-center gap-4">
@@ -137,7 +153,6 @@ const UserListing = () => {
 
           <div className="py-3 sm:px-3  relative">
             <div className="max-w-full mx-auto">
-              
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                 {filteredListings.map((listing) => (
                   <div
@@ -190,7 +205,6 @@ const UserListing = () => {
         </div>
       )}
 
-      {/* Ant Design Delete Modal */}
       <Modal
         title="Delete property?"
         visible={deleteId !== null}

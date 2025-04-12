@@ -177,11 +177,15 @@ const Messaging = () => {
         ) : (
           <div className="flex items-center justify-center h-screen flex-col gap-3">
             <IoChatbubbleEllipsesOutline size={50} />
-            <p className="text-wrap lg:hidden block text-center text-2xl">
+            <p>
+              page not mobile friendly for now but later. kindly switch to
+              desktop
+            </p>
+            <p className="text-wrap lg:hidden block text-center ">
               Click on the people's icon on the top left angle to see users with
               listings'{" "}
             </p>
-            <p className="text-wrap lg:block hidden text-center text-2xl">
+            <p className="text-wrap lg:block hidden text-center ">
               start a conversation
             </p>
           </div>

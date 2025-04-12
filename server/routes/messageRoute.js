@@ -4,7 +4,7 @@ import {
   sendMessage,
   getMessage,
   getUsersWithMessage,
-  GetUsersWithListings
+  GetAllUsers
 } from "../controllers/messageController.js";
 
 const router = express.Router();
@@ -12,7 +12,7 @@ const router = express.Router();
 router.post("/send-message/:id", verifyToken, sendMessage);
 router.get("/get-message/:id", verifyToken, getMessage);
 router.get("/users-with-message", verifyToken, getUsersWithMessage);
-router.get("/users-with-listings", verifyToken, GetUsersWithListings);
+router.get("/users", verifyToken, GetAllUsers);
 
 
 export default router;

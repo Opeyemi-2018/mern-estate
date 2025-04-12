@@ -114,20 +114,14 @@ export const getUsersWithMessage = async (req, res) => {
   }
 };
 
-export const GetUsersWithListings = async (req, res, next) => {
+export const GetAllUsers = async (req, res, next) => {
   try {
-    // Step 1: Find all unique userRef IDs from the listings
-    const listings = await Listing.find().select("userRef");
-
-    const uniqueUserIds = [...new Set(listings.map((item) => item.userRef.toString()))];
-
-    // Step 2: Fetch users who match those IDs
-    const users = await User.find({ _id: { $in: uniqueUserIds } }).select("-password");
-
+    const users = await User.find().select("-password");
     res.status(200).json(users);
   } catch (error) {
     next(error);
   }
 };
+
 
 

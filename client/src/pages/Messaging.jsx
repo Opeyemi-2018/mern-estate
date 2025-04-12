@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
@@ -36,7 +36,7 @@ const Messaging = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch("/api/message/users-with-listings", {
+        const res = await fetch("/api/message/users", {
           credentials: "include",
         });
         const data = await res.json();
@@ -94,39 +94,44 @@ const Messaging = () => {
   };
 
   return (
-    <div className="flex h-screen md:h-[550px] ">
+    <div className="flex h-screen ml-10 lg:h-[550px]">
       {/* Left sidebar: list of users */}
       <div
-        className={`${
-          showPeople ? "block" : "hidden"
-        } md:inline hidden md:w-52  w-36  border-r overflow-y-auto p-4`}
+        className={`ml-10 fixed inset-y-0 left-0 z-10 w-44 border-r overflow-y-auto p-4 transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 ${
+          showPeople
+            ? "translate-x-0 bg-gray-50 text-black"
+            : "-translate-x-full"
+        }`}
       >
-        <h2 className="text-xl font-bold mb-4">Start Chat</h2>
-        {users.map((user) => (
-          <div
-            key={user._id}
-            className="p-2 border-b cursor-pointer hover:bg-gray-100"
-            onClick={() => handleSelectUser(user)}
-          >
-            <div className="font-medium">{user.username}</div>
-          </div>
-        ))}
+        <div className="flex  justify-between mt-6">
+          <h2 className=" font-bold mb-4">Start Chat</h2>
+          <LiaTimesSolid
+            size={30}
+            className="lg:hidden block cursor-pointer"
+            onClick={() => setShowPeople(false)}
+          />
+        </div>
+        <div>
+          {users.map((user) => (
+            <div
+              key={user._id}
+              className="p-2 border-b cursor-pointer hover:bg-gray-100"
+              onClick={() => {
+                handleSelectUser(user);
+                setShowPeople(false);
+              }}
+            >
+              <div className="font-medium">{user.username}</div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Toggle icon only visible on small screens */}
-      <div
-        className="md:hidden block mt-5  z-10"
+      <LiaUserFriendsSolid
+        size={35}
         onClick={() => setShowPeople(true)}
-      >
-        {showPeople ? (
-          <LiaTimesSolid />
-        ) : (
-          <LiaUserFriendsSolid
-            size={30}
-            className="bg-[#2c2f36] text-white p-2  cursor-pointer"
-          />
-        )}
-      </div>
+        className="bg-[#2c2f36] text-white p-1 lg:hidden block cursor-pointer"
+      />
 
       {/* Right: chat window */}
       <div className="flex-1 p-4 bg-white flex flex-col">
@@ -172,19 +177,13 @@ const Messaging = () => {
         ) : (
           <div className="flex items-center justify-center h-screen flex-col gap-3">
             <IoChatbubbleEllipsesOutline size={50} />
-            {/* <p className="text-wrap text-2xl">
-              here is where you get to communicate with house owners in real
-              time
-            </p> */}
-            <p className="text-wrap text-2xl">
-              This page is experiencing some technical issue please check back
+            <p className="text-wrap lg:hidden block text-center text-2xl">
+              Click on the people's icon on the top left angle to see users with
+              listings'{" "}
             </p>
-            {/* <p>Select a user to start chatting</p>
-
-            <p>
-              this page is not mobile friendly at the moment but it would in
-              some days
-            </p> */}
+            <p className="text-wrap lg:block hidden text-center text-2xl">
+              start a conversation
+            </p>
           </div>
         )}
       </div>

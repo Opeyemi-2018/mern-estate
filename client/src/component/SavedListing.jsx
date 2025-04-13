@@ -93,7 +93,7 @@ const SavedListing = () => {
   }
 
   return (
-    <div className="px-3">
+    <div className="px-3 lg:ml-0 ml-10">
       <ToastContainer
         position="top-center"
         autoClose={3000}

@@ -113,7 +113,7 @@ export default function Profile() {
 
   return (
     <>
-      <div className="py-3 px-3 ">
+      <div className="py-3 px-3 lg:ml-0 ml-10">
         <h1 className=" flex justify-center sm:text-2xl text-[19px] ">
           {isLoading ? "please wait while we load your data" : "Profile"}
         </h1>

@@ -51,6 +51,7 @@ const Messaging = () => {
 
   const handleSelectUser = async (user) => {
     setSelectedUser(user);
+    setShowPeople(false);
     try {
       const res = await fetch(`/api/message/get-message/${user._id}`, {
         credentials: "include",
@@ -94,17 +95,15 @@ const Messaging = () => {
   };
 
   return (
-    <div className="flex h-screen ml-10 lg:h-[550px]">
+    <div className="flex lg:h-screen h-[550px] lg:ml-0 ml-10">
       {/* Left sidebar: list of users */}
       <div
-        className={`ml-10 fixed inset-y-0 left-0 z-10 w-44 border-r overflow-y-auto p-4 transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 ${
-          showPeople
-            ? "translate-x-0 bg-gray-50 text-black"
-            : "-translate-x-full"
+        className={` fixed inset-y-0 left-0 z-10 w-full bg-gray-50 text-black border-r overflow-y-auto p-4 transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:w-44 ${
+          showPeople ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex  justify-between mt-6">
-          <h2 className=" font-bold mb-4">Start Chat</h2>
+        <div className="flex justify-between  mt-6">
+          <h2 className=" font-bold mb-4 ml-10">Start Chat</h2>
           <LiaTimesSolid
             size={30}
             className="lg:hidden block cursor-pointer"
@@ -115,11 +114,8 @@ const Messaging = () => {
           {users.map((user) => (
             <div
               key={user._id}
-              className="p-2 border-b cursor-pointer hover:bg-gray-100"
-              onClick={() => {
-                handleSelectUser(user);
-                setShowPeople(false);
-              }}
+              className="p-2 border-b cursor-pointer ml-10 hover:bg-gray-100"
+              onClick={() => handleSelectUser(user)}
             >
               <div className="font-medium">{user.username}</div>
             </div>
@@ -130,14 +126,19 @@ const Messaging = () => {
       <LiaUserFriendsSolid
         size={35}
         onClick={() => setShowPeople(true)}
-        className="bg-[#2c2f36] text-white p-1 lg:hidden block cursor-pointer"
+        className="bg-[#2c2f36] text-white p-1 lg:hidden block cursor-pointer absolute top-2 left-10"
       />
 
       {/* Right: chat window */}
-      <div className="flex-1 p-4 bg-white flex flex-col">
+      <div
+        className={`flex-1 p-4 bg-white flex flex-col ${
+          selectedUser ? "block" : "hidden lg:flex"
+        }`}
+        style={{ width: "100%" }} // Ensure it takes full width on mobile
+      >
         {selectedUser ? (
           <>
-            <h3 className="text-lg font-semibold mb-2">
+            <h3 className="text-lg font-semibold mb-2 lg:ml-0 ml-10">
               Chat with {selectedUser.username}
             </h3>
             <div className="flex-1 overflow-y-auto border p-2 rounded mb-2 space-y-2">
@@ -175,18 +176,15 @@ const Messaging = () => {
             </div>
           </>
         ) : (
-          <div className="flex items-center justify-center h-screen flex-col gap-3">
+          <div className="flex items-center justify-center h-full flex-col gap-3 lg:h-screen">
             <IoChatbubbleEllipsesOutline size={50} />
-            <p>
-              page not mobile friendly for now but later. kindly switch to
-              desktop
+            <p className="hidden lg:block text-center ">
+              Start a conversation by selecting a user on the left.
             </p>
-            <p className="text-wrap lg:hidden block text-center ">
-              Click on the people's icon on the top left angle to see users with
-              listings'{" "}
-            </p>
-            <p className="text-wrap lg:block hidden text-center ">
-              start a conversation
+            <p className="lg:hidden block text-center ">
+              Click the{" "}
+              <LiaUserFriendsSolid className="inline-block" size={16} /> icon to
+              see users.
             </p>
           </div>
         )}

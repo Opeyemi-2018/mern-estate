@@ -122,6 +122,3 @@ export const GetAllUsers = async (req, res, next) => {
     next(error);
   }
 };
-
-
-

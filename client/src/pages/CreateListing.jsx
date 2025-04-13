@@ -239,7 +239,7 @@ export default function CreateListing() {
   };
 
   return (
-    <main className="p-4">
+    <main className="p-4 lg:ml-0 ml-10">
       <ToastContainer
         position="top-center"
         autoClose={3000}

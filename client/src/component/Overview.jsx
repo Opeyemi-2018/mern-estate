@@ -73,7 +73,7 @@ const Overview = () => {
   }, [currentUser]);
 
   return (
-    <div className="px-4 ">
+    <div className="px-4 lg:ml-0 ml-10">
       <h1 className="text-2xl font-semibold text-gray-600 my-3">
         Dashboard Overview
       </h1>

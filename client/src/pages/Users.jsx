@@ -133,7 +133,7 @@ const Users = () => {
   ];
 
   return (
-    <div className="p-4 overflow-x-hidden">
+    <div className="p-4 overflow-x-hidden lg:ml-0 ml-10">
       <h1 className="font-semibold sm:text-3xl text-xl underline mb-4">
         Current Users
       </h1>

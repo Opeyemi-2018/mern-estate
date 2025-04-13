@@ -7,6 +7,7 @@ import "react-chat-elements/dist/main.css";
 import { LiaUserFriendsSolid } from "react-icons/lia";
 import { LiaTimesSolid } from "react-icons/lia";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
+import { IoIosSend } from "react-icons/io";
 
 const socket = io("http://localhost:5000", {
   withCredentials: true,
@@ -168,22 +169,21 @@ const Messaging = () => {
                 placeholder="Type a message..."
               />
               <button
-                className="bg-gray-700 text-white px-4 rounded sm:w-auto w-16"
+                className="bg-gray-700 text-white px-4 roundaddeded "
                 onClick={handleSendMessage}
               >
-                Send
+                <IoIosSend />
               </button>
             </div>
           </>
         ) : (
           <div className="flex items-center justify-center h-full flex-col gap-3 lg:h-screen">
             <IoChatbubbleEllipsesOutline size={50} />
-            <p className=" text-center ">
-              Start a conversation 
-            </p>
+            <p className=" text-center ">Start a conversation</p>
             <p className=" text-center ">
               Click the{" "}
-              <LiaUserFriendsSolid className="inline-block" size={16} /> icon at the top-left  to select  user 
+              <LiaUserFriendsSolid className="inline-block" size={16} /> icon at
+              the top-left to select user
             </p>
           </div>
         )}

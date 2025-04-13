@@ -126,7 +126,7 @@ const Messaging = () => {
       <LiaUserFriendsSolid
         size={35}
         onClick={() => setShowPeople(true)}
-        className="bg-[#2c2f36] text-white p-1 lg:hidden block cursor-pointer absolute top-2 left-10"
+        className="bg-[#2c2f36] text-white p-1 lg:hidden block cursor-pointer absolute top-0 left-10"
       />
 
       {/* Right: chat window */}
@@ -168,7 +168,7 @@ const Messaging = () => {
                 placeholder="Type a message..."
               />
               <button
-                className="bg-gray-700 text-white px-4 rounded"
+                className="bg-gray-700 text-white px-4 rounded sm:w-auto w-16"
                 onClick={handleSendMessage}
               >
                 Send
@@ -178,13 +178,12 @@ const Messaging = () => {
         ) : (
           <div className="flex items-center justify-center h-full flex-col gap-3 lg:h-screen">
             <IoChatbubbleEllipsesOutline size={50} />
-            <p className="hidden lg:block text-center ">
-              Start a conversation by selecting a user on the left.
+            <p className=" text-center ">
+              Start a conversation 
             </p>
-            <p className="lg:hidden block text-center ">
+            <p className=" text-center ">
               Click the{" "}
-              <LiaUserFriendsSolid className="inline-block" size={16} /> icon to
-              see users.
+              <LiaUserFriendsSolid className="inline-block" size={16} /> icon at the top-left  to select  user 
             </p>
           </div>
         )}
